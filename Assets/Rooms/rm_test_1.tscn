@@ -1,0 +1,120 @@
+[gd_scene load_steps=21 format=3 uid="uid://bqrqrs0ri000f"]
+
+[ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
+[ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="2_kut1c"]
+[ext_resource type="Texture2D" uid="uid://b5xp7hstdh7tp" path="res://Assets/Environment/Textures/TestCity0.png" id="3_nefqa"]
+[ext_resource type="PackedScene" uid="uid://cvr06f1ktu135" path="res://Assets/Props/Scenes/portal_spawner.tscn" id="3_wtq5x"]
+[ext_resource type="Texture2D" uid="uid://rmlh6ijg35ny" path="res://Assets/Environment/Textures/TestCity1.png" id="4_gw7x7"]
+[ext_resource type="Texture2D" uid="uid://bo2vdokaser3c" path="res://Assets/Environment/Textures/TestCity2.png" id="5_r0pyo"]
+[ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_urweq"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8dt86"]
+size = Vector3(4, 6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kjfnb"]
+size = Vector3(4, 6, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vb21j"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8skvk"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u0j1q"]
+radius = 2.0
+height = 8.0
+
+[sub_resource type="PrismMesh" id="PrismMesh_s0kyh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_edkqr"]
+shading_mode = 0
+albedo_texture = ExtResource("3_nefqa")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cgqcc"]
+size = Vector2(1000, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dc13j"]
+shading_mode = 0
+albedo_texture = ExtResource("4_gw7x7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vy2j0"]
+shading_mode = 0
+albedo_texture = ExtResource("5_r0pyo")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1c3q2"]
+shading_mode = 0
+albedo_texture = ExtResource("6_738j8")
+
+[node name="rm_test1" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.690428, 0.723401, 0, -0.723401, -0.690428, 0, 7.59945, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_4r8iu")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_urweq")
+surface_material_override/0 = ExtResource("1_w00kk")
+
+[node name="GolfBall" parent="." instance=ExtResource("2_kut1c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716122, 0)
+
+[node name="PortalWall" type="StaticBody3D" parent="."]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 10.6689, 12)
+
+[node name="CollisionShape" type="CollisionShape3D" parent="PortalWall"]
+shape = SubResource("BoxShape3D_8dt86")
+
+[node name="Mesh" type="MeshInstance3D" parent="PortalWall"]
+mesh = SubResource("BoxMesh_kjfnb")
+surface_material_override/0 = SubResource("StandardMaterial3D_vb21j")
+
+[node name="PortalWall2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.6689, -17.4384)
+
+[node name="CollisionShape" type="CollisionShape3D" parent="PortalWall2"]
+shape = SubResource("BoxShape3D_8dt86")
+
+[node name="Mesh" type="MeshInstance3D" parent="PortalWall2"]
+mesh = SubResource("BoxMesh_kjfnb")
+surface_material_override/0 = SubResource("StandardMaterial3D_8skvk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.4469, 2.61914, -23.618)
+mesh = SubResource("CapsuleMesh_u0j1q")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 0.0274887, -4.99992, 0, 4.99992, 0.0274887, 7.79672, 1.64372, 6.35651)
+mesh = SubResource("PrismMesh_s0kyh")
+
+[node name="Background0" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 3.82137e-15, 0, -4.37114e-08, -1, 8.74228e-08, -1, 4.37114e-08, 0, 250, 500)
+material_override = SubResource("StandardMaterial3D_edkqr")
+mesh = SubResource("PlaneMesh_cgqcc")
+
+[node name="Background1" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -500, 250, 0)
+material_override = SubResource("StandardMaterial3D_dc13j")
+mesh = SubResource("PlaneMesh_cgqcc")
+
+[node name="Background2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 250, -500)
+material_override = SubResource("StandardMaterial3D_vy2j0")
+mesh = SubResource("PlaneMesh_cgqcc")
+
+[node name="Background3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 500, 250, 0)
+material_override = SubResource("StandardMaterial3D_1c3q2")
+mesh = SubResource("PlaneMesh_cgqcc")
+
+[node name="PortalSpawner" parent="." node_paths=PackedStringArray("portal1Wall", "portal2Wall") instance=ExtResource("3_wtq5x")]
+portal1Wall = NodePath("../PortalWall")
+portal2Wall = NodePath("../PortalWall2")

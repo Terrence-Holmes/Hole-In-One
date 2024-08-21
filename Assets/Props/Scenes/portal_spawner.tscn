@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cvr06f1ktu135"]
+
+[ext_resource type="PackedScene" uid="uid://beow8twmmfq07" path="res://Assets/Props/Scenes/portal.tscn" id="1_qv77c"]
+[ext_resource type="Script" path="res://Assets/Props/Scripts/PortalSpawner.gd" id="1_vfyow"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1wwch"]
+viewport_path = NodePath("Portal2/CameraViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_m2rrq"]
+viewport_path = NodePath("Portal1/CameraViewport")
+
+[node name="PortalSpawner" type="Node3D"]
+script = ExtResource("1_vfyow")
+
+[node name="Portal1" parent="." instance=ExtResource("1_qv77c")]
+
+[node name="CameraView" parent="Portal1" index="1"]
+texture = SubResource("ViewportTexture_1wwch")
+
+[node name="Portal2" parent="." instance=ExtResource("1_qv77c")]
+
+[node name="CameraView" parent="Portal2" index="1"]
+texture = SubResource("ViewportTexture_m2rrq")
+
+[editable path="Portal1"]
+[editable path="Portal2"]

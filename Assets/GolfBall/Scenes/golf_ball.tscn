@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://cr24506lx5woj"]
+
+[ext_resource type="Script" path="res://Assets/GolfBall/Scripts/GolfBall.gd" id="1_wobwq"]
+[ext_resource type="Script" path="res://Assets/GolfBall/Scripts/CameraRig.gd" id="1_xpl75"]
+[ext_resource type="Script" path="res://Assets/GolfBall/Scripts/GolfBallInput.gd" id="1_yi1ei"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6ycdi"]
+bounce = 0.3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sf888"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_mj84h"]
+
+[node name="GolfBall" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_6ycdi")
+script = ExtResource("1_wobwq")
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("1_yi1ei")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_sf888")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_mj84h")
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("1_xpl75")
+
+[node name="Camera" type="Camera3D" parent="CameraRig"]
+current = true
