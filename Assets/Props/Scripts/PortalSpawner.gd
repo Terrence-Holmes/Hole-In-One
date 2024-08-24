@@ -12,8 +12,8 @@ extends Node3D
 
 func _ready():
 	pass
-	set_portal(true, portal1Wall)
-	set_portal(false, portal2Wall)
+#	set_portal(true, portal1Wall)
+#	set_portal(false, portal2Wall)
 
 
 func _process(delta):
@@ -22,9 +22,9 @@ func _process(delta):
 
 func set_portal(primaryPortal : bool, wall : Node3D):
 	var portalToSet : Portal = portal1 if (primaryPortal) else portal2
-	var offset : Vector3 = Vector3(0, 0, -1) if (wall == portal1Wall) else Vector3(0, 0, 1)
+	var offset : Vector3 = Vector3(0, 0, 1) if (wall == portal1Wall) else Vector3(0, 0, 1)
 	
-	portalToSet.global_position = wall.global_position + (offset * 0.01)
+	portalToSet.global_position = wall.global_position
 	portalToSet.global_rotation = wall.global_rotation
 	portalToSet.camera.global_position = wall.global_position + offset
 	portalToSet.camRotation = wall.global_rotation + Vector3(0, PI, 0)

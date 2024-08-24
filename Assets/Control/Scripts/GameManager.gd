@@ -1,5 +1,5 @@
 extends Node
 
 
-var mainCameraRig : CameraRig = null
+var mainCameraRig : Node3D = null
 var mainCamera : Camera3D = null

@@ -2,6 +2,7 @@ extends Node3D
 class_name CameraRig
 
 #References
+@onready var root : Node3D = get_parent()
 @onready var camera : Camera3D = get_node("Camera")
 
 var height : float = 4
@@ -21,18 +22,33 @@ func _ready():
 	camera.position.y = height
 	camera.position.z = distance
 
-
+var lateReady : bool = false
+func _late_ready():
+	lateReady = true
+	var newParent = get_parent().get_parent()
+	get_parent().remove_child(self)
+	newParent.add_child(self)
 
 func _process(delta):
+	if (not lateReady):
+		_late_ready()
 	_input_rotation()
 	_apply_rotation()
+	_set_position()
+#	print(camera.global_rotation)
+	
+	print(get_parent())
 
 
 func _input_rotation():
 	if (direction_input != Vector2.ZERO):
 		camRotation.y += -direction_input.x * sensitivity * 0.0005
 		camRotation.x += -direction_input.y * sensitivity * 0.0005
-#		camRotation.x = clampf(rotation.x, deg_to_rad(-50), deg_to_rad(20))
 
 func _apply_rotation():
 	global_rotation = camRotation
+
+
+func _set_position():
+	if (root):
+		global_position = root.global_position

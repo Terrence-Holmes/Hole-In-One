@@ -1,29 +1,65 @@
-[gd_scene load_steps=5 format=3 uid="uid://beow8twmmfq07"]
+[gd_scene load_steps=10 format=3 uid="uid://beow8twmmfq07"]
 
 [ext_resource type="Script" path="res://Assets/Props/Scripts/Portal.gd" id="1_f0wwu"]
+[ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="2_yoev6"]
+[ext_resource type="Script" path="res://EditorTools/Scripts/PortalEditor.gd" id="3_fe5n2"]
 
-[sub_resource type="PrismMesh" id="PrismMesh_5ey6i"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_skea1"]
+viewport_path = NodePath("CameraViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3pgfm"]
-albedo_color = Color(1, 1, 0, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ff2xj"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_yoev6")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_skea1")
+
+[sub_resource type="PrismMesh" id="PrismMesh_dor0r"]
+size = Vector3(0.5, 0.5, 0.5)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bvku7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v4s2d"]
+size = Vector3(1.2, 2.2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_db1ei"]
+size = Vector3(1.2, 2.2, 2)
 
 [node name="Portal" type="Node3D"]
 script = ExtResource("1_f0wwu")
 
+[node name="CameraView" type="CSGBox3D" parent="."]
+size = Vector3(1, 2, 0.3)
+material = SubResource("ShaderMaterial_ff2xj")
+
 [node name="CameraViewport" type="SubViewport" parent="."]
 handle_input_locally = false
-size = Vector2i(288, 480)
+size = Vector2i(432, 720)
 render_target_update_mode = 4
 
 [node name="Camera" type="Camera3D" parent="CameraViewport"]
+cull_mask = 1048569
 
-[node name="MeshGizmo" type="MeshInstance3D" parent="CameraViewport/Camera"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CameraViewport/Camera"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("PrismMesh_5ey6i")
-surface_material_override/0 = SubResource("StandardMaterial3D_3pgfm")
+mesh = SubResource("PrismMesh_dor0r")
 
-[node name="CameraView" type="Sprite3D" parent="."]
+[node name="CameraView2" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.501)
+visible = false
 texture = SubResource("ViewportTexture_bvku7")
+
+[node name="Editor" type="Node3D" parent="."]
+script = ExtResource("3_fe5n2")
+
+[node name="PassHitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="PassHitbox"]
+shape = SubResource("BoxShape3D_v4s2d")
+
+[node name="ShapeCast" type="ShapeCast3D" parent="."]
+visible = false
+enabled = false
+shape = SubResource("BoxShape3D_db1ei")
+
+[connection signal="body_entered" from="PassHitbox" to="." method="_body_entered"]
+[connection signal="body_exited" from="PassHitbox" to="." method="_body_exited"]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://b0ris7n8cfaa6"]
+
+[ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonPlayer.gd" id="1_uvln5"]
+[ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonInput.gd" id="2_745a1"]
+[ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonCamera.gd" id="3_ctndn"]
+[ext_resource type="Script" path="res://Assets/Debug/Scripts/FakeRig.gd" id="4_d367x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bnorq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lmjr0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yutkg"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="FirstPersonPlayer" type="CharacterBody3D"]
+script = ExtResource("1_uvln5")
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("2_745a1")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_bnorq")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_lmjr0")
+surface_material_override/0 = SubResource("StandardMaterial3D_yutkg")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+current = true
+script = ExtResource("3_ctndn")
+
+[node name="FakeRig" type="Node3D" parent="."]
+script = ExtResource("4_d367x")

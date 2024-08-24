@@ -3,11 +3,16 @@ class_name Portal
 
 @export_category("Portal")
 @export var otherPortal : Portal = null
+@export var size : Vector2 = Vector2(1, 2)
+@export var portal_area_margin : Vector3 = Vector3(0.1, 0.1, 1.0)
 
 #References
 @onready var viewport : SubViewport = get_node("CameraViewport")
 @onready var camera : Camera3D = viewport.get_node("Camera")
-@onready var cameraView : Sprite3D = get_node("CameraView")
+@onready var cameraView : CSGBox3D = get_node("CameraView")
+@onready var passHitbox : Area3D = get_node("PassHitbox")
+@onready var passHitbox_cs : CollisionShape3D = passHitbox.get_node("CollisionShape")
+@onready var shapecast : ShapeCast3D = get_node("ShapeCast")
 
 
 var camRotation : Vector3 = Vector3.ZERO
@@ -20,12 +25,182 @@ var active : bool:
 	get:
 		return _active
 
+#The main camera's relative position to this portal
+var relativePosition : Vector3:
+	get:
+		if (GameManager.mainCamera == null):
+			return Vector3.ZERO
+		
+		return GameManager.mainCamera.global_position - global_position
+
+
+var relativeMatrix : Transform3D:
+	get:
+		return global_transform * otherPortal.global_transform * GameManager.mainCamera.global_transform
+
+
+var trackedBodies = []
+var moveTeleportThreshold : float = 5
+
+#Mesh duplicate cache
+#Supposedly helps with performance and makes the transition from portal to portal slightly smoother
+var meshDuplicateCache = []
+const MESH_DUPLICATE_RETAIN_TIME : float = 5000
 
 
 func _process(delta):
-	_set_rotation()
+	passHitbox_cs.disabled = not visible
+	_check_for_teleport()
+	_set_camera_transform()
 
 
-func _set_rotation():
-	if (GameManager.mainCameraRig != null):
-		camera.rotation = camRotation + GameManager.mainCameraRig.camRotation + Vector3(0, rotation.y, 0)
+func _check_for_teleport():
+	for body in _get_pass_through_bodies():
+		_teleport_to_other(body)
+
+func _set_camera_transform():
+	var mainCamera : Camera3D = GameManager.mainCamera#get_viewport().get_camera_3d()
+	if (not mainCamera):
+		return
+	
+	#Get relative transform of the main camera to this portal
+	var relativeTransform : Transform3D = global_transform.affine_inverse() * mainCamera.global_transform
+	var movedToOtherPortal : Transform3D = otherPortal.global_transform * relativeTransform
+	
+	#Set portal camera's transform
+	camera.global_transform = movedToOtherPortal
+	camera.fov = mainCamera.fov #Match the main camera's FOV just in case I decide to change that later
+	
+	viewport.size = get_viewport().get_visible_rect().size
+	viewport.msaa_3d = get_viewport().msaa_3d
+	viewport.screen_space_aa = get_viewport().screen_space_aa
+	viewport.use_taa = get_viewport().use_taa
+	viewport.use_debanding = get_viewport().use_debanding
+	viewport.use_occlusion_culling = get_viewport().use_occlusion_culling
+	viewport.mesh_lod_threshold = get_viewport().mesh_lod_threshold
+
+
+func _teleport_to_other(body : PhysicsBody3D):
+	#Move body to the other portal
+	var transformRelative : Transform3D = global_transform.affine_inverse() * body.global_transform
+	var transformAtOtherPortal : Transform3D = otherPortal.global_transform * transformRelative
+	body.global_transform = transformAtOtherPortal
+	
+	#Translate the body's velocity
+	var euler : Vector3 = otherPortal.global_transform.basis.get_euler() - global_transform.basis.get_euler()
+	if (body is RigidBody3D):
+		body.linear_velocity = body.linear_velocity \
+			.rotated(Vector3(1, 0, 0), euler.x) \
+			.rotated(Vector3(0, 1, 0), euler.y) \
+			.rotated(Vector3(0, 0, 1), euler.z)
+	elif (body is CharacterBody3D):
+		body.velocity = body.velocity \
+			.rotated(Vector3(1, 0, 0), euler.x) \
+			.rotated(Vector3(0, 1, 0), euler.y) \
+			.rotated(Vector3(0, 0, 1), euler.z)
+	
+	_remove_tracked_body(body)
+	var newlyTrackedBody = otherPortal._add_tracked_body(body)
+
+
+func _get_pass_through_bodies() -> Array:
+	var passedThrough = []
+	for body in trackedBodies:
+		var posNode = body.camera if (body.camera) else body.body
+		var distMoved = posNode.global_position - body.position_last_frame
+		#Use dot product to check body changed which side of the portal it's on
+		var forward : Vector3 = global_transform.basis.z #Get this portal's forward
+		var offsetFromPortal : Vector3 = posNode.global_position - global_position #Get the object's position offset from this portal
+		var prevOffsetFromPortal : Vector3 = body.position_last_frame - global_position #Get the object's last position offset
+		var portalSide = _nonzero_sign(offsetFromPortal.dot(forward)) #Get which side of the portal the object is on
+		var prevPortalSide = _nonzero_sign(prevOffsetFromPortal.dot(forward)) #Get the previous side that the object was on
+		if (portalSide != prevPortalSide and distMoved.length() < moveTeleportThreshold):
+			passedThrough.push_back(body.body)
+		#Update previous position
+		body.lastPosition = posNode.global_position
+	return passedThrough
+
+
+func _store_mesh_duplicate(body, meshDuplicate):
+	meshDuplicateCache.push_back([body, meshDuplicate, Time.get_ticks_msec()])
+
+
+func _get_tracked_body(body):
+	for entry in trackedBodies:
+		if entry.body == body:
+			return entry
+	return null
+
+func _add_tracked_body(body):
+	#Check if we already have the body stored
+	var trackedBody = _get_tracked_body(body)
+	if (trackedBody != null):
+		return trackedBody
+	
+	#The body is not in the trackedBodies list; add it
+	var newBody = {
+		"body" : body,
+		"position_last_frame" : body.global_position,
+		"camera" : null, #find_by_class(body, "Camera3D") if use_body_camera_as_teleport_origin else null,
+		"mesh_duplicator" : null,
+		"track_start_time" : Time.get_ticks_msec()
+	}
+	
+	trackedBodies.push_back(newBody)
+	
+	if (body.has_method("portal_tracking_enter")):
+		body.portal_tracking_enter(self)
+
+func _remove_tracked_body(body):
+	for i in len(trackedBodies):
+		if trackedBodies[i].body == body:
+			
+			if (trackedBodies[i].mesh_duplicator):
+				remove_child(trackedBodies[i].mesh_duplicator)
+				_store_mesh_duplicate(trackedBodies[i].body, trackedBodies[i].mesh_duplicator)
+#			if (trackedBodies[i].camera):
+#				trackedBodies[i].camera.near = trackedBodies[i].prevCameraNear
+			trackedBodies.remove_at(i)
+			
+			if (body.has_method("portal_tracking_leave")):
+				body.leave_portal_tracking(self)
+			return
+
+
+
+#SIGNALS
+
+
+func _body_entered(body):
+	#Disable static bodies and CSGShape3Ds
+	if (not body.is_class("StaticBody3D") and not body.is_class("CSGShape3D")):
+		print_debug("passed")
+#		if (_check_shapecast_collision(body)):
+		_add_tracked_body(body)
+
+func _body_exited(body):
+	if (not _check_shapecast_collision(body) or passHitbox_cs.disabled):
+		_remove_tracked_body(body)
+
+
+
+#RETURNS
+
+#Returns true if the shapecast is colliding with the given body
+func _check_shapecast_collision(body):
+	shapecast.force_shapecast_update()
+	for i in range(shapecast.get_collision_count()):
+		if (shapecast.get_collider(i) == body):
+			return true
+	return false
+
+# Edge case but possible. Adding this to prevent teleporting twice if body lands exactly on portal plane
+func _nonzero_sign(value):
+	var s = sign(value)
+	if s == 0:
+		s = 1
+	return s
+
+
+
+

@@ -1,23 +1,29 @@
-[gd_scene load_steps=21 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=32 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
-[ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="2_kut1c"]
+[ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
 [ext_resource type="Texture2D" uid="uid://b5xp7hstdh7tp" path="res://Assets/Environment/Textures/TestCity0.png" id="3_nefqa"]
 [ext_resource type="PackedScene" uid="uid://cvr06f1ktu135" path="res://Assets/Props/Scenes/portal_spawner.tscn" id="3_wtq5x"]
 [ext_resource type="Texture2D" uid="uid://rmlh6ijg35ny" path="res://Assets/Environment/Textures/TestCity1.png" id="4_gw7x7"]
 [ext_resource type="Texture2D" uid="uid://bo2vdokaser3c" path="res://Assets/Environment/Textures/TestCity2.png" id="5_r0pyo"]
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
+[ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="7_hpofo"]
+[ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="9_yhggi"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_urweq"]
-size = Vector2(1000, 1000)
+size = Vector2(500, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ldkhe"]
+albedo_texture = ExtResource("2_yqpa0")
+uv1_scale = Vector3(5, 10, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8dt86"]
-size = Vector3(4, 6, 1)
+size = Vector3(6, 9, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_kjfnb"]
-size = Vector3(4, 6, 1)
+size = Vector3(6, 9, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vb21j"]
 albedo_color = Color(1, 0, 0, 1)
@@ -50,6 +56,34 @@ albedo_texture = ExtResource("5_r0pyo")
 shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_csl2y"]
+viewport_path = NodePath("PortalSpawner/Portal1/CameraViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mw72m"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("7_hpofo")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_csl2y")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_b04pc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7p0mn"]
+size = Vector3(5.2, 8.2, 2)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_41sbh"]
+viewport_path = NodePath("PortalSpawner/Portal2/CameraViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gsffc"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("7_hpofo")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_41sbh")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_6cknq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r5lt3"]
+size = Vector3(5.2, 8.2, 2)
+
 [node name="rm_test1" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -61,38 +95,65 @@ transform = Transform3D(1, 0, 0, 0, -0.690428, 0.723401, 0, -0.723401, -0.690428
 shape = SubResource("WorldBoundaryShape3D_4r8iu")
 
 [node name="Mesh" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -250, 0, 0)
 mesh = SubResource("PlaneMesh_urweq")
 surface_material_override/0 = ExtResource("1_w00kk")
 
-[node name="GolfBall" parent="." instance=ExtResource("2_kut1c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716122, 0)
+[node name="Mesh2" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 250, 0, 0)
+mesh = SubResource("PlaneMesh_urweq")
+surface_material_override/0 = SubResource("StandardMaterial3D_ldkhe")
 
 [node name="PortalWall" type="StaticBody3D" parent="."]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 10.6689, 12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.03969, 4.5, -58)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="PortalWall"]
 shape = SubResource("BoxShape3D_8dt86")
+disabled = true
 
 [node name="Mesh" type="MeshInstance3D" parent="PortalWall"]
+visible = false
+layers = 3
 mesh = SubResource("BoxMesh_kjfnb")
 surface_material_override/0 = SubResource("StandardMaterial3D_vb21j")
 
+[node name="CSGBox" type="CSGBox3D" parent="PortalWall"]
+size = Vector3(6, 9, 0.5)
+material = SubResource("StandardMaterial3D_vb21j")
+
+[node name="CSGBox2" type="CSGBox3D" parent="PortalWall/CSGBox"]
+operation = 2
+size = Vector3(5, 8, 1)
+material = SubResource("StandardMaterial3D_vb21j")
+
 [node name="PortalWall2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.6689, -17.4384)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9603, 4.5, -42)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="PortalWall2"]
 shape = SubResource("BoxShape3D_8dt86")
+disabled = true
 
 [node name="Mesh" type="MeshInstance3D" parent="PortalWall2"]
+visible = false
+layers = 5
 mesh = SubResource("BoxMesh_kjfnb")
 surface_material_override/0 = SubResource("StandardMaterial3D_8skvk")
 
+[node name="CSGBox" type="CSGBox3D" parent="PortalWall2"]
+size = Vector3(6, 9, 0.5)
+material = SubResource("StandardMaterial3D_8skvk")
+
+[node name="CSGBox2" type="CSGBox3D" parent="PortalWall2/CSGBox"]
+operation = 2
+size = Vector3(5, 8, 1)
+material = SubResource("StandardMaterial3D_8skvk")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.4469, 2.61914, -23.618)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3844, 2.61914, 20.382)
 mesh = SubResource("CapsuleMesh_u0j1q")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 0.0274887, -4.99992, 0, 4.99992, 0.0274887, 7.79672, 1.64372, 6.35651)
+transform = Transform3D(-2.26684, -4.45654, -0.0245013, 0, 0.0274887, -4.99992, 4.45662, -2.26681, -0.0124625, 12.6343, 1.64372, -34.6435)
 mesh = SubResource("PrismMesh_s0kyh")
 
 [node name="Background0" type="MeshInstance3D" parent="."]
@@ -118,3 +179,43 @@ mesh = SubResource("PlaneMesh_cgqcc")
 [node name="PortalSpawner" parent="." node_paths=PackedStringArray("portal1Wall", "portal2Wall") instance=ExtResource("3_wtq5x")]
 portal1Wall = NodePath("../PortalWall")
 portal2Wall = NodePath("../PortalWall2")
+
+[node name="Portal1" parent="PortalSpawner" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.03969, 4.5, -58)
+size = Vector2(5, 8)
+
+[node name="CameraView" parent="PortalSpawner/Portal1" index="0"]
+size = Vector3(5, 8, 0.3)
+material = SubResource("ShaderMaterial_mw72m")
+
+[node name="CameraView2" parent="PortalSpawner/Portal1" index="2"]
+texture = SubResource("ViewportTexture_b04pc")
+
+[node name="CollisionShape" parent="PortalSpawner/Portal1/PassHitbox" index="0"]
+shape = SubResource("BoxShape3D_7p0mn")
+
+[node name="Portal2" parent="PortalSpawner" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9603, 4.5, -42)
+size = Vector2(5, 8)
+
+[node name="CameraView" parent="PortalSpawner/Portal2" index="0"]
+size = Vector3(5, 8, 0.3)
+material = SubResource("ShaderMaterial_gsffc")
+
+[node name="CameraView2" parent="PortalSpawner/Portal2" index="2"]
+texture = SubResource("ViewportTexture_6cknq")
+
+[node name="PassHitbox" parent="PortalSpawner/Portal2" index="4"]
+visible = false
+
+[node name="CollisionShape" parent="PortalSpawner/Portal2/PassHitbox" index="0"]
+shape = SubResource("BoxShape3D_r5lt3")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0593063, 0.99824, 0, -0.99824, 0.0593063, 0, 66.86, -37.34)
+
+[node name="GolfBall" parent="." instance=ExtResource("9_yhggi")]
+
+[editable path="PortalSpawner"]
+[editable path="PortalSpawner/Portal1"]
+[editable path="PortalSpawner/Portal2"]
