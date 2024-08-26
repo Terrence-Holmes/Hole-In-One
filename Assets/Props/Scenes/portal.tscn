@@ -28,6 +28,7 @@ size = Vector3(1.2, 2.2, 2)
 script = ExtResource("1_f0wwu")
 
 [node name="CameraView" type="CSGBox3D" parent="."]
+extra_cull_margin = 0.5
 size = Vector3(1, 2, 1)
 material = SubResource("ShaderMaterial_ff2xj")
 

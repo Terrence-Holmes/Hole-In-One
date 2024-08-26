@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=36 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -56,6 +56,15 @@ albedo_texture = ExtResource("5_r0pyo")
 shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_tnpqa"]
+viewport_path = NodePath("PortalSpawner/Portal1/CameraViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ahtot"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("7_hpofo")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_tnpqa")
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_csl2y"]
 viewport_path = NodePath("PortalSpawner/Portal1/CameraViewport")
 
@@ -69,6 +78,15 @@ shader_parameter/texture_albedo = SubResource("ViewportTexture_csl2y")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7p0mn"]
 size = Vector3(5.2, 8.2, 2)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gfic5"]
+viewport_path = NodePath("PortalSpawner/Portal2/CameraViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ss3fj"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("7_hpofo")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_gfic5")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_41sbh"]
 viewport_path = NodePath("PortalSpawner/Portal2/CameraViewport")
@@ -185,6 +203,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.03969, 4.5, -58)
 size = Vector2(5, 8)
 
 [node name="CameraView" parent="PortalSpawner/Portal1" index="0"]
+material_override = SubResource("ShaderMaterial_ahtot")
 size = Vector3(5, 8, 0.01)
 material = SubResource("ShaderMaterial_mw72m")
 
@@ -199,6 +218,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20.622)
 size = Vector2(5, 8)
 
 [node name="CameraView" parent="PortalSpawner/Portal2" index="0"]
+material_override = SubResource("ShaderMaterial_ss3fj")
 size = Vector3(5, 8, 0.01)
 material = SubResource("ShaderMaterial_gsffc")
 
