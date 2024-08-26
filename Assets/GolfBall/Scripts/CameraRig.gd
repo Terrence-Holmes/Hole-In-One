@@ -35,9 +35,6 @@ func _process(delta):
 	_input_rotation()
 	_apply_rotation()
 	_set_position()
-#	print(camera.global_rotation)
-	
-	print(get_parent())
 
 
 func _input_rotation():

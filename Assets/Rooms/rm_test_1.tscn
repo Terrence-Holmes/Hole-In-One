@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bo2vdokaser3c" path="res://Assets/Environment/Textures/TestCity2.png" id="5_r0pyo"]
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
 [ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="7_hpofo"]
-[ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="9_yhggi"]
+[ext_resource type="PackedScene" uid="uid://b0ris7n8cfaa6" path="res://Assets/Debug/Scenes/first_person_player.tscn" id="9_gxofw"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -127,7 +127,7 @@ size = Vector3(5, 8, 1)
 material = SubResource("StandardMaterial3D_vb21j")
 
 [node name="PortalWall2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9603, 4.5, -42)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20.622)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="PortalWall2"]
 shape = SubResource("BoxShape3D_8dt86")
@@ -185,7 +185,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.03969, 4.5, -58)
 size = Vector2(5, 8)
 
 [node name="CameraView" parent="PortalSpawner/Portal1" index="0"]
-size = Vector3(5, 8, 0.3)
+size = Vector3(5, 8, 0.01)
 material = SubResource("ShaderMaterial_mw72m")
 
 [node name="CameraView2" parent="PortalSpawner/Portal1" index="2"]
@@ -195,11 +195,11 @@ texture = SubResource("ViewportTexture_b04pc")
 shape = SubResource("BoxShape3D_7p0mn")
 
 [node name="Portal2" parent="PortalSpawner" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9603, 4.5, -42)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20.622)
 size = Vector2(5, 8)
 
 [node name="CameraView" parent="PortalSpawner/Portal2" index="0"]
-size = Vector3(5, 8, 0.3)
+size = Vector3(5, 8, 0.01)
 material = SubResource("ShaderMaterial_gsffc")
 
 [node name="CameraView2" parent="PortalSpawner/Portal2" index="2"]
@@ -214,7 +214,8 @@ shape = SubResource("BoxShape3D_r5lt3")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0593063, 0.99824, 0, -0.99824, 0.0593063, 0, 66.86, -37.34)
 
-[node name="GolfBall" parent="." instance=ExtResource("9_yhggi")]
+[node name="FirstPersonPlayer" parent="." instance=ExtResource("9_gxofw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94476, 0)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

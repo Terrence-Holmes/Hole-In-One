@@ -5,7 +5,7 @@
 [ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="3_ocxy0"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_7klyg"]
-viewport_path = NodePath("Portal1/CameraViewport")
+viewport_path = NodePath("CameraViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wdv0f"]
 resource_local_to_scene = true
@@ -19,7 +19,7 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_8eh5u"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_k8cgg"]
-viewport_path = NodePath("Portal2/CameraViewport")
+viewport_path = NodePath("CameraViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yo7v6"]
 resource_local_to_scene = true

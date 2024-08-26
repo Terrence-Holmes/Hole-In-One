@@ -51,26 +51,23 @@ const MESH_DUPLICATE_RETAIN_TIME : float = 5000
 func _process(delta):
 	passHitbox_cs.disabled = not visible
 	_check_for_teleport()
-	_set_camera_transform()
+	_setup_camera()
 
 
 func _check_for_teleport():
 	for body in _get_pass_through_bodies():
 		_teleport_to_other(body)
 
-func _set_camera_transform():
+func _setup_camera():
 	var mainCamera : Camera3D = GameManager.mainCamera#get_viewport().get_camera_3d()
 	if (not mainCamera):
 		return
 	
-	#Get relative transform of the main camera to this portal
-	var relativeTransform : Transform3D = global_transform.affine_inverse() * mainCamera.global_transform
-	var movedToOtherPortal : Transform3D = otherPortal.global_transform * relativeTransform
 	
-	#Set portal camera's transform
-	camera.global_transform = movedToOtherPortal
+	_set_recursive_camera_transform(mainCamera)
+	#_set_nonrecursive_camera_transform(mainCamera)
+	
 	camera.fov = mainCamera.fov #Match the main camera's FOV just in case I decide to change that later
-	
 	viewport.size = get_viewport().get_visible_rect().size
 	viewport.msaa_3d = get_viewport().msaa_3d
 	viewport.screen_space_aa = get_viewport().screen_space_aa
@@ -78,7 +75,44 @@ func _set_camera_transform():
 	viewport.use_debanding = get_viewport().use_debanding
 	viewport.use_occlusion_culling = get_viewport().use_occlusion_culling
 	viewport.mesh_lod_threshold = get_viewport().mesh_lod_threshold
+	
+	_update_portal_camera_near_clip_plane(camera)
 
+
+func _set_nonrecursive_camera_transform(mainCamera : Camera3D):
+	#Get relative transform of the main camera to this portal
+	var relativeTransform : Transform3D = global_transform.affine_inverse() * mainCamera.global_transform
+	var movedToOtherPortal : Transform3D = otherPortal.global_transform * relativeTransform
+	#Set camera transform
+	camera.global_transform = movedToOtherPortal
+
+
+var recursionCounter : int = 0
+var cameraTransforms = []
+const MAX_RECURSIONS : int = 5
+func _set_recursive_camera_transform(mainCamera : Camera3D):
+	#Get transforms of each recursion
+	if (recursionCounter == 0):
+		cameraTransforms.clear()
+		var currentTransform : Transform3D = mainCamera.global_transform
+		for i in range(MAX_RECURSIONS):
+			#Get relative transform of the main camera to this portal
+			var relativeTransform : Transform3D = global_transform.affine_inverse() * currentTransform
+			currentTransform = otherPortal.global_transform * relativeTransform
+			cameraTransforms.append(currentTransform)
+		cameraTransforms.reverse()
+	
+	for i in range(cameraTransforms.size()):
+		camera.global_transform = cameraTransforms[i]
+		camera.update_camera()
+	#
+	##Set portal camera's transform
+	#camera.global_transform = cameraTransforms[recursionCounter]
+	##Increase recursion
+	#if (recursionCounter == MAX_RECURSIONS - 1):
+		#recursionCounter = 0
+	#else:
+		#recursionCounter += 1
 
 func _teleport_to_other(body : PhysicsBody3D):
 	#Move body to the other portal
@@ -166,6 +200,63 @@ func _remove_tracked_body(body):
 				body.leave_portal_tracking(self)
 			return
 
+func _update_portal_camera_near_clip_plane(camera):
+	if not camera.has_method("set_override_projection"):
+		print("Needs https://github.com/V-Sekai/godot/tree/override_projection_4.2 branch")
+		return # Needs https://github.com/V-Sekai/godot/tree/override_projection_4.2 branch
+	
+	const NEAR_CLIP_OFFSET = 0.05
+	const NEAR_CLIP_LIMIT = 0.1
+	
+	# Calculate the near clip plane in camera space
+	var clip_plane = otherPortal.global_transform
+	var clip_plane_forward: Vector3 = -clip_plane.basis.z
+	var portal_side = _nonzero_sign(clip_plane_forward.dot(otherPortal.global_transform.origin - camera.global_transform.origin))
+ 
+	var cam_space_pos = camera.get_camera_transform().affine_inverse() * clip_plane.origin
+	var cam_space_normal = (camera.get_camera_transform().affine_inverse().basis * clip_plane_forward) * portal_side
+	var cam_space_dst = - cam_space_pos.dot(cam_space_normal) + NEAR_CLIP_OFFSET;
+	
+	# Oblique plane when very close to portal causes glitching/visual artifacts, so only enable if a small distance away
+	if abs(cam_space_dst) > NEAR_CLIP_LIMIT:
+		var proj : Projection = camera.get_camera_projection()
+		var near_clip_plane = Plane(cam_space_normal, cam_space_dst)
+		proj = set_projection_oblique_near_plane(proj, near_clip_plane)
+		camera.set_override_projection(proj)
+	else:
+		# Set back to unmodified frustum if camera is very close to portal
+		camera.set_override_projection(Projection(Vector4.ZERO, Vector4.ZERO, Vector4.ZERO, Vector4.ZERO))
+	
+
+# Copied from https://github.com/V-Sekai/avatar_vr_demo/blob/master/addons/V-Sekai.xr-mirror/mirror.gd
+func set_projection_oblique_near_plane(matrix: Projection, clip_plane: Plane):
+	# Based on the paper
+	# Lengyel, Eric. “Oblique View Frustum Depth Projection and Clipping”.
+	# Journal of Game Development, Vol. 1, No. 2 (2005), Charles River Media, pp. 5–16.
+
+	# Calculate the clip-space corner point opposite the clipping plane
+	# as (sgn(clipPlane.x), sgn(clipPlane.y), 1, 1) and
+	# transform it into camera space by multiplying it
+	# by the inverse of the projection matrix
+	var q = Vector4(
+		(sign(clip_plane.x) + matrix.z.x) / matrix.x.x,
+		(sign(clip_plane.y) + matrix.z.y) / matrix.y.y,
+		-1.0,
+		(1.0 + matrix.z.z) / matrix.w.z)
+
+	var clip_plane4 = Vector4(clip_plane.x, clip_plane.y, clip_plane.z, clip_plane.d)
+
+	# Calculate the scaled plane vector
+	var c: Vector4 = clip_plane4 * (2.0 / clip_plane4.dot(q))
+
+	# Replace the third row of the projection matrix
+	matrix.x.z = c.x - matrix.x.w
+	matrix.y.z = c.y - matrix.y.w
+	matrix.z.z = c.z - matrix.z.w
+	matrix.w.z = c.w - matrix.w.w
+	return matrix
+
+
 
 
 #SIGNALS
@@ -174,7 +265,6 @@ func _remove_tracked_body(body):
 func _body_entered(body):
 	#Disable static bodies and CSGShape3Ds
 	if (not body.is_class("StaticBody3D") and not body.is_class("CSGShape3D")):
-		print_debug("passed")
 #		if (_check_shapecast_collision(body)):
 		_add_tracked_body(body)
 
@@ -200,7 +290,3 @@ func _nonzero_sign(value):
 	if s == 0:
 		s = 1
 	return s
-
-
-
-
