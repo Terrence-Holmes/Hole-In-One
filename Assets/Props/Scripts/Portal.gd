@@ -64,8 +64,8 @@ func _setup_camera():
 		return
 	
 	
-	_set_recursive_camera_transform(mainCamera)
-	#_set_nonrecursive_camera_transform(mainCamera)
+	#_set_recursive_camera_transform(mainCamera)
+	_set_nonrecursive_camera_transform(mainCamera)
 	
 	camera.fov = mainCamera.fov #Match the main camera's FOV just in case I decide to change that later
 	viewport.size = get_viewport().get_visible_rect().size
@@ -104,7 +104,6 @@ func _set_recursive_camera_transform(mainCamera : Camera3D):
 	
 	for i in range(cameraTransforms.size()):
 		camera.global_transform = cameraTransforms[i]
-		camera.update_camera()
 	#
 	##Set portal camera's transform
 	#camera.global_transform = cameraTransforms[recursionCounter]

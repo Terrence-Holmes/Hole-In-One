@@ -1,36 +1,26 @@
-[gd_scene load_steps=12 format=3 uid="uid://cvr06f1ktu135"]
+[gd_scene load_steps=8 format=3 uid="uid://cvr06f1ktu135"]
 
 [ext_resource type="PackedScene" uid="uid://beow8twmmfq07" path="res://Assets/Props/Scenes/portal.tscn" id="1_qv77c"]
 [ext_resource type="Script" path="res://Assets/Props/Scripts/PortalSpawner.gd" id="1_vfyow"]
 [ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="3_ocxy0"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_7klyg"]
-viewport_path = NodePath("CameraViewport")
+[sub_resource type="ViewportTexture" id="ViewportTexture_qup7f"]
+viewport_path = NodePath("Portal1/CameraViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wdv0f"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sqhe0"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_ocxy0")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_7klyg")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_qup7f")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dok5f"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_8eh5u"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_k8cgg"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_l6b86"]
 viewport_path = NodePath("CameraViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yo7v6"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_orw0v"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_ocxy0")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_k8cgg")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uo8e1"]
-albedo_color = Color(0, 0, 1, 1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_ydro5"]
+shader_parameter/texture_albedo = SubResource("ViewportTexture_l6b86")
 
 [node name="PortalSpawner" type="Node3D"]
 script = ExtResource("1_vfyow")
@@ -40,7 +30,8 @@ otherPortal = NodePath("../Portal2")
 
 [node name="CameraView" parent="Portal1" index="0"]
 layers = 2
-material = SubResource("ShaderMaterial_wdv0f")
+size = Vector3(1, 2, 0.1)
+material = SubResource("ShaderMaterial_sqhe0")
 
 [node name="CameraViewport" parent="Portal1" index="1"]
 size = Vector2i(512, 512)
@@ -48,30 +39,19 @@ size = Vector2i(512, 512)
 [node name="Camera" parent="Portal1/CameraViewport" index="0"]
 cull_mask = 1048571
 
-[node name="MeshInstance3D" parent="Portal1/CameraViewport/Camera" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_dok5f")
-
-[node name="CameraView2" parent="Portal1" index="2"]
-texture = SubResource("ViewportTexture_8eh5u")
-
 [node name="Portal2" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
 otherPortal = NodePath("../Portal1")
 
 [node name="CameraView" parent="Portal2" index="0"]
 layers = 4
-material = SubResource("ShaderMaterial_yo7v6")
+size = Vector3(1, 2, 0.1)
+material = SubResource("ShaderMaterial_orw0v")
 
 [node name="CameraViewport" parent="Portal2" index="1"]
 size = Vector2i(512, 512)
 
 [node name="Camera" parent="Portal2/CameraViewport" index="0"]
 cull_mask = 1048573
-
-[node name="MeshInstance3D" parent="Portal2/CameraViewport/Camera" index="0"]
-surface_material_override/0 = SubResource("StandardMaterial3D_uo8e1")
-
-[node name="CameraView2" parent="Portal2" index="2"]
-texture = SubResource("ViewportTexture_ydro5")
 
 [editable path="Portal1"]
 [editable path="Portal2"]

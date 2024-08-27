@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=30 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -56,48 +56,26 @@ albedo_texture = ExtResource("5_r0pyo")
 shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_tnpqa"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_lc8yv"]
 viewport_path = NodePath("PortalSpawner/Portal1/CameraViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ahtot"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0jaar"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_tnpqa")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_csl2y"]
-viewport_path = NodePath("PortalSpawner/Portal1/CameraViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mw72m"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_csl2y")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_b04pc"]
+shader_parameter/texture_albedo = SubResource("ViewportTexture_lc8yv")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7p0mn"]
 size = Vector3(5.2, 8.2, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_gfic5"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_5qwdk"]
 viewport_path = NodePath("PortalSpawner/Portal2/CameraViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ss3fj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cmdqo"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_gfic5")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_41sbh"]
-viewport_path = NodePath("PortalSpawner/Portal2/CameraViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gsffc"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_41sbh")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_6cknq"]
+shader_parameter/texture_albedo = SubResource("ViewportTexture_5qwdk")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r5lt3"]
 size = Vector3(5.2, 8.2, 2)
@@ -203,12 +181,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.03969, 4.5, -58)
 size = Vector2(5, 8)
 
 [node name="CameraView" parent="PortalSpawner/Portal1" index="0"]
-material_override = SubResource("ShaderMaterial_ahtot")
-size = Vector3(5, 8, 0.01)
-material = SubResource("ShaderMaterial_mw72m")
-
-[node name="CameraView2" parent="PortalSpawner/Portal1" index="2"]
-texture = SubResource("ViewportTexture_b04pc")
+size = Vector3(5, 8, 0.1)
+material = SubResource("ShaderMaterial_0jaar")
 
 [node name="CollisionShape" parent="PortalSpawner/Portal1/PassHitbox" index="0"]
 shape = SubResource("BoxShape3D_7p0mn")
@@ -218,14 +192,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20.622)
 size = Vector2(5, 8)
 
 [node name="CameraView" parent="PortalSpawner/Portal2" index="0"]
-material_override = SubResource("ShaderMaterial_ss3fj")
-size = Vector3(5, 8, 0.01)
-material = SubResource("ShaderMaterial_gsffc")
+size = Vector3(5, 8, 0.1)
+material = SubResource("ShaderMaterial_cmdqo")
 
-[node name="CameraView2" parent="PortalSpawner/Portal2" index="2"]
-texture = SubResource("ViewportTexture_6cknq")
-
-[node name="PassHitbox" parent="PortalSpawner/Portal2" index="4"]
+[node name="PassHitbox" parent="PortalSpawner/Portal2" index="3"]
 visible = false
 
 [node name="CollisionShape" parent="PortalSpawner/Portal2/PassHitbox" index="0"]

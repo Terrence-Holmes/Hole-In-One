@@ -1,22 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://beow8twmmfq07"]
+[gd_scene load_steps=8 format=3 uid="uid://beow8twmmfq07"]
 
 [ext_resource type="Script" path="res://Assets/Props/Scripts/Portal.gd" id="1_f0wwu"]
 [ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="2_yoev6"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/PortalEditor.gd" id="3_fe5n2"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_skea1"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_r6ok2"]
 viewport_path = NodePath("CameraViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ff2xj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s4ld5"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_yoev6")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_skea1")
-
-[sub_resource type="PrismMesh" id="PrismMesh_dor0r"]
-size = Vector3(0.5, 0.5, 0.5)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_bvku7"]
+shader_parameter/texture_albedo = SubResource("ViewportTexture_r6ok2")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v4s2d"]
 size = Vector3(1.2, 2.2, 2)
@@ -28,9 +23,8 @@ size = Vector3(1.2, 2.2, 2)
 script = ExtResource("1_f0wwu")
 
 [node name="CameraView" type="CSGBox3D" parent="."]
-extra_cull_margin = 0.5
-size = Vector3(1, 2, 1)
-material = SubResource("ShaderMaterial_ff2xj")
+size = Vector3(1.2, 2, 0.1)
+material = SubResource("ShaderMaterial_s4ld5")
 
 [node name="CameraViewport" type="SubViewport" parent="."]
 handle_input_locally = false
@@ -39,15 +33,6 @@ render_target_update_mode = 4
 
 [node name="Camera" type="Camera3D" parent="CameraViewport"]
 cull_mask = 1048569
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CameraViewport/Camera"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("PrismMesh_dor0r")
-
-[node name="CameraView2" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.501)
-visible = false
-texture = SubResource("ViewportTexture_bvku7")
 
 [node name="Editor" type="Node3D" parent="."]
 script = ExtResource("3_fe5n2")
