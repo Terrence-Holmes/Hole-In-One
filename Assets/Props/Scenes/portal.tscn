@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://EditorTools/Scripts/PortalEditor.gd" id="3_fe5n2"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_r6ok2"]
-viewport_path = NodePath("CameraViewport")
+viewport_path = NodePath("Viewports/CameraViewport0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s4ld5"]
 resource_local_to_scene = true
@@ -26,12 +26,22 @@ script = ExtResource("1_f0wwu")
 size = Vector3(1.2, 2, 0.1)
 material = SubResource("ShaderMaterial_s4ld5")
 
-[node name="CameraViewport" type="SubViewport" parent="."]
+[node name="Viewports" type="Node" parent="."]
+
+[node name="CameraViewport0" type="SubViewport" parent="Viewports"]
 handle_input_locally = false
 size = Vector2i(432, 720)
 render_target_update_mode = 4
 
-[node name="Camera" type="Camera3D" parent="CameraViewport"]
+[node name="Camera" type="Camera3D" parent="Viewports/CameraViewport0"]
+cull_mask = 1048569
+
+[node name="CameraViewport1" type="SubViewport" parent="Viewports"]
+handle_input_locally = false
+size = Vector2i(432, 720)
+render_target_update_mode = 4
+
+[node name="Camera" type="Camera3D" parent="Viewports/CameraViewport1"]
 cull_mask = 1048569
 
 [node name="Editor" type="Node3D" parent="."]

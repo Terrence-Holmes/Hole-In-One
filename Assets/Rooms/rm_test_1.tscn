@@ -57,7 +57,7 @@ shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_lc8yv"]
-viewport_path = NodePath("PortalSpawner/Portal1/CameraViewport")
+viewport_path = NodePath("PortalSpawner/Portal1/Viewports/CameraViewport0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0jaar"]
 resource_local_to_scene = true
@@ -69,7 +69,7 @@ shader_parameter/texture_albedo = SubResource("ViewportTexture_lc8yv")
 size = Vector3(5.2, 8.2, 2)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_5qwdk"]
-viewport_path = NodePath("PortalSpawner/Portal2/CameraViewport")
+viewport_path = NodePath("PortalSpawner/Portal2/Viewports/CameraViewport0")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cmdqo"]
 resource_local_to_scene = true

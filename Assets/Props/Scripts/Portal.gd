@@ -7,8 +7,9 @@ class_name Portal
 @export var portal_area_margin : Vector3 = Vector3(0.1, 0.1, 1.0)
 
 #References
-@onready var viewport : SubViewport = get_node("CameraViewport")
-@onready var camera : Camera3D = viewport.get_node("Camera")
+@onready var viewportContainer : Node = get_node("Viewports")
+var viewports : Array[SubViewport]
+var cameras : Array[Camera3D]
 @onready var cameraView : CSGBox3D = get_node("CameraView")
 @onready var passHitbox : Area3D = get_node("PassHitbox")
 @onready var passHitbox_cs : CollisionShape3D = passHitbox.get_node("CollisionShape")
@@ -48,6 +49,11 @@ var meshDuplicateCache = []
 const MESH_DUPLICATE_RETAIN_TIME : float = 5000
 
 
+func _ready():
+	for i in range(viewportContainer.get_child_count()):
+		viewports.append(viewportContainer.get_child(i))
+		cameras.append(viewportContainer.get_child(i).get_node("Camera"))
+
 func _process(delta):
 	passHitbox_cs.disabled = not visible
 	_check_for_teleport()
@@ -67,16 +73,18 @@ func _setup_camera():
 	#_set_recursive_camera_transform(mainCamera)
 	_set_nonrecursive_camera_transform(mainCamera)
 	
-	camera.fov = mainCamera.fov #Match the main camera's FOV just in case I decide to change that later
-	viewport.size = get_viewport().get_visible_rect().size
-	viewport.msaa_3d = get_viewport().msaa_3d
-	viewport.screen_space_aa = get_viewport().screen_space_aa
-	viewport.use_taa = get_viewport().use_taa
-	viewport.use_debanding = get_viewport().use_debanding
-	viewport.use_occlusion_culling = get_viewport().use_occlusion_culling
-	viewport.mesh_lod_threshold = get_viewport().mesh_lod_threshold
+	for viewport in viewports:
+		viewport.size = get_viewport().get_visible_rect().size
+		viewport.msaa_3d = get_viewport().msaa_3d
+		viewport.screen_space_aa = get_viewport().screen_space_aa
+		viewport.use_taa = get_viewport().use_taa
+		viewport.use_debanding = get_viewport().use_debanding
+		viewport.use_occlusion_culling = get_viewport().use_occlusion_culling
+		viewport.mesh_lod_threshold = get_viewport().mesh_lod_threshold
 	
-	_update_portal_camera_near_clip_plane(camera)
+	for camera in cameras:
+		camera.fov = mainCamera.fov #Match the main camera's FOV just in case I decide to change that later
+		_update_portal_camera_near_clip_plane(camera)
 
 
 func _set_nonrecursive_camera_transform(mainCamera : Camera3D):
@@ -84,7 +92,7 @@ func _set_nonrecursive_camera_transform(mainCamera : Camera3D):
 	var relativeTransform : Transform3D = global_transform.affine_inverse() * mainCamera.global_transform
 	var movedToOtherPortal : Transform3D = otherPortal.global_transform * relativeTransform
 	#Set camera transform
-	camera.global_transform = movedToOtherPortal
+	cameras[0].global_transform = movedToOtherPortal
 
 
 var recursionCounter : int = 0
@@ -102,8 +110,8 @@ func _set_recursive_camera_transform(mainCamera : Camera3D):
 			cameraTransforms.append(currentTransform)
 		cameraTransforms.reverse()
 	
-	for i in range(cameraTransforms.size()):
-		camera.global_transform = cameraTransforms[i]
+	#for i in range(cameraTransforms.size()):
+		#camera.global_transform = cameraTransforms[i]
 	#
 	##Set portal camera's transform
 	#camera.global_transform = cameraTransforms[recursionCounter]
