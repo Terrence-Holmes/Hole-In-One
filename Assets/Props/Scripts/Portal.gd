@@ -70,8 +70,8 @@ func _setup_camera():
 		return
 	
 	
-	#_set_recursive_camera_transform(mainCamera)
-	_set_nonrecursive_camera_transform(mainCamera)
+	_set_recursive_camera_transform(mainCamera)
+	#_set_nonrecursive_camera_transform(mainCamera)
 	
 	for viewport in viewports:
 		viewport.size = get_viewport().get_visible_rect().size
@@ -95,23 +95,20 @@ func _set_nonrecursive_camera_transform(mainCamera : Camera3D):
 	cameras[0].global_transform = movedToOtherPortal
 
 
-var recursionCounter : int = 0
 var cameraTransforms = []
-const MAX_RECURSIONS : int = 5
 func _set_recursive_camera_transform(mainCamera : Camera3D):
 	#Get transforms of each recursion
-	if (recursionCounter == 0):
-		cameraTransforms.clear()
-		var currentTransform : Transform3D = mainCamera.global_transform
-		for i in range(MAX_RECURSIONS):
-			#Get relative transform of the main camera to this portal
-			var relativeTransform : Transform3D = global_transform.affine_inverse() * currentTransform
-			currentTransform = otherPortal.global_transform * relativeTransform
-			cameraTransforms.append(currentTransform)
-		cameraTransforms.reverse()
+	cameraTransforms.clear()
+	var currentTransform : Transform3D = mainCamera.global_transform
+	for i in range(cameras.size()):
+		#Get relative transform of the main camera to this portal
+		var relativeTransform : Transform3D = global_transform.affine_inverse() * currentTransform
+		currentTransform = otherPortal.global_transform * relativeTransform
+		cameraTransforms.append(currentTransform)
+	#cameraTransforms.reverse()
 	
-	#for i in range(cameraTransforms.size()):
-		#camera.global_transform = cameraTransforms[i]
+	for i in range(cameraTransforms.size()):
+		cameras[i].global_transform = cameraTransforms[i]
 	#
 	##Set portal camera's transform
 	#camera.global_transform = cameraTransforms[recursionCounter]

@@ -33,12 +33,6 @@ layers = 2
 size = Vector3(1, 2, 0.1)
 material = SubResource("ShaderMaterial_sqhe0")
 
-[node name="CameraViewport" parent="Portal1" index="1"]
-size = Vector2i(512, 512)
-
-[node name="Camera" parent="Portal1/CameraViewport" index="0"]
-cull_mask = 1048571
-
 [node name="Portal2" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
 otherPortal = NodePath("../Portal1")
 
@@ -46,12 +40,6 @@ otherPortal = NodePath("../Portal1")
 layers = 4
 size = Vector3(1, 2, 0.1)
 material = SubResource("ShaderMaterial_orw0v")
-
-[node name="CameraViewport" parent="Portal2" index="1"]
-size = Vector2i(512, 512)
-
-[node name="Camera" parent="Portal2/CameraViewport" index="0"]
-cull_mask = 1048573
 
 [editable path="Portal1"]
 [editable path="Portal2"]
