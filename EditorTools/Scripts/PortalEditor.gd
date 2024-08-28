@@ -18,8 +18,8 @@ func _process(delta):
 func _set_size():
 	if (prevSize != portal.size):
 		prevSize = portal.size
-		for cameraView in cameraViewContainer.get_children():
-			cameraView.size = Vector3(portal.size.x, portal.size.y, cameraView.size.z)
+		#for cameraView in cameraViewContainer.get_children():
+			#cameraView.size = Vector3(portal.size.x, portal.size.y, cameraView.size.z)
 		passHitbox_cs.shape.size = Vector3(
 			portal.size.x + portal.portal_area_margin.x * 2,
 			portal.size.y + portal.portal_area_margin.y * 2,

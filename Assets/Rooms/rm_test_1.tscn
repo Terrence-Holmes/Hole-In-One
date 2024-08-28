@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=31 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
 [ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="7_hpofo"]
 [ext_resource type="PackedScene" uid="uid://b0ris7n8cfaa6" path="res://Assets/Debug/Scenes/first_person_player.tscn" id="9_gxofw"]
-[ext_resource type="Script" path="res://Assets/Rooms/TestyTest.gd" id="10_lqjay"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -62,44 +61,24 @@ albedo_texture = ExtResource("5_r0pyo")
 shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_5w6n1"]
-viewport_path = NodePath("PortalSpawner/Portal1/Viewports/CameraViewport0")
+[sub_resource type="ViewportTexture" id="ViewportTexture_nhk8g"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eidsn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4df04"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_5w6n1")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_75a4l"]
-viewport_path = NodePath("Viewports/CameraViewport0")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m8opl"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_75a4l")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_nhk8g")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7p0mn"]
 size = Vector3(5.2, 8.2, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ktd8o"]
-viewport_path = NodePath("PortalSpawner/Portal2/Viewports/CameraViewport0")
+[sub_resource type="ViewportTexture" id="ViewportTexture_l5853"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lf6yl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8g0kj"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_ktd8o")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_jgh0u"]
-viewport_path = NodePath("Viewports/CameraViewport0")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hi41c"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("7_hpofo")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_jgh0u")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_l5853")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r5lt3"]
 size = Vector3(5.2, 8.2, 2)
@@ -125,7 +104,7 @@ mesh = SubResource("PlaneMesh_urweq")
 surface_material_override/0 = SubResource("StandardMaterial3D_ldkhe")
 
 [node name="PortalWall" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.03969, 4.5, -58)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.5, -58)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="PortalWall"]
 shape = SubResource("BoxShape3D_8dt86")
@@ -147,7 +126,7 @@ size = Vector3(5, 8, 1)
 material = SubResource("StandardMaterial3D_vb21j")
 
 [node name="PortalWall2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20.622)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20)
 
 [node name="CollisionShape" type="CollisionShape3D" parent="PortalWall2"]
 shape = SubResource("BoxShape3D_8dt86")
@@ -205,35 +184,17 @@ portal1Wall = NodePath("../PortalWall")
 portal2Wall = NodePath("../PortalWall2")
 
 [node name="Portal1" parent="PortalSpawner" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.03969, 4.5, -58)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.5, -58)
 size = Vector2(5, 8)
-
-[node name="CameraView0" parent="PortalSpawner/Portal1/CameraViews" index="0"]
-layers = 2
-size = Vector3(5, 8, 0.1)
-material = SubResource("ShaderMaterial_eidsn")
-
-[node name="CameraView1" parent="PortalSpawner/Portal1/CameraViews" index="1"]
-layers = 2
-size = Vector3(5, 8, 0.1)
-material = SubResource("ShaderMaterial_m8opl")
+portalMaterial = SubResource("ShaderMaterial_4df04")
 
 [node name="CollisionShape" parent="PortalSpawner/Portal1/PassHitbox" index="0"]
 shape = SubResource("BoxShape3D_7p0mn")
 
 [node name="Portal2" parent="PortalSpawner" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20.622)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 4.5, -20)
 size = Vector2(5, 8)
-
-[node name="CameraView0" parent="PortalSpawner/Portal2/CameraViews" index="0"]
-layers = 4
-size = Vector3(5, 8, 0.1)
-material = SubResource("ShaderMaterial_lf6yl")
-
-[node name="CameraView1" parent="PortalSpawner/Portal2/CameraViews" index="1"]
-layers = 4
-size = Vector3(5, 8, 0.1)
-material = SubResource("ShaderMaterial_hi41c")
+portalMaterial = SubResource("ShaderMaterial_8g0kj")
 
 [node name="PassHitbox" parent="PortalSpawner/Portal2" index="3"]
 visible = false
@@ -246,33 +207,6 @@ transform = Transform3D(1, 0, 0, 0, 0.0593063, 0.99824, 0, -0.99824, 0.0593063, 
 
 [node name="FirstPersonPlayer" parent="." instance=ExtResource("9_gxofw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94476, 0)
-
-[node name="HBoxContainer" type="HBoxContainer" parent="." node_paths=PackedStringArray("sourcePortal", "sourceCamera", "translateCamera")]
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/separation = 512
-script = ExtResource("10_lqjay")
-sourcePortal = NodePath("../PortalSpawner/Portal2")
-sourceCamera = [NodePath("../PortalSpawner/Portal2/Viewports/CameraViewport0/Camera"), NodePath("../PortalSpawner/Portal2/Viewports/CameraViewport1/Camera")]
-translateCamera = [NodePath("SubViewportContainer/SubViewport/Camera3D"), NodePath("SubViewportContainer2/SubViewport/Camera3D")]
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer"]
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer"]
-
-[node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport"]
-cull_mask = 1048569
-
-[node name="SubViewportContainer2" type="SubViewportContainer" parent="HBoxContainer"]
-layout_mode = 2
-
-[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer2"]
-handle_input_locally = false
-render_target_update_mode = 4
-
-[node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer2/SubViewport"]
-cull_mask = 1048569
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

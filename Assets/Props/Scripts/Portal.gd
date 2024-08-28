@@ -2,9 +2,11 @@ extends Node3D
 class_name Portal
 
 @export_category("Portal")
+@export var portal1 : bool = true
 @export var otherPortal : Portal = null
 @export var size : Vector2 = Vector2(1, 2)
 @export var portal_area_margin : Vector3 = Vector3(0.1, 0.1, 1.0)
+@export var portalMaterial : ShaderMaterial = null
 
 #References
 @onready var viewportContainer : Node = get_node("Viewports")
@@ -16,6 +18,7 @@ var viewports : Array[SubViewport]
 var cameras : Array[Camera3D]
 var cameraViews : Array[CSGBox3D]
 
+const recursiveCount : int = 2
 
 var camRotation : Vector3 = Vector3.ZERO
 
@@ -42,7 +45,7 @@ var relativeMatrix : Transform3D:
 
 
 var trackedBodies = []
-var moveTeleportThreshold : float = 5
+var moveTeleportThreshold : float = 2
 
 #Mesh duplicate cache
 #Supposedly helps with performance and makes the transition from portal to portal slightly smoother
@@ -51,15 +54,47 @@ const MESH_DUPLICATE_RETAIN_TIME : float = 5000
 
 
 func _ready():
-	for i in range(viewportContainer.get_child_count()):
-		#Get references
-		viewports.append(viewportContainer.get_child(i))
-		cameras.append(viewportContainer.get_child(i).get_node("Camera"))
-		cameraViews.append(cameraViewContainer.get_child(i))
+	for i in range(recursiveCount):
+		#Create viewports
+		var newViewport : SubViewport = SubViewport.new()
+		viewportContainer.add_child(newViewport)
+		newViewport.name = "CameraViewport" + str(i)
+		newViewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+		newViewport.handle_input_locally = false
+		viewports.append(newViewport)
 		
-		#Set camera view's viewport
+		#Create cameras
+		var newCamera : Camera3D = Camera3D.new()
+		newViewport.add_child(newCamera)
+		newCamera.name = "Camera"
+		var portalMaskPlus : int = 0 if (portal1) else recursiveCount
+		for j in range((recursiveCount * 2)):
+			newCamera.set_cull_mask_value(j + 2, false)
+		newCamera.set_cull_mask_value(recursiveCount - i, true)
+		cameras.append(newCamera)
+		
+		#Create camera views
+		var newView : CSGBox3D = CSGBox3D.new()
+		cameraViewContainer.add_child(newView)
+		newView.name = "CameraView" + str(i)
 		var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
-		cameraViews[i].material.get_shader_parameter("texture_albedo").viewport_path = newViewportPath
+		newView.material = portalMaterial.duplicate()
+		newView.material.get_shader_parameter("texture_albedo").viewport_path = newViewportPath
+		portalMaskPlus = 0 if (portal1) else recursiveCount
+		newView.set_layer_mask_value(1, false)
+		newView.set_layer_mask_value(i + portalMaskPlus + 2, true)
+		newView.size = Vector3(size.x, size.y, 0.1)
+		cameraViews.append(newView)
+	
+	#for i in range(viewportContainer.get_child_count()):
+		##Get references
+		#viewports.append(viewportContainer.get_child(i))
+		#cameras.append(viewportContainer.get_child(i).get_node("Camera"))
+		#cameraViews.append(cameraViewContainer.get_child(i))
+		#
+		##Set camera view's viewport
+		#var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
+		#cameraViews[i].material.get_shader_parameter("texture_albedo").viewport_path = newViewportPath
 
 
 func _process(delta):

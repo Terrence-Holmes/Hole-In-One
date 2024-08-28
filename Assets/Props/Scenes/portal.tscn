@@ -1,17 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://beow8twmmfq07"]
+[gd_scene load_steps=6 format=3 uid="uid://beow8twmmfq07"]
 
 [ext_resource type="Script" path="res://Assets/Props/Scripts/Portal.gd" id="1_f0wwu"]
-[ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="2_yoev6"]
+[ext_resource type="Material" uid="uid://c13o3p08qve31" path="res://Assets/Props/Materials/portal_mat.tres" id="2_nxj0c"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/PortalEditor.gd" id="3_fe5n2"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_r6ok2"]
-viewport_path = NodePath("Viewports/CameraViewport0")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_s4ld5"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("2_yoev6")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_r6ok2")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v4s2d"]
 size = Vector3(1.2, 2.2, 2)
@@ -21,34 +12,11 @@ size = Vector3(1.2, 2.2, 2)
 
 [node name="Portal" type="Node3D"]
 script = ExtResource("1_f0wwu")
+portalMaterial = ExtResource("2_nxj0c")
 
 [node name="CameraViews" type="Node3D" parent="."]
 
-[node name="CameraView0" type="CSGBox3D" parent="CameraViews"]
-size = Vector3(1, 2, 0.1)
-material = SubResource("ShaderMaterial_s4ld5")
-
-[node name="CameraView1" type="CSGBox3D" parent="CameraViews"]
-size = Vector3(1, 2, 0.1)
-material = SubResource("ShaderMaterial_s4ld5")
-
 [node name="Viewports" type="Node" parent="."]
-
-[node name="CameraViewport0" type="SubViewport" parent="Viewports"]
-handle_input_locally = false
-size = Vector2i(432, 720)
-render_target_update_mode = 4
-
-[node name="Camera" type="Camera3D" parent="Viewports/CameraViewport0"]
-cull_mask = 1048569
-
-[node name="CameraViewport1" type="SubViewport" parent="Viewports"]
-handle_input_locally = false
-size = Vector2i(432, 720)
-render_target_update_mode = 4
-
-[node name="Camera" type="Camera3D" parent="Viewports/CameraViewport1"]
-cull_mask = 1048569
 
 [node name="Editor" type="Node3D" parent="."]
 script = ExtResource("3_fe5n2")

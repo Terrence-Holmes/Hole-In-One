@@ -4,44 +4,33 @@
 [ext_resource type="Script" path="res://Assets/Props/Scripts/PortalSpawner.gd" id="1_vfyow"]
 [ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="3_ocxy0"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_j4ntl"]
-viewport_path = NodePath("Viewports/CameraViewport0")
+[sub_resource type="ViewportTexture" id="ViewportTexture_5nngh"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6xopq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m7g77"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_ocxy0")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_j4ntl")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_5nngh")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_25gm7"]
-viewport_path = NodePath("Viewports/CameraViewport0")
+[sub_resource type="ViewportTexture" id="ViewportTexture_ubjau"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sxqoc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5u3j4"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_ocxy0")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_25gm7")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_ubjau")
 
 [node name="PortalSpawner" type="Node3D"]
 script = ExtResource("1_vfyow")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
 otherPortal = NodePath("../Portal2")
-
-[node name="CameraView0" parent="Portal1/CameraViews" index="0"]
-material = SubResource("ShaderMaterial_6xopq")
-
-[node name="CameraView1" parent="Portal1/CameraViews" index="1"]
-material = SubResource("ShaderMaterial_6xopq")
+portalMaterial = SubResource("ShaderMaterial_m7g77")
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
+portal1 = false
 otherPortal = NodePath("../Portal1")
-
-[node name="CameraView0" parent="Portal2/CameraViews" index="0"]
-material = SubResource("ShaderMaterial_sxqoc")
-
-[node name="CameraView1" parent="Portal2/CameraViews" index="1"]
-material = SubResource("ShaderMaterial_sxqoc")
+portalMaterial = SubResource("ShaderMaterial_5u3j4")
 
 [editable path="Portal1"]
 [editable path="Portal2"]

@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c13o3p08qve31"]
+
+[ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="1_tjeht"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_s84km"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_tjeht")
+shader_parameter/texture_albedo = SubResource("ViewportTexture_s84km")
