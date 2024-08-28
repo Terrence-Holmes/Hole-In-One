@@ -8,12 +8,13 @@ class_name Portal
 
 #References
 @onready var viewportContainer : Node = get_node("Viewports")
-var viewports : Array[SubViewport]
-var cameras : Array[Camera3D]
-@onready var cameraView : CSGBox3D = get_node("CameraView")
+@onready var cameraViewContainer : Node3D = get_node("CameraViews")
 @onready var passHitbox : Area3D = get_node("PassHitbox")
 @onready var passHitbox_cs : CollisionShape3D = passHitbox.get_node("CollisionShape")
 @onready var shapecast : ShapeCast3D = get_node("ShapeCast")
+var viewports : Array[SubViewport]
+var cameras : Array[Camera3D]
+var cameraViews : Array[CSGBox3D]
 
 
 var camRotation : Vector3 = Vector3.ZERO
@@ -51,8 +52,15 @@ const MESH_DUPLICATE_RETAIN_TIME : float = 5000
 
 func _ready():
 	for i in range(viewportContainer.get_child_count()):
+		#Get references
 		viewports.append(viewportContainer.get_child(i))
 		cameras.append(viewportContainer.get_child(i).get_node("Camera"))
+		cameraViews.append(cameraViewContainer.get_child(i))
+		
+		#Set camera view's viewport
+		var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
+		cameraViews[i].material.get_shader_parameter("texture_albedo").viewport_path = newViewportPath
+
 
 func _process(delta):
 	passHitbox_cs.disabled = not visible
@@ -105,7 +113,7 @@ func _set_recursive_camera_transform(mainCamera : Camera3D):
 		var relativeTransform : Transform3D = global_transform.affine_inverse() * currentTransform
 		currentTransform = otherPortal.global_transform * relativeTransform
 		cameraTransforms.append(currentTransform)
-	#cameraTransforms.reverse()
+	cameraTransforms.reverse()
 	
 	for i in range(cameraTransforms.size()):
 		cameras[i].global_transform = cameraTransforms[i]
