@@ -78,6 +78,8 @@ func _ready():
 		cameraViewContainer.add_child(newView)
 		newView.name = "CameraView" + str(i)
 		newView.material = portalMaterial.duplicate()
+		var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
+		newView.material.get_shader_parameter("texture_albedo").viewport_path = newViewportPath
 		portalMaskPlus = 0 if (portal1) else recursiveCount
 		newView.set_layer_mask_value(1, false)
 		newView.set_layer_mask_value(i + portalMaskPlus + 2, true)
@@ -102,7 +104,7 @@ func _late_ready():
 	for i in range(cameraViews.size()):
 		var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
 		print(get_parent().get_parent().get_node(newViewportPath))
-		cameraViews[i].material.set_shader_parameter("texture_albedo").viewport_path = newViewportPath
+		#cameraViews[i].material.set_shader_parameter("texture_albedo").viewport_path = newViewportPath
 		#print(name + " " + str(i) + " : " + str(cameraViews[i]) + "  |  " + str(cameraViews[i].material.get_shader_parameter("texture_albedo").viewport_path))
 	
 
