@@ -1,36 +1,22 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvr06f1ktu135"]
+[gd_scene load_steps=3 format=3 uid="uid://cvr06f1ktu135"]
 
 [ext_resource type="PackedScene" uid="uid://beow8twmmfq07" path="res://Assets/Props/Scenes/portal.tscn" id="1_qv77c"]
 [ext_resource type="Script" path="res://Assets/Props/Scripts/PortalSpawner.gd" id="1_vfyow"]
-[ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="3_ocxy0"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_5nngh"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m7g77"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("3_ocxy0")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_5nngh")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_ubjau"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5u3j4"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("3_ocxy0")
-shader_parameter/texture_albedo = SubResource("ViewportTexture_ubjau")
 
 [node name="PortalSpawner" type="Node3D"]
 script = ExtResource("1_vfyow")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
+portal1 = true
 otherPortal = NodePath("../Portal2")
-portalMaterial = SubResource("ShaderMaterial_m7g77")
+size = Vector2(1, 2)
+portal_area_margin = Vector3(0.1, 0.1, 1)
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
 portal1 = false
 otherPortal = NodePath("../Portal1")
-portalMaterial = SubResource("ShaderMaterial_5u3j4")
+size = Vector2(1, 2)
+portal_area_margin = Vector3(0.1, 0.1, 1)
 
 [editable path="Portal1"]
 [editable path="Portal2"]

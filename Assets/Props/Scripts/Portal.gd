@@ -6,7 +6,7 @@ class_name Portal
 @export var otherPortal : Portal = null
 @export var size : Vector2 = Vector2(1, 2)
 @export var portal_area_margin : Vector3 = Vector3(0.1, 0.1, 1.0)
-@export var portalMaterial : ShaderMaterial = null
+@export var portalShader : Shader = null
 
 #References
 @onready var viewportContainer : Node = get_node("Viewports")
@@ -18,7 +18,7 @@ var viewports : Array[SubViewport]
 var cameras : Array[Camera3D]
 var cameraViews : Array[CSGBox3D]
 
-const recursiveCount : int = 3
+const recursiveCount : int = 5
 
 var camRotation : Vector3 = Vector3.ZERO
 
@@ -54,10 +54,13 @@ const MESH_DUPLICATE_RETAIN_TIME : float = 5000
 
 
 func _ready():
+	
 	for i in range(recursiveCount):
 		#Create viewports
+		#var newViewport : SubViewport = get_node("Viewports/CameraViewport" + str(i))
 		var newViewport : SubViewport = SubViewport.new()
 		viewportContainer.add_child(newViewport)
+		newViewport.owner = viewportContainer
 		newViewport.name = "CameraViewport" + str(i)
 		newViewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 		newViewport.handle_input_locally = false
@@ -70,48 +73,30 @@ func _ready():
 		var portalMaskPlus : int = 0 if (portal1) else recursiveCount
 		for j in range((recursiveCount * 2)):
 			newCamera.set_cull_mask_value(j + 2, false)
-		newCamera.set_cull_mask_value(recursiveCount - i, true)
+		if (i > 0):
+			newCamera.set_cull_mask_value(i + portalMaskPlus + 1, true)
 		cameras.append(newCamera)
 		
 		#Create camera views
 		var newView : CSGBox3D = CSGBox3D.new()
 		cameraViewContainer.add_child(newView)
 		newView.name = "CameraView" + str(i)
-		newView.material = portalMaterial.duplicate()
-		var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
-		newView.material.get_shader_parameter("texture_albedo").viewport_path = newViewportPath
+		
+		#Create material
+		var material : ShaderMaterial = ShaderMaterial.new()
+		material.shader = portalShader.duplicate()
+		material.resource_local_to_scene = true
+		material.set_shader_parameter("texture_albedo", newViewport.get_texture())
+		newView.material = material
+		
 		portalMaskPlus = 0 if (portal1) else recursiveCount
 		newView.set_layer_mask_value(1, false)
 		newView.set_layer_mask_value(i + portalMaskPlus + 2, true)
 		newView.size = Vector3(size.x, size.y, 0.1)
 		cameraViews.append(newView)
-	
-	
-	#for i in range(viewportContainer.get_child_count()):
-		##Get references
-		#viewports.append(viewportContainer.get_child(i))
-		#cameras.append(viewportContainer.get_child(i).get_node("Camera"))
-		#cameraViews.append(cameraViewContainer.get_child(i))
-		#
-		##Set camera view's viewport
-		#var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
-		#cameraViews[i].material.get_shader_parameter("texture_albedo").viewport_path = newViewportPath
 
-
-var lateReady : bool = false
-func _late_ready():
-	lateReady = true
-	for i in range(cameraViews.size()):
-		var newViewportPath : NodePath = NodePath("PortalSpawner/" + name + "/Viewports/CameraViewport" + str(i))
-		print(get_parent().get_parent().get_node(newViewportPath))
-		#cameraViews[i].material.set_shader_parameter("texture_albedo").viewport_path = newViewportPath
-		#print(name + " " + str(i) + " : " + str(cameraViews[i]) + "  |  " + str(cameraViews[i].material.get_shader_parameter("texture_albedo").viewport_path))
-	
 
 func _process(delta):
-	if (!lateReady):
-		_late_ready()
-	
 	passHitbox_cs.disabled = not visible
 	_check_for_teleport()
 	_setup_camera()

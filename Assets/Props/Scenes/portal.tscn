@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://beow8twmmfq07"]
 
 [ext_resource type="Script" path="res://Assets/Props/Scripts/Portal.gd" id="1_f0wwu"]
-[ext_resource type="Material" uid="uid://c13o3p08qve31" path="res://Assets/Props/Materials/portal_mat.tres" id="2_nxj0c"]
+[ext_resource type="Shader" path="res://Assets/Props/Shaders/portal_shader.gdshader" id="2_g3xgm"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/PortalEditor.gd" id="3_fe5n2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v4s2d"]
@@ -12,7 +12,7 @@ size = Vector3(1.2, 2.2, 2)
 
 [node name="Portal" type="Node3D"]
 script = ExtResource("1_f0wwu")
-portalMaterial = ExtResource("2_nxj0c")
+portalShader = ExtResource("2_g3xgm")
 
 [node name="CameraViews" type="Node3D" parent="."]
 
@@ -27,9 +27,10 @@ script = ExtResource("3_fe5n2")
 shape = SubResource("BoxShape3D_v4s2d")
 
 [node name="ShapeCast" type="ShapeCast3D" parent="."]
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 enabled = false
 shape = SubResource("BoxShape3D_db1ei")
+target_position = Vector3(0, 0, 0)
 
 [connection signal="body_entered" from="PassHitbox" to="." method="_body_entered"]
 [connection signal="body_exited" from="PassHitbox" to="." method="_body_exited"]
