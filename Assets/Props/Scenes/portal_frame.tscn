@@ -1,10 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbpa5oy8u48k7"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l27wx"]
-albedo_color = Color(0.8, 0.8, 0.8, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vbol7"]
-albedo_color = Color(0.8, 0.8, 0.8, 1)
+[ext_resource type="Script" path="res://Assets/Props/Scripts/PortalFrame.gd" id="1_7m2ab"]
+[ext_resource type="Material" uid="uid://43vigqrym0t2" path="res://Assets/Props/Materials/frame0_mat.tres" id="2_3byrv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p2mi6"]
 size = Vector3(8, 0.5, 0.5)
@@ -13,20 +10,21 @@ size = Vector3(8, 0.5, 0.5)
 size = Vector3(0.5, 8, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3opeg"]
-size = Vector3(8, 8, 0.5)
+size = Vector3(7, 7, 0.5)
 
 [node name="PortalFrame" type="StaticBody3D"]
 collision_mask = 0
+script = ExtResource("1_7m2ab")
 
 [node name="Mesh" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 size = Vector3(8, 8, 0.5)
-material = SubResource("StandardMaterial3D_l27wx")
+material = ExtResource("2_3byrv")
 
 [node name="Cutout" type="CSGBox3D" parent="Mesh"]
 operation = 2
 size = Vector3(7, 7, 1)
-material = SubResource("StandardMaterial3D_vbol7")
+material = ExtResource("2_3byrv")
 
 [node name="CollisionShapeTop" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.75, 0)

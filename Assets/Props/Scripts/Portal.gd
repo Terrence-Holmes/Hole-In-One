@@ -16,6 +16,7 @@ class_name Portal
 var viewports : Array[SubViewport]
 var cameras : Array[Camera3D]
 var cameraViews : Array[CSGBox3D]
+var frame : PortalFrame = null
 
 const recursiveCount : int = 5
 
@@ -302,6 +303,18 @@ func set_projection_oblique_near_plane(matrix: Projection, clip_plane: Plane):
 	return matrix
 
 
+func set_size(newSize : Vector2):
+	size = newSize
+	
+	passHitbox_cs.shape.size = Vector3(
+		size.x + portal_area_margin.x * 2,
+		size.y + portal_area_margin.y * 2,
+		portal_area_margin.z * 2)
+	
+	
+	
+	for i in range(cameraViewContainer.get_child_count()):
+		cameraViewContainer.get_child(i).size = Vector3(size.x, size.y, cameraViewContainer.get_child(i).size.z)
 
 
 #SIGNALS

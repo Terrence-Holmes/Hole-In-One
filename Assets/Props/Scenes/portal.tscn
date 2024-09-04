@@ -25,5 +25,10 @@ collision_mask = 2
 [node name="CollisionShape" type="CollisionShape3D" parent="PassHitbox"]
 shape = SubResource("BoxShape3D_v4s2d")
 
+[node name="PassCheck" type="ShapeCast3D" parent="."]
+shape = SubResource("BoxShape3D_v4s2d")
+target_position = Vector3(0, 0, 0)
+collision_mask = 2
+
 [connection signal="body_entered" from="PassHitbox" to="." method="_body_entered"]
 [connection signal="body_exited" from="PassHitbox" to="." method="_body_exited"]
