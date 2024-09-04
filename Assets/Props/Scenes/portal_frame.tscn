@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbpa5oy8u48k7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l27wx"]
+albedo_color = Color(0.8, 0.8, 0.8, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vbol7"]
+albedo_color = Color(0.8, 0.8, 0.8, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p2mi6"]
+size = Vector3(8, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q0cd2"]
+size = Vector3(0.5, 8, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3opeg"]
+size = Vector3(8, 8, 0.5)
+
+[node name="PortalFrame" type="StaticBody3D"]
+collision_mask = 0
+
+[node name="Mesh" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+size = Vector3(8, 8, 0.5)
+material = SubResource("StandardMaterial3D_l27wx")
+
+[node name="Cutout" type="CSGBox3D" parent="Mesh"]
+operation = 2
+size = Vector3(7, 7, 1)
+material = SubResource("StandardMaterial3D_vbol7")
+
+[node name="CollisionShapeTop" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.75, 0)
+shape = SubResource("BoxShape3D_p2mi6")
+
+[node name="CollisionShapeBottom" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_p2mi6")
+
+[node name="CollisionShapeLeft" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75, 4, 0)
+shape = SubResource("BoxShape3D_q0cd2")
+
+[node name="CollisionShapeRight" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.75, 4, 0)
+shape = SubResource("BoxShape3D_q0cd2")
+
+[node name="ClickArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="ClickArea"]
+shape = SubResource("BoxShape3D_3opeg")

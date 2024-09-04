@@ -7,16 +7,11 @@
 script = ExtResource("1_vfyow")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
-portal1 = true
 otherPortal = NodePath("../Portal2")
-size = Vector2(1, 2)
-portal_area_margin = Vector3(0.1, 0.1, 1)
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("otherPortal") instance=ExtResource("1_qv77c")]
 portal1 = false
 otherPortal = NodePath("../Portal1")
-size = Vector2(1, 2)
-portal_area_margin = Vector3(0.1, 0.1, 1)
 
 [editable path="Portal1"]
 [editable path="Portal2"]

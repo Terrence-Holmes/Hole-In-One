@@ -13,7 +13,6 @@ class_name Portal
 @onready var cameraViewContainer : Node3D = get_node("CameraViews")
 @onready var passHitbox : Area3D = get_node("PassHitbox")
 @onready var passHitbox_cs : CollisionShape3D = passHitbox.get_node("CollisionShape")
-@onready var shapecast : ShapeCast3D = get_node("ShapeCast")
 var viewports : Array[SubViewport]
 var cameras : Array[Camera3D]
 var cameraViews : Array[CSGBox3D]
@@ -315,20 +314,11 @@ func _body_entered(body):
 		_add_tracked_body(body)
 
 func _body_exited(body):
-	if (not _check_shapecast_collision(body) or passHitbox_cs.disabled):
-		_remove_tracked_body(body)
+	_remove_tracked_body(body)
 
 
 
 #RETURNS
-
-#Returns true if the shapecast is colliding with the given body
-func _check_shapecast_collision(body):
-	shapecast.force_shapecast_update()
-	for i in range(shapecast.get_collision_count()):
-		if (shapecast.get_collider(i) == body):
-			return true
-	return false
 
 # Edge case but possible. Adding this to prevent teleporting twice if body lands exactly on portal plane
 func _nonzero_sign(value):

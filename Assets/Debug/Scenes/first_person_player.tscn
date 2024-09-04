@@ -13,6 +13,7 @@
 albedo_color = Color(1, 0, 0, 1)
 
 [node name="FirstPersonPlayer" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_uvln5")
 
 [node name="Input" type="Node" parent="."]

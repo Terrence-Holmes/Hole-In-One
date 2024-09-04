@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=27 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bo2vdokaser3c" path="res://Assets/Environment/Textures/TestCity2.png" id="5_r0pyo"]
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
 [ext_resource type="PackedScene" uid="uid://b0ris7n8cfaa6" path="res://Assets/Debug/Scenes/first_person_player.tscn" id="9_gxofw"]
+[ext_resource type="PackedScene" uid="uid://dbpa5oy8u48k7" path="res://Assets/Props/Scenes/portal_frame.tscn" id="9_pce2k"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -188,6 +189,9 @@ transform = Transform3D(1, 0, 0, 0, 0.0593063, 0.99824, 0, -0.99824, 0.0593063, 
 
 [node name="FirstPersonPlayer" parent="." instance=ExtResource("9_gxofw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94476, 0)
+
+[node name="PortalFrame" parent="." instance=ExtResource("9_pce2k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.9608)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]
