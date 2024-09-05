@@ -50,10 +50,10 @@ shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7p0mn"]
-size = Vector3(5.2, 8.2, 4)
+size = Vector3(5.2, 8.2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r5lt3"]
-size = Vector3(5.2, 8.2, 4)
+size = Vector3(5.2, 8.2, 2)
 
 [node name="rm_test1" type="Node3D"]
 
@@ -133,7 +133,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94476, 0)
 transform = Transform3D(0.766078, 0, -0.642748, 0, 1, 0, 0.642748, 0, 0.766078, 0, -0.51, 13.961)
 
 [node name="PortalFrame2" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(0.429755, 0, -0.902946, 0, 1, 0, 0.902946, 0, 0.429755, 13.4764, -0.51, 7.93918)
+transform = Transform3D(0.2033, 0, 0.979117, 0, 1, 0, -0.979117, 0, 0.2033, 13.4764, -0.51, 7.93918)
+frame1 = false
+
+[node name="PortalFrame3" parent="." instance=ExtResource("9_pce2k")]
+transform = Transform3D(-0.841077, 0, -0.540916, 0, 1, 0, 0.540916, 0, -0.841077, -5.66851, -0.51, -5.87988)
 frame1 = false
 
 [editable path="PortalSpawner"]

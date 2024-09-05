@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://b0ris7n8cfaa6"]
+[gd_scene load_steps=10 format=3 uid="uid://b0ris7n8cfaa6"]
 
 [ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonPlayer.gd" id="1_uvln5"]
 [ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonInput.gd" id="2_745a1"]
 [ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonCamera.gd" id="3_ctndn"]
+[ext_resource type="Script" path="res://Assets/Control/Utilities/CameraRay.gd" id="4_2vsu8"]
 [ext_resource type="Script" path="res://Assets/Debug/Scripts/FakeRig.gd" id="4_d367x"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bnorq"]
@@ -11,6 +12,10 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yutkg"]
 albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ce1h8"]
+radius = 0.2
+height = 0.4
 
 [node name="FirstPersonPlayer" type="CharacterBody3D"]
 collision_layer = 2
@@ -31,5 +36,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 current = true
 script = ExtResource("3_ctndn")
 
+[node name="CameraRay" type="Node3D" parent="Camera" node_paths=PackedStringArray("camera")]
+script = ExtResource("4_2vsu8")
+camera = NodePath("..")
+collisionMask = 4
+
 [node name="FakeRig" type="Node3D" parent="."]
 script = ExtResource("4_d367x")
+
+[node name="Test" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ce1h8")

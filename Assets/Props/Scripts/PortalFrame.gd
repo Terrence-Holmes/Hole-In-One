@@ -10,6 +10,7 @@ class_name PortalFrame
 @onready var meshCutout : CSGBox3D = mesh.get_node("Cutout")
 var portalSpawner : Node3D = null
 
+var selected_mat : StandardMaterial3D = preload("res://Assets/Props/Materials/frameSelect_mat.tres")
 var default_mat : StandardMaterial3D = preload("res://Assets/Props/Materials/frame0_mat.tres")
 var portal1_mat : StandardMaterial3D = preload("res://Assets/Props/Materials/frame1_mat.tres")
 var portal2_mat : StandardMaterial3D = preload("res://Assets/Props/Materials/frame2_mat.tres")
@@ -57,3 +58,10 @@ func unset_portal():
 	mesh.material = default_mat
 	meshCutout.material = default_mat
 
+
+func select_frame():
+	mesh.material_override = selected_mat
+
+func unselect_frame():
+	print("wtf")
+	mesh.material_override = null

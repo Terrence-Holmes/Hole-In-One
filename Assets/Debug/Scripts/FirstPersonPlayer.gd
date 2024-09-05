@@ -3,6 +3,7 @@ extends CharacterBody3D
 #References
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var camera : Camera3D = get_node_or_null("Camera")
+@onready var cameraRay : CameraRay = camera.get_node("CameraRay")
 
 #Vector directions
 var forward : Vector3:
@@ -54,7 +55,6 @@ func _physics_process(delta):
 		_apply_movement()
 		#Looking
 		_apply_look()
-
 
 func _set_movement_velocity():
 	#Set target speed
