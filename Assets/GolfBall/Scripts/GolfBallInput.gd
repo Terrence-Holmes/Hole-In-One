@@ -9,11 +9,17 @@ var mouseMoved : bool = false
 
 var aimingShot : bool = false
 
+#Mouse lock
+var _mouseLocked : bool:
+	get:
+		return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
+
 
 func _process(delta):
 	_manage_launch()
 	_manage_shot_aim()
 	_manage_camera_direction()
+	_manage_mouse_lock()
 
 func _manage_launch():
 	if (Input.is_action_just_pressed("LaunchBall")):
@@ -28,8 +34,22 @@ func _manage_camera_direction():
 	else:
 		mouseMoved = false
 
+func _manage_mouse_lock():
+	if (Input.is_action_just_pressed("MouseLock") and not _mouseLocked):
+		lock_mouse()
+	elif (Input.is_action_just_released("MouseLock") and _mouseLocked):
+		unlock_mouse()
+
 
 func _input(event):
-	if (event is InputEventMouseMotion and not aimingShot):
+	if (event is InputEventMouseMotion and not aimingShot and _mouseLocked):
 		cameraRig.direction_input = event.relative
 		mouseMoved = true
+
+
+
+func lock_mouse():
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func unlock_mouse():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

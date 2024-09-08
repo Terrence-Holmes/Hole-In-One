@@ -10,6 +10,10 @@ extends Node3D
 var prevSize : Vector2 = Vector2.ZERO
 
 
+func _ready():
+	if (not Engine.is_editor_hint()):
+		queue_free()
+
 
 func _process(delta):
 	_set_size()

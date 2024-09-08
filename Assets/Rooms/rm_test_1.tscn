@@ -126,19 +126,17 @@ shape = SubResource("BoxShape3D_r5lt3")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0593063, 0.99824, 0, -0.99824, 0.0593063, 0, 66.86, -37.34)
 
-[node name="FirstPersonPlayer" parent="." instance=ExtResource("9_gxofw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94476, 0)
-
 [node name="PortalFrame" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(0.766078, 0, -0.642748, 0, 1, 0, 0.642748, 0, 0.766078, 0, -0.51, 13.961)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51, 13.961)
 
 [node name="PortalFrame2" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(0.2033, 0, 0.979117, 0, 1, 0, -0.979117, 0, 0.2033, 13.4764, -0.51, 7.93918)
-frame1 = false
+transform = Transform3D(-0.0234552, 0, -0.999725, 0, 1, 0, 0.999725, 0, -0.0234552, 13.4764, -0.51, 7.93918)
 
 [node name="PortalFrame3" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(-0.841077, 0, -0.540916, 0, 1, 0, 0.540916, 0, -0.841077, -5.66851, -0.51, -5.87988)
-frame1 = false
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.66851, -0.51, -5.87988)
+
+[node name="FirstPersonPlayer" parent="." instance=ExtResource("9_gxofw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

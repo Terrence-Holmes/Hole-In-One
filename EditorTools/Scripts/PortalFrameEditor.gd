@@ -10,18 +10,7 @@ extends Node3D
 var prevSize : float = 7
 
 
+func _ready():
+	if (not Engine.is_editor_hint()):
+		queue_free()
 
-func _process(delta):
-	_set_size()
-
-
-func _set_size():
-	if (prevSize != frame.size):
-		prevSize = frame.size
-		
-		#Resize frame
-		mesh.size = Vector3(frame.size + 1, frame.size + 1, 0.5)
-		meshCutout.size = Vector3(frame.size, frame.size, 1)
-		
-		#Resize click area
-		clickArea_cs.shape.size = Vector3(frame.size + 1, frame.size + 1, 0.5)

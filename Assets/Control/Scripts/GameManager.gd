@@ -8,6 +8,9 @@ var mainCamera : Camera3D = null
 var cameraRay : CameraRay = null
 var selectedFrame : PortalFrame = null
 
+var portalBodies : Array[Node3D] = []
+
+
 func _process(delta):
 	_detect_portal_shots()
 

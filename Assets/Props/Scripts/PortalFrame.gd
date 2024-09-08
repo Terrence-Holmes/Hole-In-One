@@ -2,8 +2,7 @@ extends StaticBody3D
 class_name PortalFrame
 
 @export_category("Portal Frame")
-@export var frame1 : bool = true
-@export var size : float = 7
+const size : float = 7
 
 #References
 @onready var mesh : CSGBox3D = get_node("Mesh")
@@ -20,18 +19,6 @@ func _ready():
 	portalSpawner = get_tree().current_scene.get_node_or_null("PortalSpawner")
 
 
-
-func _process(delta):
-	if (Input.is_action_just_pressed("Debug1")):
-		if (frame1):
-			set_portal(true)
-		else:
-			set_portal(false)
-	if (Input.is_action_just_pressed("Debug2")):
-		if (not frame1):
-			set_portal(true)
-		else:
-			set_portal(false)
 
 func set_portal(portal1 : bool):
 	if (portalSpawner != null):
@@ -63,5 +50,4 @@ func select_frame():
 	mesh.material_override = selected_mat
 
 func unselect_frame():
-	print("wtf")
 	mesh.material_override = null

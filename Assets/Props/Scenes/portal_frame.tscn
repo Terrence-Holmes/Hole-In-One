@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbpa5oy8u48k7"]
+[gd_scene load_steps=11 format=3 uid="uid://dbpa5oy8u48k7"]
 
 [ext_resource type="Script" path="res://Assets/Props/Scripts/PortalFrame.gd" id="1_7m2ab"]
 [ext_resource type="Material" uid="uid://43vigqrym0t2" path="res://Assets/Props/Materials/frame0_mat.tres" id="2_3byrv"]
+[ext_resource type="Script" path="res://EditorTools/Scripts/PortalFrameEditor.gd" id="3_xiih7"]
+[ext_resource type="Shader" path="res://EditorTools/Shaders/wireframe_shader.gdshader" id="4_cothp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_p2mi6"]
 size = Vector3(8, 0.5, 0.5)
@@ -11,6 +13,30 @@ size = Vector3(0.5, 8, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3opeg"]
 size = Vector3(7, 7, 0.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5mdsh"]
+top_radius = 0.0
+bottom_radius = 0.3
+height = 4.0
+radial_segments = 7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hvr5l"]
+render_priority = 0
+shader = ExtResource("4_cothp")
+shader_parameter/modelColor = Color(1, 0, 0, 1)
+shader_parameter/wireframeColor = Color(0, 0, 1, 1)
+shader_parameter/width = 2.0
+shader_parameter/modelOpacity = 0.0
+shader_parameter/filtered = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hqu0r"]
+render_priority = 0
+shader = ExtResource("4_cothp")
+shader_parameter/modelColor = null
+shader_parameter/wireframeColor = Color(1, 0, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/modelOpacity = 0.0
+shader_parameter/filtered = false
 
 [node name="PortalFrame" type="StaticBody3D"]
 collision_mask = 0
@@ -49,3 +75,16 @@ collision_mask = 0
 
 [node name="CollisionShape" type="CollisionShape3D" parent="ClickArea"]
 shape = SubResource("BoxShape3D_3opeg")
+
+[node name="Editor" type="Node3D" parent="."]
+script = ExtResource("3_xiih7")
+
+[node name="Forward" type="MeshInstance3D" parent="Editor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4, 2)
+mesh = SubResource("CylinderMesh_5mdsh")
+surface_material_override/0 = SubResource("ShaderMaterial_hvr5l")
+
+[node name="Backward" type="MeshInstance3D" parent="Editor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4, -2)
+mesh = SubResource("CylinderMesh_5mdsh")
+surface_material_override/0 = SubResource("ShaderMaterial_hqu0r")

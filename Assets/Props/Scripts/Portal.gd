@@ -96,7 +96,17 @@ func _ready():
 		cameraViews.append(newView)
 
 
+var lateReady : bool = false
+func _late_ready():
+	lateReady = true
+	
+	for body in GameManager.portalBodies:
+		_add_tracked_body(body)
+
 func _process(delta):
+	if (not lateReady):
+		_late_ready()
+	
 	passHitbox_cs.disabled = not visible
 	_check_for_teleport()
 	_setup_camera()
@@ -166,6 +176,11 @@ func _teleport_to_other(body : PhysicsBody3D):
 	var transformAtOtherPortal : Transform3D = otherPortal.global_transform * transformRelative
 	body.global_transform = transformAtOtherPortal
 	
+	#Rotate the camera
+	if (body.get("camRotation") != null):
+		var angleDifference : float = otherPortal.global_rotation.y - global_rotation.y
+		body.camRotation.y = body.camRotation.y + angleDifference
+	
 	#Translate the body's velocity
 	var euler : Vector3 = otherPortal.global_transform.basis.get_euler() - global_transform.basis.get_euler()
 	if (body is RigidBody3D):
@@ -178,6 +193,12 @@ func _teleport_to_other(body : PhysicsBody3D):
 			.rotated(Vector3(1, 0, 0), euler.x) \
 			.rotated(Vector3(0, 1, 0), euler.y) \
 			.rotated(Vector3(0, 0, 1), euler.z)
+		
+		if (body.get("velocity_move") != null):
+			body.velocity_move = body.velocity_move \
+				.rotated(Vector3(1, 0, 0), euler.x) \
+				.rotated(Vector3(0, 1, 0), euler.y) \
+				.rotated(Vector3(0, 0, 1), euler.z)
 	
 	_remove_tracked_body(body)
 	var newlyTrackedBody = otherPortal._add_tracked_body(body)
@@ -324,10 +345,12 @@ func _body_entered(body):
 	#Disable static bodies and CSGShape3Ds
 	if (not body.is_class("StaticBody3D") and not body.is_class("CSGShape3D")):
 #		if (_check_shapecast_collision(body)):
-		_add_tracked_body(body)
+		#_add_tracked_body(body)
+		pass
 
 func _body_exited(body):
-	_remove_tracked_body(body)
+	#_remove_tracked_body(body)
+	pass
 
 
 

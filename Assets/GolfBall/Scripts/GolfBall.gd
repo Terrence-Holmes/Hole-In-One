@@ -1,6 +1,15 @@
 extends RigidBody3D
 class_name GolfBall
 
+#References
+@onready var cameraRig : CameraRig = get_node("CameraRig")
+
+var camRotation : Vector3:
+	get:
+		return cameraRig.camRotation
+	set (value):
+		cameraRig.camRotation = value
+
 var launchPower : Vector2 = Vector2(1, 4)
 var powerCharge : float = 1
 var aimDirection : Vector3 = Vector3(0, 0, 0)
