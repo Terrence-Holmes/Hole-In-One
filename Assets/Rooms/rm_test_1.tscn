@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://rmlh6ijg35ny" path="res://Assets/Environment/Textures/TestCity1.png" id="4_gw7x7"]
 [ext_resource type="Texture2D" uid="uid://bo2vdokaser3c" path="res://Assets/Environment/Textures/TestCity2.png" id="5_r0pyo"]
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
-[ext_resource type="PackedScene" uid="uid://b0ris7n8cfaa6" path="res://Assets/Debug/Scenes/first_person_player.tscn" id="9_gxofw"]
 [ext_resource type="PackedScene" uid="uid://dbpa5oy8u48k7" path="res://Assets/Props/Scenes/portal_frame.tscn" id="9_pce2k"]
+[ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="9_rprfd"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -135,8 +135,8 @@ transform = Transform3D(-0.0234552, 0, -0.999725, 0, 1, 0, 0.999725, 0, -0.02345
 [node name="PortalFrame3" parent="." instance=ExtResource("9_pce2k")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.66851, -0.51, -5.87988)
 
-[node name="FirstPersonPlayer" parent="." instance=ExtResource("9_gxofw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="GolfBall" parent="." instance=ExtResource("9_rprfd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

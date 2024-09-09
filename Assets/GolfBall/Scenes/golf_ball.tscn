@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cr24506lx5woj"]
+[gd_scene load_steps=12 format=3 uid="uid://cr24506lx5woj"]
 
 [ext_resource type="Script" path="res://Assets/GolfBall/Scripts/GolfBall.gd" id="1_wobwq"]
 [ext_resource type="Script" path="res://Assets/GolfBall/Scripts/CameraRig.gd" id="1_xpl75"]
 [ext_resource type="Script" path="res://Assets/GolfBall/Scripts/GolfBallInput.gd" id="1_yi1ei"]
+[ext_resource type="Script" path="res://Assets/Control/Utilities/LineRenderer.gd" id="3_06j8d"]
+[ext_resource type="Texture2D" uid="uid://co2olikbgwmo2" path="res://Assets/GolfBall/Textures/AimLineTexture.png" id="3_67122"]
 [ext_resource type="Script" path="res://Assets/Control/Utilities/CameraRay.gd" id="4_fv0c2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6ycdi"]
@@ -11,6 +13,14 @@ bounce = 0.3
 [sub_resource type="SphereShape3D" id="SphereShape3D_sf888"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_mj84h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ltpf"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+albedo_texture = ExtResource("3_67122")
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_xo2wv"]
 
 [node name="GolfBall" type="RigidBody3D"]
 collision_layer = 2
@@ -25,6 +35,14 @@ shape = SubResource("SphereShape3D_sf888")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_mj84h")
+
+[node name="AimLine" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_8ltpf")
+mesh = SubResource("ImmediateMesh_xo2wv")
+script = ExtResource("3_06j8d")
+start_thickness = 0.4
+end_thickness = 0.4
+draw_caps = false
 
 [node name="CameraRig" type="Node3D" parent="."]
 script = ExtResource("1_xpl75")

@@ -6,8 +6,12 @@ class_name GolfBallInput
 @onready var cameraRig : CameraRig = root.get_node("CameraRig")
 
 var mouseMoved : bool = false
-
-var aimingShot : bool = false
+var cameraGrabbed : bool = false
+var aiming : bool:
+	get:
+		return root.aiming
+	set (value):
+		root.aiming = value
 
 #Mouse lock
 var _mouseLocked : bool:
@@ -18,32 +22,43 @@ var _mouseLocked : bool:
 func _process(delta):
 	_manage_launch()
 	_manage_shot_aim()
-	_manage_camera_direction()
+	_manage_camera_movement()
 	_manage_mouse_lock()
 
 func _manage_launch():
-	if (Input.is_action_just_pressed("LaunchBall")):
-		root.launch()
+	pass
 
 func _manage_shot_aim():
-	aimingShot = Input.is_action_pressed("PrepareAim")
+	if (GameManager.preparingAim):
+		aiming = (Input.is_action_pressed("PrepareAim") and not cameraGrabbed)
+		if (not mouseMoved):
+			root.aimInput = Vector2.ZERO
+	else:
+		aiming = false
+		root.aimInput = Vector2.ZERO
 
-func _manage_camera_direction():
-	if (not mouseMoved or aimingShot):
+func _manage_camera_movement():
+	cameraGrabbed = (Input.is_action_pressed("GrabCamera") and not aiming)
+	if (not mouseMoved):
 		cameraRig.direction_input = Vector2.ZERO
 	else:
 		mouseMoved = false
 
 func _manage_mouse_lock():
-	if (Input.is_action_just_pressed("MouseLock") and not _mouseLocked):
+	if (not _mouseLocked and
+	(aiming or cameraGrabbed)):
 		lock_mouse()
-	elif (Input.is_action_just_released("MouseLock") and _mouseLocked):
+	elif (_mouseLocked and 
+	(not aiming and not cameraGrabbed)):
 		unlock_mouse()
 
 
 func _input(event):
-	if (event is InputEventMouseMotion and not aimingShot and _mouseLocked):
-		cameraRig.direction_input = event.relative
+	if (event is InputEventMouseMotion):
+		if (_mouseLocked and not root.aiming):
+			cameraRig.direction_input = event.relative
+		elif (root.aiming):
+			root.aimInput = event.relative
 		mouseMoved = true
 
 

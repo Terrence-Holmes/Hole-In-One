@@ -4,11 +4,17 @@ extends Node
 var mainCameraRig : Node3D = null
 var mainCamera : Camera3D = null
 
+var preparingAim : bool = false
+
 #Portal shots
+var portalReady : int = 1 #Determines which portal is ready to be shot. 0 = no portal is ready
 var cameraRay : CameraRay = null
 var selectedFrame : PortalFrame = null
 
-var portalBodies : Array[Node3D] = []
+#Mouse lock
+var mouseLocked : bool:
+	get:
+		return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
 
 
 func _process(delta):
@@ -16,21 +22,26 @@ func _process(delta):
 
 
 func _detect_portal_shots():
-	#Get selected frame
-	if (cameraRay != null and cameraRay.resultCollider != null):
-		if (cameraRay.resultCollider != null and selectedFrame != cameraRay.resultCollider.get_parent()):
-			if (selectedFrame != null):
-				selectedFrame.unselect_frame()
-			selectedFrame = cameraRay.resultCollider.get_parent()
-			selectedFrame.select_frame()
-	#Disable selected frame
+	if ((portalReady == 1 or portalReady == 2) and not mouseLocked):
+		#Get selected frame
+		if (cameraRay != null and cameraRay.resultCollider != null):
+			if (cameraRay.resultCollider != null and selectedFrame != cameraRay.resultCollider.get_parent()):
+				if (selectedFrame != null):
+					selectedFrame.unselect_frame()
+				selectedFrame = cameraRay.resultCollider.get_parent()
+				selectedFrame.select_frame()
+		#Disable selected frame
+		elif (selectedFrame != null):
+			selectedFrame.unselect_frame()
+			selectedFrame = null
+		
+		#Check for shots
+		if (selectedFrame != null and Input.is_action_just_pressed("Portal")):
+			if (portalReady == 1):
+				selectedFrame.set_portal(true)
+				portalReady = 2
+			elif (portalReady == 2):
+				selectedFrame.set_portal(false)
+				portalReady = 1
 	elif (selectedFrame != null):
 		selectedFrame.unselect_frame()
-		selectedFrame = null
-	
-	#Check for shots
-	if (selectedFrame != null):
-		if (Input.is_action_just_pressed("Portal1")):
-			selectedFrame.set_portal(true)
-		elif (Input.is_action_just_pressed("Portal2")):
-			selectedFrame.set_portal(false)

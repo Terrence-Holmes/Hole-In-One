@@ -95,17 +95,7 @@ func _ready():
 		newView.size = Vector3(size.x, size.y, 0.1)
 		cameraViews.append(newView)
 
-
-var lateReady : bool = false
-func _late_ready():
-	lateReady = true
-	
-	for body in GameManager.portalBodies:
-		_add_tracked_body(body)
-
 func _process(delta):
-	if (not lateReady):
-		_late_ready()
 	
 	passHitbox_cs.disabled = not visible
 	_check_for_teleport()
@@ -215,7 +205,7 @@ func _get_pass_through_bodies() -> Array:
 		var prevOffsetFromPortal : Vector3 = body.position_last_frame - global_position #Get the object's last position offset
 		var portalSide = _nonzero_sign(offsetFromPortal.dot(forward)) #Get which side of the portal the object is on
 		var prevPortalSide = _nonzero_sign(prevOffsetFromPortal.dot(forward)) #Get the previous side that the object was on
-		if (portalSide != prevPortalSide and distMoved.length() < moveTeleportThreshold):
+		if (portalSide != prevPortalSide):# and distMoved.length() < moveTeleportThreshold):
 			passedThrough.push_back(body.body)
 		#Update previous position
 		body.lastPosition = posNode.global_position
@@ -344,13 +334,11 @@ func set_size(newSize : Vector2):
 func _body_entered(body):
 	#Disable static bodies and CSGShape3Ds
 	if (not body.is_class("StaticBody3D") and not body.is_class("CSGShape3D")):
-#		if (_check_shapecast_collision(body)):
-		#_add_tracked_body(body)
-		pass
+		#if (_check_shapecast_collision(body)):
+		_add_tracked_body(body)
 
 func _body_exited(body):
-	#_remove_tracked_body(body)
-	pass
+	_remove_tracked_body(body)
 
 
 

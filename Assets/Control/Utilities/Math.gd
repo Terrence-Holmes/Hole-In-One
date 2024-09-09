@@ -9,11 +9,20 @@ static func PosOrNeg(num) -> int:
 
 
 #Returns the given angle (in degrees) clamped between 0 and 360
-static func ClampAngle(degree : float) -> float:
+static func ClampAngleDegrees(degree : float) -> float:
 	if (degree >= 360):
 		degree -= 360
 	elif (degree < 0):
 		degree += 360
+	
+	return degree
+
+#Returns the given angle (in radians) clamped between 0 and 360
+static func ClampAngleRadians(degree : float) -> float:
+	if (degree >= TAU):
+		degree -= TAU
+	elif (degree < 0):
+		degree += TAU
 	
 	return degree
 

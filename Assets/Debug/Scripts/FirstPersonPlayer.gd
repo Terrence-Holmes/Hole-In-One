@@ -45,9 +45,6 @@ var _mouseLocked : bool:
 	get:
 		return (get_node_or_null("Input") == null or get_node("Input")._mouseLocked)
 
-func _ready():
-	GameManager.portalBodies.append(self)
-
 var deltaTime : float = 0
 func _physics_process(delta):
 	deltaTime = delta
