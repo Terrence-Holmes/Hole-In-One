@@ -16,18 +16,18 @@ var speed : float:
 		return linear_velocity.length()
 
 #Stopping
-var minimumSpeed : float = 0.2 #The minimum speed that the ball can travel before stopping
+const minimumSpeed : float = 0.2 #The minimum speed that the ball can travel before stopping
 var stopTimer : Timer = Timer.new()
 
 #Launch
-var launchPower : Vector2 = Vector2(1, 100)
-var chargeSpeed : float = 1
+const launchPower : Vector2 = Vector2(1, 100)
+const chargeSpeed : float = 1
 var chargeInput : bool = false
 var powerCharge : float = -1
 
 #Aim
 var aimSensitivity : float = 0.005
-var aimLineLength : float = 7
+const aimLineLength : float = 7
 var aimInput : Vector2 = Vector2.ZERO
 var aiming : bool = false
 var aimAngle : Vector2 = Vector2.ZERO

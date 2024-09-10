@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=27 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dbpa5oy8u48k7" path="res://Assets/Props/Scenes/portal_frame.tscn" id="9_pce2k"]
 [ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="9_rprfd"]
 [ext_resource type="PackedScene" uid="uid://bm1aixqc5857j" path="res://Assets/UI/Scenes/ball_ui.tscn" id="10_v2gly"]
+[ext_resource type="PackedScene" uid="uid://biat2a2xa8b87" path="res://Assets/Environment/Terrain/TestTerrain1/test_terrain_1.tscn" id="11_2cfry"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -157,6 +158,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="BallUI" parent="CanvasLayer" instance=ExtResource("10_v2gly")]
+
+[node name="HTerrain" parent="." instance=ExtResource("11_2cfry")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 10.19, 16.565, 19.705)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

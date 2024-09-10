@@ -45,7 +45,7 @@ var relativeMatrix : Transform3D:
 
 
 var trackedBodies = []
-var moveTeleportThreshold : float = 2
+#var moveTeleportThreshold : float = 2
 
 #Mesh duplicate cache
 #Supposedly helps with performance and makes the transition from portal to portal slightly smoother

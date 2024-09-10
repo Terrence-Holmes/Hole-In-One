@@ -5,13 +5,11 @@ class_name CameraRig
 @onready var root : Node3D = get_parent()
 @onready var camera : Camera3D = get_node("Camera")
 
-var height : float = 4
-var distance : float = 12
-
+const height : float = 4
+const distance : float = 12
 var sensitivity : float = 8
 
 var direction_input : Vector2 = Vector2.ZERO
-
 var camRotation : Vector3 = Vector3.ZERO
 
 
