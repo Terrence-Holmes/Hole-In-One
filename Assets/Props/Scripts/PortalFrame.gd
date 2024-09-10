@@ -30,8 +30,8 @@ func set_portal(portal1 : bool):
 		portalToSet.global_position.y += (size / 2) + 0.5
 		
 		#Unset the old frame
-		#if (portalToSet.frame != null):
-			#portalToSet.frame.unset_portal()
+		if (portalToSet.frame != null):
+			portalToSet.frame.unset_portal()
 		
 		#Set new frame reference
 		portalToSet.frame = self

@@ -26,10 +26,10 @@ func _process(delta):
 	_manage_mouse_lock()
 
 func _manage_launch():
-	pass
+	root.chargeInput = Input.is_action_pressed("LaunchBall")
 
 func _manage_shot_aim():
-	if (GameManager.preparingAim):
+	if (GameManager.ballStatus == GameManager.BallStatus.AIMING):
 		aiming = (Input.is_action_pressed("PrepareAim") and not cameraGrabbed)
 		if (not mouseMoved):
 			root.aimInput = Vector2.ZERO

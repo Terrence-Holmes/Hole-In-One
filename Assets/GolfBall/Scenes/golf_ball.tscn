@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://Assets/Control/Utilities/CameraRay.gd" id="4_fv0c2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6ycdi"]
-bounce = 0.3
+bounce = 0.4
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_sf888"]
 
@@ -25,6 +25,8 @@ albedo_texture = ExtResource("3_67122")
 [node name="GolfBall" type="RigidBody3D"]
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_6ycdi")
+linear_damp = 0.4
+angular_damp = 0.8
 script = ExtResource("1_wobwq")
 
 [node name="Input" type="Node" parent="."]

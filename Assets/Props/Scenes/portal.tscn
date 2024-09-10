@@ -9,6 +9,7 @@ size = Vector3(1.2, 2.2, 2)
 
 [node name="Portal" type="Node3D"]
 script = ExtResource("1_f0wwu")
+portal_area_margin = Vector3(0.5, 0.5, 5)
 portalShader = ExtResource("2_g3xgm")
 
 [node name="CameraViews" type="Node3D" parent="."]

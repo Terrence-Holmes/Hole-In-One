@@ -5,7 +5,6 @@ var value
 
 #Constructor
 func _init(Key, Value):
-	super._init()
 	key = Key
 	value = Value
 

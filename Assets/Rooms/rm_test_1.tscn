@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=26 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
 [ext_resource type="PackedScene" uid="uid://dbpa5oy8u48k7" path="res://Assets/Props/Scenes/portal_frame.tscn" id="9_pce2k"]
 [ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="9_rprfd"]
+[ext_resource type="PackedScene" uid="uid://bm1aixqc5857j" path="res://Assets/UI/Scenes/ball_ui.tscn" id="10_v2gly"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -49,11 +50,17 @@ albedo_texture = ExtResource("5_r0pyo")
 shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
+[sub_resource type="BoxMesh" id="BoxMesh_f2de3"]
+size = Vector3(50, 0.1, 70)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ubhb0"]
+size = Vector3(50, 0.1, 70)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_7p0mn"]
-size = Vector3(5.2, 8.2, 2)
+size = Vector3(6, 9, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r5lt3"]
-size = Vector3(5.2, 8.2, 2)
+size = Vector3(6, 9, 10)
 
 [node name="rm_test1" type="Node3D"]
 
@@ -107,6 +114,15 @@ transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -
 material_override = SubResource("StandardMaterial3D_1c3q2")
 mesh = SubResource("PlaneMesh_cgqcc")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -126.446, 11.2866, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_f2de3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_ubhb0")
+
 [node name="PortalSpawner" parent="." instance=ExtResource("3_wtq5x")]
 
 [node name="Portal1" parent="PortalSpawner" index="0"]
@@ -130,13 +146,17 @@ transform = Transform3D(1, 0, 0, 0, 0.0593063, 0.99824, 0, -0.99824, 0.0593063, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51, 13.961)
 
 [node name="PortalFrame2" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(-0.0234552, 0, -0.999725, 0, 1, 0, 0.999725, 0, -0.0234552, 13.4764, -0.51, 7.93918)
+transform = Transform3D(0.224951, 0, 0.97437, 0, 1, 0, -0.97437, 0, 0.224951, 13.4764, -0.51, 7.93918)
 
 [node name="PortalFrame3" parent="." instance=ExtResource("9_pce2k")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.66851, -0.51, -5.87988)
 
 [node name="GolfBall" parent="." instance=ExtResource("9_rprfd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BallUI" parent="CanvasLayer" instance=ExtResource("10_v2gly")]
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

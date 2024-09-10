@@ -1,5 +1,6 @@
 extends Node
 
+enum BallStatus { PORTAL1, PORTAL2, AIMING, LAUNCHING, MOVING, INACTIVE }
 
 var mainCameraRig : Node3D = null
 var mainCamera : Camera3D = null
@@ -7,7 +8,7 @@ var mainCamera : Camera3D = null
 var preparingAim : bool = false
 
 #Portal shots
-var portalReady : int = 1 #Determines which portal is ready to be shot. 0 = no portal is ready
+var ballStatus : BallStatus = BallStatus.PORTAL1
 var cameraRay : CameraRay = null
 var selectedFrame : PortalFrame = null
 
@@ -22,7 +23,7 @@ func _process(delta):
 
 
 func _detect_portal_shots():
-	if ((portalReady == 1 or portalReady == 2) and not mouseLocked):
+	if ((ballStatus == BallStatus.PORTAL1 or ballStatus == BallStatus.PORTAL2) and not mouseLocked):
 		#Get selected frame
 		if (cameraRay != null and cameraRay.resultCollider != null):
 			if (cameraRay.resultCollider != null and selectedFrame != cameraRay.resultCollider.get_parent()):
@@ -37,11 +38,11 @@ func _detect_portal_shots():
 		
 		#Check for shots
 		if (selectedFrame != null and Input.is_action_just_pressed("Portal")):
-			if (portalReady == 1):
+			if (ballStatus == BallStatus.PORTAL1):
 				selectedFrame.set_portal(true)
-				portalReady = 2
-			elif (portalReady == 2):
+				ballStatus = BallStatus.PORTAL2
+			elif (ballStatus == BallStatus.PORTAL2):
 				selectedFrame.set_portal(false)
-				portalReady = 1
+				ballStatus = BallStatus.PORTAL1
 	elif (selectedFrame != null):
 		selectedFrame.unselect_frame()

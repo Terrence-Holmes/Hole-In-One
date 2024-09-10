@@ -40,6 +40,23 @@ static func RandomChoice(arr : Array):
 	return (arr[randi() % arr.size()])
 
 
+#VECTORS AND MATRICES
+
+static func GetForward(transform : Transform3D) -> Vector3:
+	return -transform.basis.z
+static func GetBackward(transform : Transform3D) -> Vector3:
+	return transform.basis.z
+static func GetLeft(transform : Transform3D) -> Vector3:
+	return -transform.basis.x
+static func GetRight(transform : Transform3D) -> Vector3:
+	return transform.basis.x
+static func GetDown(transform : Transform3D) -> Vector3:
+	return -transform.basis.y
+static func GetUp(transform : Transform3D) -> Vector3:
+	return transform.basis.y
+
+
+
 #TIME
 
 #Returns true if the given number of seconds have passed since the given start time
