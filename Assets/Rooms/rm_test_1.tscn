@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=28 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -8,9 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bo2vdokaser3c" path="res://Assets/Environment/Textures/TestCity2.png" id="5_r0pyo"]
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
 [ext_resource type="PackedScene" uid="uid://dbpa5oy8u48k7" path="res://Assets/Props/Scenes/portal_frame.tscn" id="9_pce2k"]
-[ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="9_rprfd"]
+[ext_resource type="PackedScene" uid="uid://b0ris7n8cfaa6" path="res://Assets/Debug/Scenes/first_person_player.tscn" id="10_45uir"]
 [ext_resource type="PackedScene" uid="uid://bm1aixqc5857j" path="res://Assets/UI/Scenes/ball_ui.tscn" id="10_v2gly"]
-[ext_resource type="PackedScene" uid="uid://caovniapxnonr" path="res://Assets/Environment/Terrain/TestTerrain2/test_terrain_2.tscn" id="11_3cenn"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -51,26 +50,21 @@ albedo_texture = ExtResource("5_r0pyo")
 shading_mode = 0
 albedo_texture = ExtResource("6_738j8")
 
-[sub_resource type="BoxMesh" id="BoxMesh_f2de3"]
-size = Vector3(50, 0.1, 70)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ubhb0"]
-size = Vector3(50, 0.1, 70)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_7p0mn"]
 size = Vector3(6, 9, 10)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r5lt3"]
 size = Vector3(6, 9, 10)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slw3q"]
-albedo_color = Color(0.501961, 0.364706, 0.231373, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_0q70l"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_y3oht"]
-size = Vector3(30, 0.4, 30)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hsod7"]
+albedo_color = Color(0, 0, 1, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1h714"]
-size = Vector3(30, 0.4, 30)
+[sub_resource type="CylinderMesh" id="CylinderMesh_mlath"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvrmx"]
+albedo_color = Color(1, 0, 1, 1)
 
 [node name="rm_test1" type="Node3D"]
 
@@ -78,6 +72,7 @@ size = Vector3(30, 0.4, 30)
 transform = Transform3D(1, 0, 0, 0, -0.690428, 0.723401, 0, -0.723401, -0.690428, 0, 7.59945, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="BallUI" parent="CanvasLayer" instance=ExtResource("10_v2gly")]
 
@@ -98,14 +93,17 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ldkhe")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.3844, 2.61914, 20.382)
+visible = false
 mesh = SubResource("CapsuleMesh_u0j1q")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-2.26684, -4.45654, -0.0245013, 0, 0.0274887, -4.99992, 4.45662, -2.26681, -0.0124625, 12.6343, 1.64372, -34.6435)
+visible = false
 mesh = SubResource("PrismMesh_s0kyh")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-2.26684, -4.45654, -0.0245013, 0, 0.0274887, -4.99992, 4.45662, -2.26681, -0.0124625, 2.53567, 0.129774, -9.88226)
+visible = false
 mesh = SubResource("CylinderMesh_o3jno")
 
 [node name="Background0" type="MeshInstance3D" parent="."]
@@ -128,16 +126,8 @@ transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -
 material_override = SubResource("StandardMaterial3D_1c3q2")
 mesh = SubResource("PlaneMesh_cgqcc")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -126.446, 11.2866, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_f2de3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_ubhb0")
-
 [node name="PortalSpawner" parent="." instance=ExtResource("3_wtq5x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -49.8108, 0)
 
 [node name="Portal1" parent="PortalSpawner" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 4.5, -58)
@@ -157,35 +147,23 @@ shape = SubResource("BoxShape3D_r5lt3")
 transform = Transform3D(1, 0, 0, 0, 0.0593063, 0.99824, 0, -0.99824, 0.0593063, 0, 66.86, -37.34)
 
 [node name="PortalFrame" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.51, 13.961)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.6545, -0.51, -0.109681)
 
 [node name="PortalFrame2" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(0.224951, 0, 0.97437, 0, 1, 0, -0.97437, 0, 0.224951, 13.4764, -0.51, 7.93918)
+transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 7.84892, -0.51, 1.2574)
 
-[node name="PortalFrame3" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.66851, -0.51, -5.87988)
+[node name="FirstPersonPlayer" parent="." instance=ExtResource("10_45uir")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="PortalFrame4" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.8399, 8.21306, 194.195)
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 8.021, 1, -22.053)
+mesh = SubResource("BoxMesh_0q70l")
+surface_material_override/0 = SubResource("StandardMaterial3D_hsod7")
 
-[node name="PortalFrame5" parent="." instance=ExtResource("9_pce2k")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -25.84, 16.181, 194.195)
-
-[node name="Bridge" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.686, 15.925, 167.01)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Bridge"]
-material_override = SubResource("StandardMaterial3D_slw3q")
-mesh = SubResource("BoxMesh_y3oht")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Bridge"]
-shape = SubResource("BoxShape3D_1h714")
-
-[node name="GolfBall" parent="." instance=ExtResource("9_rprfd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.6628, 8.69495, 126.525)
-
-[node name="TestTerrain2" parent="." instance=ExtResource("11_3cenn")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0.1, 139.891)
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -11.4383, 1, 13.2797)
+mesh = SubResource("CylinderMesh_mlath")
+surface_material_override/0 = SubResource("StandardMaterial3D_mvrmx")
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

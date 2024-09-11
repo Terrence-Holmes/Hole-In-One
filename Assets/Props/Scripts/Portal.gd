@@ -26,7 +26,7 @@ var _active : bool = false
 var active : bool:
 	set(value):
 		_active = value
-#		visible = value
+		otherPortal.visible = value
 	get:
 		return _active
 
@@ -96,7 +96,6 @@ func _ready():
 		cameraViews.append(newView)
 
 func _process(delta):
-	
 	passHitbox_cs.disabled = not visible
 	_check_for_teleport()
 	_setup_camera()
@@ -322,11 +321,10 @@ func set_size(newSize : Vector2):
 		size.y + portal_area_margin.y * 2,
 		portal_area_margin.z * 2)
 	
-	
-	
 	for i in range(cameraViewContainer.get_child_count()):
 		cameraViewContainer.get_child(i).size = Vector3(size.x, size.y, cameraViewContainer.get_child(i).size.z)
-
+	
+	active = true
 
 #SIGNALS
 

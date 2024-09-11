@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0ris7n8cfaa6"]
+[gd_scene load_steps=9 format=3 uid="uid://b0ris7n8cfaa6"]
 
 [ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonPlayer.gd" id="1_uvln5"]
 [ext_resource type="Script" path="res://Assets/Debug/Scripts/FirstPersonInput.gd" id="2_745a1"]
@@ -12,10 +12,6 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yutkg"]
 albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_ce1h8"]
-radius = 0.2
-height = 0.4
 
 [node name="FirstPersonPlayer" type="CharacterBody3D"]
 collision_layer = 2
@@ -43,6 +39,3 @@ collisionMask = 4
 
 [node name="FakeRig" type="Node3D" parent="."]
 script = ExtResource("4_d367x")
-
-[node name="Test" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_ce1h8")
