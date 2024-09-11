@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://bguc8q5xtw72d"]
+
+[ext_resource type="Script" path="res://Terrain.gd" id="1_2l6w8"]
+[ext_resource type="Shader" path="res://terrain_shader.gdshader" id="1_qxljm"]
+[ext_resource type="Texture2D" uid="uid://trn5d1lgfuxx" path="res://TestHeightMap.png" id="2_01yyd"]
+[ext_resource type="Texture2D" uid="uid://bf3lafsm264rl" path="res://icon.svg" id="2_xgyil"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_65yjl"]
+render_priority = 0
+shader = ExtResource("1_qxljm")
+shader_parameter/heightRatio = 0.43
+shader_parameter/albedo = ExtResource("2_xgyil")
+shader_parameter/heightmap = ExtResource("2_01yyd")
+
+[sub_resource type="QuadMesh" id="QuadMesh_3ouym"]
+subdivide_width = 20
+subdivide_depth = 20
+orientation = 1
+
+[node name="StaticBody3D" type="Node3D"]
+
+[node name="Terrain" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_65yjl")
+mesh = SubResource("QuadMesh_3ouym")
+script = ExtResource("1_2l6w8")
+chunkSize = 1.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Terrain"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/StaticBody3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.418, 1.47047)
