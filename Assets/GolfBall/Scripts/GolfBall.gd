@@ -20,7 +20,7 @@ const minimumSpeed : float = 0.2 #The minimum speed that the ball can travel bef
 var stopTimer : Timer = Timer.new()
 
 #Launch
-const launchPower : Vector2 = Vector2(1, 100)
+const launchPower : Vector2 = Vector2(1, 150)
 const chargeSpeed : float = 1
 var chargeInput : bool = false
 var powerCharge : float = -1

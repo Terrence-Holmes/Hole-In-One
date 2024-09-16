@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cr24506lx5woj"]
+[gd_scene load_steps=13 format=3 uid="uid://cr24506lx5woj"]
 
 [ext_resource type="Script" path="res://Assets/GolfBall/Scripts/GolfBall.gd" id="1_wobwq"]
 [ext_resource type="Script" path="res://Assets/GolfBall/Scripts/CameraRig.gd" id="1_xpl75"]
@@ -8,9 +8,10 @@
 [ext_resource type="Script" path="res://Assets/Control/Utilities/CameraRay.gd" id="4_fv0c2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6ycdi"]
-bounce = 0.4
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_sf888"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f5umy"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_mj84h"]
 
@@ -36,6 +37,7 @@ script = ExtResource("1_yi1ei")
 shape = SubResource("SphereShape3D_sf888")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_f5umy")
 mesh = SubResource("SphereMesh_mj84h")
 
 [node name="AimLine" type="MeshInstance3D" parent="."]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://bguc8q5xtw72d"]
+
+[ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/terrain_shader.gdshader" id="1_4v0sa"]
+[ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/HeightMap.gd" id="1_v7c5q"]
+[ext_resource type="Texture2D" uid="uid://rmru4jxkj4ak" path="res://Assets/Environment/Terrain/HeightMaps/hm_mound.png" id="2_2hhke"]
+[ext_resource type="Texture2D" uid="uid://c036ynx4np0at" path="res://Assets/Environment/Terrain/Textures/GrassTileTexture0.png" id="4_6xx6e"]
+[ext_resource type="Script" path="res://EditorTools/Scripts/HeightMapEditor.gd" id="5_0e3fx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sd03i"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_4v0sa")
+shader_parameter/heightRatio = 5.0
+shader_parameter/textureUV = Vector2(1, 1)
+shader_parameter/UVOffset = Vector2(0, 0)
+shader_parameter/albedo = ExtResource("4_6xx6e")
+shader_parameter/heightmap = ExtResource("2_2hhke")
+
+[sub_resource type="QuadMesh" id="QuadMesh_jgdrp"]
+size = Vector2(8, 8)
+subdivide_width = 20
+subdivide_depth = 20
+orientation = 1
+
+[node name="T_HeightMap" type="Node3D"]
+script = ExtResource("1_v7c5q")
+heightTexture = ExtResource("2_2hhke")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_sd03i")
+mesh = SubResource("QuadMesh_jgdrp")
+
+[node name="CollisionBody" type="StaticBody3D" parent="Mesh"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Mesh/CollisionBody"]
+
+[node name="Editor" type="Node3D" parent="."]
+script = ExtResource("5_0e3fx")

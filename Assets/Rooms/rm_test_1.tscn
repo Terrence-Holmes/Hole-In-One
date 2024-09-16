@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bqrqrs0ri000f"]
+[gd_scene load_steps=33 format=3 uid="uid://bqrqrs0ri000f"]
 
 [ext_resource type="Material" uid="uid://bcxetk0sk6nsx" path="res://Assets/Environment/Materials/mat_grass1.tres" id="1_w00kk"]
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="2_yqpa0"]
@@ -8,8 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://bo2vdokaser3c" path="res://Assets/Environment/Textures/TestCity2.png" id="5_r0pyo"]
 [ext_resource type="Texture2D" uid="uid://bomvxrbfn7dbl" path="res://Assets/Environment/Textures/TestCity3.png" id="6_738j8"]
 [ext_resource type="PackedScene" uid="uid://dbpa5oy8u48k7" path="res://Assets/Props/Scenes/portal_frame.tscn" id="9_pce2k"]
-[ext_resource type="PackedScene" uid="uid://b0ris7n8cfaa6" path="res://Assets/Debug/Scenes/first_person_player.tscn" id="10_45uir"]
+[ext_resource type="PackedScene" uid="uid://cr24506lx5woj" path="res://Assets/GolfBall/Scenes/golf_ball.tscn" id="10_ktgkh"]
 [ext_resource type="PackedScene" uid="uid://bm1aixqc5857j" path="res://Assets/UI/Scenes/ball_ui.tscn" id="10_v2gly"]
+[ext_resource type="PackedScene" uid="uid://bguc8q5xtw72d" path="res://Assets/Environment/Terrain/Scenes/terrain_heightMap.tscn" id="11_ygwms"]
+[ext_resource type="PackedScene" uid="uid://cb1pe06j0d7mn" path="res://Assets/Environment/Terrain/Scenes/terrain_flat.tscn" id="12_04r68"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -66,13 +68,21 @@ albedo_color = Color(0, 0, 1, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvrmx"]
 albedo_color = Color(1, 0, 1, 1)
 
+[sub_resource type="BoxMesh" id="BoxMesh_bi8i8"]
+size = Vector3(10, 5, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wwhu5"]
+size = Vector3(10, 5, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uhg2a"]
+albedo_color = Color(0.447059, 0.447059, 0.447059, 1)
+
 [node name="rm_test1" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.690428, 0.723401, 0, -0.723401, -0.690428, 0, 7.59945, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="BallUI" parent="CanvasLayer" instance=ExtResource("10_v2gly")]
 
@@ -152,9 +162,6 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12.65
 [node name="PortalFrame2" parent="." instance=ExtResource("9_pce2k")]
 transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 7.84892, -0.51, 1.2574)
 
-[node name="FirstPersonPlayer" parent="." instance=ExtResource("10_45uir")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 8.021, 1, -22.053)
 mesh = SubResource("BoxMesh_0q70l")
@@ -164,6 +171,84 @@ surface_material_override/0 = SubResource("StandardMaterial3D_hsod7")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -11.4383, 1, 13.2797)
 mesh = SubResource("CylinderMesh_mlath")
 surface_material_override/0 = SubResource("StandardMaterial3D_mvrmx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 32)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_bi8i8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_wwhu5")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 42)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
+mesh = SubResource("BoxMesh_bi8i8")
+surface_material_override/0 = SubResource("StandardMaterial3D_uhg2a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+shape = SubResource("BoxShape3D_wwhu5")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49, 52)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3"]
+mesh = SubResource("BoxMesh_bi8i8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
+shape = SubResource("BoxShape3D_wwhu5")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 62)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D4"]
+mesh = SubResource("BoxMesh_bi8i8")
+surface_material_override/0 = SubResource("StandardMaterial3D_uhg2a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
+shape = SubResource("BoxShape3D_wwhu5")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 72)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D5"]
+mesh = SubResource("BoxMesh_bi8i8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D5"]
+shape = SubResource("BoxShape3D_wwhu5")
+
+[node name="StaticBody3D6" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 82)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D6"]
+mesh = SubResource("BoxMesh_bi8i8")
+surface_material_override/0 = SubResource("StandardMaterial3D_uhg2a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D6"]
+shape = SubResource("BoxShape3D_wwhu5")
+
+[node name="GolfBall" parent="." instance=ExtResource("10_ktgkh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 31.864)
+
+[node name="T_HeightMap" parent="." instance=ExtResource("11_ygwms")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 5, 35)
+heightRatio = 5.0
+UVOffset = Vector2(0, 1)
+
+[node name="T_HeightMap2" parent="." instance=ExtResource("11_ygwms")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 5, 51)
+heightRatio = 5.0
+UVOffset = Vector2(0.25, 0)
+
+[node name="T_HeightMap3" parent="." instance=ExtResource("11_ygwms")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 5, 51)
+heightRatio = 16.0
+UVOffset = Vector2(0.25, 0)
+
+[node name="T_Flat" parent="." instance=ExtResource("12_04r68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -3, 43)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]
