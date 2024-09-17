@@ -20,6 +20,8 @@ func _ready():
 
 func _process(delta):
 	_get_references()
+	terrainMesh.material_override.set("shader_param/worldPosition", global_position / 8)
+	
 	_detectChange_size()
 	_detectChange_UVOffset()
 	_detectChange_heightRatio()
