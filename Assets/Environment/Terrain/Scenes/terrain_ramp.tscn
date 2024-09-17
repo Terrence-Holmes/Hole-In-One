@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://divn3rin4gvr1"]
+
+[ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/TerrainRamp.gd" id="1_fojlb"]
+[ext_resource type="Script" path="res://EditorTools/Scripts/RampTerrainEditor.gd" id="2_qvt38"]
+[ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/terrain_ramp_shader.gdshader" id="2_t4b0b"]
+[ext_resource type="Texture2D" uid="uid://c036ynx4np0at" path="res://Assets/Environment/Terrain/Textures/GrassTileTexture0.png" id="3_gbwix"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sdixn"]
+render_priority = 0
+shader = ExtResource("2_t4b0b")
+shader_parameter/rampHeight = 0.98
+shader_parameter/rampOffset = 0.105
+shader_parameter/UVScale = Vector2(1, 1.02201)
+shader_parameter/UVOffset = Vector2(0, 0)
+shader_parameter/albedo = ExtResource("3_gbwix")
+
+[sub_resource type="QuadMesh" id="QuadMesh_qfwck"]
+orientation = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_myk7e"]
+flip_faces = true
+orientation = 1
+
+[node name="T_Ramp" type="Node3D"]
+script = ExtResource("1_fojlb")
+rampHeight = 0.98
+rampOffset = 0.21
+size = Vector3(1, 1, 1)
+
+[node name="Meshes" type="Node3D" parent="."]
+
+[node name="TopMesh" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_sdixn")
+mesh = SubResource("QuadMesh_qfwck")
+
+[node name="BottomMesh" type="MeshInstance3D" parent="Meshes"]
+mesh = SubResource("QuadMesh_myk7e")
+
+[node name="Editor" type="Node3D" parent="."]
+script = ExtResource("2_qvt38")

@@ -1,38 +1,171 @@
-[gd_scene load_steps=8 format=3 uid="uid://bguc8q5xtw72d"]
+[gd_scene load_steps=27 format=3 uid="uid://bguc8q5xtw72d"]
 
 [ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/terrain_shader.gdshader" id="1_4v0sa"]
 [ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/HeightMap.gd" id="1_v7c5q"]
-[ext_resource type="Texture2D" uid="uid://rmru4jxkj4ak" path="res://Assets/Environment/Terrain/HeightMaps/hm_mound.png" id="2_2hhke"]
+[ext_resource type="Texture2D" uid="uid://rmru4jxkj4ak" path="res://Assets/Environment/Terrain/HeightMaps/hm_mound.png" id="2_aymxm"]
 [ext_resource type="Texture2D" uid="uid://c036ynx4np0at" path="res://Assets/Environment/Terrain/Textures/GrassTileTexture0.png" id="4_6xx6e"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/HeightMapEditor.gd" id="5_0e3fx"]
+[ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="5_nd0b8"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sd03i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4wyh2"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_4v0sa")
-shader_parameter/heightRatio = 5.0
+shader_parameter/heightRatio = 2.0
 shader_parameter/textureUV = Vector2(1, 1)
 shader_parameter/UVOffset = Vector2(0, 0)
 shader_parameter/albedo = ExtResource("4_6xx6e")
-shader_parameter/heightmap = ExtResource("2_2hhke")
+shader_parameter/heightmap = ExtResource("2_aymxm")
 
-[sub_resource type="QuadMesh" id="QuadMesh_jgdrp"]
+[sub_resource type="QuadMesh" id="QuadMesh_1qyws"]
 size = Vector2(8, 8)
 subdivide_width = 20
 subdivide_depth = 20
 orientation = 1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hyrso"]
+albedo_texture = ExtResource("4_6xx6e")
+uv1_scale = Vector3(1, 0.5, 1)
+uv1_offset = Vector3(0, 1, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ph1n1"]
+flip_faces = true
+size = Vector2(8, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7kbjv"]
+albedo_texture = ExtResource("4_6xx6e")
+uv1_scale = Vector3(1, 0.5, 1)
+uv1_offset = Vector3(0, 0.5, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_36342"]
+size = Vector2(8, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jkgjq"]
+albedo_texture = ExtResource("4_6xx6e")
+uv1_scale = Vector3(1, 0.5, 1)
+uv1_offset = Vector3(0, 0.5, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_w7ywv"]
+flip_faces = true
+size = Vector2(8, 4)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7rfk4"]
+albedo_texture = ExtResource("4_6xx6e")
+uv1_scale = Vector3(-1, 0.5, 1)
+uv1_offset = Vector3(0, 0.5, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_p6wwm"]
+size = Vector2(8, 4)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rr8is"]
+albedo_texture = ExtResource("5_nd0b8")
+
+[sub_resource type="QuadMesh" id="QuadMesh_4401q"]
+flip_faces = true
+size = Vector2(8, 8)
+orientation = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t0chw"]
+albedo_texture = ExtResource("5_nd0b8")
+uv1_scale = Vector3(1, 0.5, 1)
+uv1_offset = Vector3(0, 1, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_wcxle"]
+flip_faces = true
+size = Vector2(8, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vcbr"]
+albedo_texture = ExtResource("5_nd0b8")
+uv1_scale = Vector3(1, 0.5, 1)
+uv1_offset = Vector3(0, 0.5, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_s3avu"]
+size = Vector2(8, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4q43s"]
+albedo_texture = ExtResource("5_nd0b8")
+uv1_scale = Vector3(1, 0.5, 1)
+uv1_offset = Vector3(-1, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_pnwnl"]
+flip_faces = true
+size = Vector2(8, 4)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_16w3b"]
+albedo_texture = ExtResource("5_nd0b8")
+uv1_scale = Vector3(-1, 0.5, 1)
+uv1_offset = Vector3(1, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_2vfgv"]
+size = Vector2(8, 4)
+orientation = 0
+
 [node name="T_HeightMap" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01711, 0, 0)
 script = ExtResource("1_v7c5q")
-heightTexture = ExtResource("2_2hhke")
+heightTexture = ExtResource("2_aymxm")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-material_override = SubResource("ShaderMaterial_sd03i")
-mesh = SubResource("QuadMesh_jgdrp")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+material_override = SubResource("ShaderMaterial_4wyh2")
+mesh = SubResource("QuadMesh_1qyws")
 
 [node name="CollisionBody" type="StaticBody3D" parent="Mesh"]
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Mesh/CollisionBody"]
+
+[node name="Meshes" type="Node3D" parent="."]
+
+[node name="TopMeshes" type="Node3D" parent="Meshes"]
+
+[node name="FrontMesh" type="MeshInstance3D" parent="Meshes/TopMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -4)
+material_override = SubResource("StandardMaterial3D_hyrso")
+mesh = SubResource("QuadMesh_ph1n1")
+
+[node name="BackMesh" type="MeshInstance3D" parent="Meshes/TopMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 4)
+material_override = SubResource("StandardMaterial3D_7kbjv")
+mesh = SubResource("QuadMesh_36342")
+
+[node name="LeftMesh" type="MeshInstance3D" parent="Meshes/TopMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 6, 0)
+material_override = SubResource("StandardMaterial3D_jkgjq")
+mesh = SubResource("QuadMesh_w7ywv")
+
+[node name="RightMesh" type="MeshInstance3D" parent="Meshes/TopMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 6, 0)
+material_override = SubResource("StandardMaterial3D_7rfk4")
+mesh = SubResource("QuadMesh_p6wwm")
+
+[node name="BottomMeshes" type="Node3D" parent="Meshes"]
+
+[node name="BottomMesh" type="MeshInstance3D" parent="Meshes/BottomMeshes"]
+material_override = SubResource("StandardMaterial3D_rr8is")
+mesh = SubResource("QuadMesh_4401q")
+
+[node name="FrontMesh" type="MeshInstance3D" parent="Meshes/BottomMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -4)
+material_override = SubResource("StandardMaterial3D_t0chw")
+mesh = SubResource("QuadMesh_wcxle")
+
+[node name="BackMesh" type="MeshInstance3D" parent="Meshes/BottomMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 4)
+material_override = SubResource("StandardMaterial3D_1vcbr")
+mesh = SubResource("QuadMesh_s3avu")
+
+[node name="LeftMesh" type="MeshInstance3D" parent="Meshes/BottomMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, 0)
+material_override = SubResource("StandardMaterial3D_4q43s")
+mesh = SubResource("QuadMesh_pnwnl")
+
+[node name="RightMesh" type="MeshInstance3D" parent="Meshes/BottomMeshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 0)
+material_override = SubResource("StandardMaterial3D_16w3b")
+mesh = SubResource("QuadMesh_2vfgv")
 
 [node name="Editor" type="Node3D" parent="."]
 script = ExtResource("5_0e3fx")
