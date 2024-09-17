@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/TerrainRamp.gd" id="1_fojlb"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/RampTerrainEditor.gd" id="2_qvt38"]
-[ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/terrain_ramp_shader.gdshader" id="2_t4b0b"]
+[ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/shd_terrain_ramp.gdshader" id="2_t4b0b"]
 [ext_resource type="Texture2D" uid="uid://c036ynx4np0at" path="res://Assets/Environment/Terrain/Textures/GrassTileTexture0.png" id="3_gbwix"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sdixn"]

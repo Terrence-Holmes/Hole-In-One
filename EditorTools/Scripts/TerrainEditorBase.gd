@@ -19,6 +19,9 @@ class_name TerrainEditorScript
 @onready var bm_leftMesh : MeshInstance3D = bottomMeshContainer.get_node("LeftMesh")
 @onready var bm_rightMesh : MeshInstance3D = bottomMeshContainer.get_node("RightMesh")
 
+var sizeUVOffset : Vector2 = Vector2.ZERO
+
+
 func _ready():
 	if (not Engine.is_editor_hint()):
 		queue_free()
@@ -32,10 +35,12 @@ func _ready():
 
 
 var prev_size : Vector3 = Vector3(8, 8, 8)
+var prev_position : Vector3 = Vector3.ZERO
 var prev_UVOffset : Vector2 = Vector2.ZERO
 
 func _process(delta):
 	_detectChange_size()
+	_detectChange_position()
 	_detectChange_UVOffset()
 
 
@@ -46,6 +51,12 @@ func _detectChange_size():
 		_set_top_mesh_size_and_pos()
 		_set_top_mesh_uv()
 		_set_bottom_mesh()
+
+func _detectChange_position():
+	if (prev_position != root.global_position):
+		prev_position = root.global_position
+		_set_top_mesh_uv()
+
 
 func _detectChange_UVOffset():
 	if (prev_UVOffset != root.UVOffset):
@@ -61,65 +72,84 @@ func _set_top_mesh_size_and_pos():
 		if (tm_topMesh != null):
 			tm_topMesh.mesh.size = Vector2(root.size.x, root.size.z)
 			tm_topMesh.position = Vector3(0, root.size.y, 0)
+			tm_topMesh.material_override.set("shader_param/size", root.size)
 		#Set front side
 		tm_frontMesh.mesh.size = Vector2(root.size.x, topMeshSizeY)
 		tm_frontMesh.position = Vector3(0, topMeshPositionY, -root.size.z / 2)
+		tm_frontMesh.material_override.set("shader_param/size", root.size)
 		#Set back side
 		tm_backMesh.mesh.size = Vector2(root.size.x, topMeshSizeY)
 		tm_backMesh.position = Vector3(0, topMeshPositionY, root.size.z / 2)
+		tm_backMesh.material_override.set("shader_param/size", root.size)
 		#Set left side
 		tm_leftMesh.mesh.size = Vector2(root.size.z, topMeshSizeY)
 		tm_leftMesh.position = Vector3(-root.size.x / 2, topMeshPositionY, 0)
+		tm_leftMesh.material_override.set("shader_param/size", root.size)
 		#Set right side
 		tm_rightMesh.mesh.size = Vector2(root.size.z, topMeshSizeY)
 		tm_rightMesh.position = Vector3(root.size.x / 2, topMeshPositionY, 0)
+		tm_rightMesh.material_override.set("shader_param/size", root.size)
+		
+		_set_top_mesh_uv()
+
 
 func _set_top_mesh_uv():
-	var flipUVX : float = 1
-	var topMeshUVY : float = min(root.size.y / 8, 0.5)
+	##Get side UV flip (for left and back side panels)
+	##Set UV flip based on size
+	#var sizeMod : Vector2 = Vector2( fmod(root.size.x, 8), fmod(root.size.z, 8)  )
+	#var flipXPos : bool = sizeMod.x <= 4 and sizeMod.x != 0
+	#var flipZPos : bool = not sizeMod.y <= 4 or sizeMod.y == 0
+	##Set UV flip based on position
+	##Positive sides (right and back)
+	#var posMod : Vector2
+	#if (global_position.x >= -sizeMod.x):
+		#posMod.x = fmod(abs(root.global_position.x) + sizeMod.x, 8)
+		#flipXPos = !flipXPos
+	#else:
+		#posMod.x = fmod(abs(root.global_position.x + sizeMod.x), 8)
+	#if (posMod.x <= 4 and posMod.x != 0):
+		#flipXPos = !flipXPos
+	#if (posMod.y <= 4 and posMod.y != 0):
+		#flipZPos = !flipZPos
+	##Negative sides (left and front)
+	#posMod = Vector2(
+		#fmod(abs(root.global_position.x), 8),
+		#fmod(abs(root.global_position.z), 8) )
+	#var flipXNeg : bool = not (posMod.x <= 4 and posMod.x != 0)
+	#var flipZNeg : bool = not (posMod.y <= 4 and posMod.y != 0)
+	#if (root.global_position.x < 0):
+		#flipXNeg = !flipXNeg
+	#if (root.global_position.z < 0):
+		#flipZNeg = !flipZNeg
 	
-	#Set top side
+	#Flip UV's if the position requires it
+	var positionMod : Vector2
+	positionMod.x = fmod(abs(root.global_position.x), 8)
+	positionMod.y = fmod(abs(root.global_position.z), 8)
+	var flipX : bool = not ((root.global_position.x < 0 and (positionMod.x < 4))
+	or ((root.global_position.x >= 0) and (positionMod.x > 4 or positionMod.x == 0)))
+	var flipZ : bool = not ((root.global_position.z < 0 and (positionMod.y < 4))
+	or ((root.global_position.z >= 0) and (positionMod.y > 4 or positionMod.y == 0)))
+	#Flip UV's again if the size requires it
+	print(positionMod)
+	
+	tm_backMesh.material_override.set("shader_param/UVFlip", flipZ)
+	if (positionMod.y == 4 or positionMod.y == 0):
+		flipZ = !flipZ
+	tm_frontMesh.material_override.set("shader_param/UVFlip", flipZ)
+	tm_rightMesh.material_override.set("shader_param/UVFlip", flipX)
+	if (positionMod.x == 4 or positionMod.x == 0):
+		flipX = !flipX
+	tm_leftMesh.material_override.set("shader_param/UVFlip", flipX)
+	
+	#Set UV offsets
+	sizeUVOffset = -Vector2(fmod(root.size.x, 16) / root.size.x, fmod(root.size.z, 16) / root.size.z) * 0.5
 	if (tm_topMesh != null):
-		tm_topMesh.material_override.uv1_scale = Vector3(root.size.x / 8, root.size.z / 8, 1)
-		tm_topMesh.material_override.uv1_offset = Vector3(root.UVOffset.x, root.UVOffset.y, 0)
-	
-	#(THIS IS A MESS!)
-	
-	#Set front side
-	var uvY : float = 1 if ( (abs(fmod(root.UVOffset.y, 1)) < 0.5 and root.UVOffset.y >= 0)
-	or (abs(fmod(root.UVOffset.y, 1)) >= 0.5) and root.UVOffset.y < 0 ) else 0.5
-	tm_frontMesh.material_override.uv1_scale = Vector3(root.size.x / 8, topMeshUVY, 1)
-	tm_frontMesh.material_override.uv1_offset = Vector3(root.UVOffset.x, uvY, 0)
-	
-	#Set back side
-	flipUVX = 1 if (fmod(root.size.z / 8, 1) <= 0.5) else -1
-	var uvPositionOffset : float = (0.125 * fmod(abs(root.size.z), 4)) * Math.PosOrNeg(root.UVOffset.y)
-	var relativeUVY : float = (fmod(abs(root.UVOffset.y) + uvPositionOffset, 1)) #This is UVOffset.x relative to size.x % 4
-	if ((relativeUVY <= 0.5 and relativeUVY != 0 and root.UVOffset.y >= 0)
-	or (relativeUVY < 0.5 and relativeUVY != 0 and root.UVOffset.y < 0)):
-		flipUVX *= -1
-	if (not (root.UVOffset.y < -abs(uvPositionOffset))):
-		flipUVX *= -1
-	tm_backMesh.material_override.uv1_scale = Vector3((-root.size.x / 8) * flipUVX, topMeshUVY, 1)
-	tm_backMesh.material_override.uv1_offset = Vector3((-root.UVOffset.x * flipUVX) , 0.5, 0)
-	
-	#Set left side
-	uvY = 0.5 if ( (abs(fmod(root.UVOffset.x, 1)) < 0.5 and root.UVOffset.x >= 0)
-	or (abs(fmod(root.UVOffset.x, 1)) >= 0.5) and root.UVOffset.x < 0 ) else 1
-	tm_leftMesh.material_override.uv1_scale = Vector3(root.size.z / 8, topMeshUVY, 1)
-	tm_leftMesh.material_override.uv1_offset = Vector3( -root.UVOffset.y + fmod(-root.size.z / 8, 1), uvY, 1)
-	
-	#Set right side
-	flipUVX = 1 if (fmod(root.size.x / 8, 1) <= 0.5) else -1
-	uvPositionOffset = (0.125 * fmod(abs(root.size.x), 4)) * Math.PosOrNeg(root.UVOffset.x)
-	var relativeUVX : float = (fmod(abs(root.UVOffset.x) + uvPositionOffset, 1)) #This is UVOffset.x relative to size.x % 4
-	if ((relativeUVX <= 0.5 and relativeUVX != 0 and root.UVOffset.x >= 0)
-	or (relativeUVX < 0.5 and relativeUVX != 0 and root.UVOffset.x < 0)):
-		flipUVX *= -1
-	if (not (root.UVOffset.x < -abs(uvPositionOffset))):
-		flipUVX *= -1
-	tm_rightMesh.material_override.uv1_scale = Vector3((root.size.z / 8) * flipUVX, topMeshUVY, 1)
-	tm_rightMesh.material_override.uv1_offset = Vector3((-root.UVOffset.y * flipUVX) + (fmod(-root.size.z / 8, 1) * flipUVX), 0.5, 1)
+		tm_topMesh.material_override.set("shader_param/UVOffset", sizeUVOffset)
+	tm_frontMesh.material_override.set("shader_param/UVOffset", Vector2(sizeUVOffset.x, 0))
+	tm_backMesh.material_override.set("shader_param/UVOffset", Vector2(sizeUVOffset.x, 0))
+	tm_leftMesh.material_override.set("shader_param/UVOffset", Vector2(sizeUVOffset.y, 0))
+	tm_rightMesh.material_override.set("shader_param/UVOffset", Vector2(sizeUVOffset.y, 0))
 
 func _set_bottom_mesh():
 	var topMeshSizeY : float = max(root.size.y - 4, 0)

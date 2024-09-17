@@ -20,8 +20,6 @@ func _ready():
 
 func _process(delta):
 	_get_references()
-	terrainMesh.material_override.set("shader_param/worldPosition", global_position / 8)
-	
 	_detectChange_size()
 	_detectChange_UVOffset()
 	_detectChange_heightRatio()
@@ -37,23 +35,13 @@ func _detectChange_size():
 		super._detectChange_size()
 		terrainMesh.position = Vector3(0, root.size.y, 0)
 		terrainMesh.mesh.size = Vector2(root.size.x, root.size.z)
-		terrainMesh.material_override.set("shader_param/textureUV", Vector2(root.size.x, root.size.z) / 8)
+		terrainMesh.material_override.set("shader_param/size", root.size)
 
 
 func _detectChange_heightRatio():
 	if (prev_heightRatio != root.heightRatio):
 		prev_heightRatio = root.heightRatio
 		terrainMesh.material_override.set("shader_param/heightRatio", root.heightRatio)
-
-
-func _detectChange_UVOffset():
-	if (prev_UVOffset != root.UVOffset):
-		super._detectChange_UVOffset()
-		root.UVOffset.x = clampf(root.UVOffset.x, -1, 1)
-		root.UVOffset.y = clampf(root.UVOffset.y, -1, 1)
-		prev_UVOffset = root.UVOffset
-		terrainMesh.material_override.set("shader_param/UVOffset", root.UVOffset / (Vector2(root.size.x, root.size.z) / 8))
-		terrainMesh.material_override.set("shader_param/textureUV", Vector2(root.size.x, root.size.z) / 8)
 
 
 func _detectChange_heightTexture():
@@ -63,3 +51,10 @@ func _detectChange_heightTexture():
 		
 		prev_heightTexture = root.heightTexture
 		terrainMesh.material_override.set("shader_param/heightmap", root.heightTexture)
+
+
+
+func _set_top_mesh_uv():
+	super._set_top_mesh_uv()
+	terrainMesh.material_override.set("shader_param/UVOffset", sizeUVOffset)
+	
