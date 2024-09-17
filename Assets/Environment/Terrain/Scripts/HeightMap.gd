@@ -9,7 +9,6 @@ class_name HeightMap
 
 
 @onready var terrainMesh : MeshInstance3D = get_node("Mesh")
-@onready var collisionShape : CollisionShape3D = terrainMesh.get_node("CollisionBody/CollisionShape")
 
 var image : Image = Image.new()
 var shape : HeightMapShape3D = HeightMapShape3D.new()
@@ -18,16 +17,26 @@ func _ready():
 	terrainMesh.mesh = terrainMesh.mesh.duplicate()
 	terrainMesh.material_override = terrainMesh.material_override.duplicate()
 	
+
+
+var lateReady : bool = false
+func _late_ready():
+	lateReady = true
+	collisionBody = get_node("Mesh/Body")
+	collisionShape = get_node("Mesh/Body/CollisionShape")
 	collisionShape.shape = shape
+	terrainMesh.position = Vector3(0, size.y, 0)
 	terrainMesh.mesh.size = Vector2(size.x, size.z)
 	update_terrain(heightRatio, collisionQuality * 0.1)
 	terrainMesh.material_override.set("shader_param/heightmap", heightTexture)
+	terrainMesh.material_override.set("shader_param/size", size)
 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if (!lateReady):
+		_late_ready()
 
 
 
@@ -47,6 +56,6 @@ func update_terrain(_heightRatio : float, _collisionQuality : float):
 	shape.map_depth = image.get_height()
 	shape.map_data = data
 	#Set collision shape
-	var scaleRatio = (size.x / float(image.get_width())) * 1.02
-	collisionShape.scale = Vector3(scaleRatio, 1, scaleRatio)
+	var scaleRatio : Vector2 = (Vector2(size.x, size.z) / Vector2(image.get_width(), image.get_height())) * 1.02
+	collisionShape.scale = Vector3(scaleRatio.x, 1, scaleRatio.y)
 	collisionShape.shape = shape

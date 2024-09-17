@@ -27,7 +27,7 @@ albedo_texture = ExtResource("3_67122")
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_6ycdi")
 linear_damp = 0.4
-angular_damp = 0.8
+angular_damp = 2.0
 script = ExtResource("1_wobwq")
 
 [node name="Input" type="Node" parent="."]

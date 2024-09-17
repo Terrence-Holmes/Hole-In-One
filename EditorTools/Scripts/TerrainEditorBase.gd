@@ -1,3 +1,4 @@
+@tool
 extends Node3D
 class_name TerrainEditorScript
 
@@ -21,22 +22,24 @@ class_name TerrainEditorScript
 
 var sizeUVOffset : Vector2 = Vector2.ZERO
 
-
-func _ready():
-	if (not Engine.is_editor_hint()):
-		queue_free()
-	else:
-		#Make sure mesh and collision shape are unique
-		#TODO: Move these into the level editor so that it does this only once, when the piece is created
-		for container in meshContainer.get_children():
-			for mesh in container.get_children():
-				mesh.mesh = mesh.mesh.duplicate()
-				mesh.material_override = mesh.material_override.duplicate()
-
-
 var prev_size : Vector3 = Vector3(8, 8, 8)
 var prev_position : Vector3 = Vector3.ZERO
 var prev_UVOffset : Vector2 = Vector2.ZERO
+
+func _ready():
+	#Make sure mesh and collision shape are unique
+	#TODO: Move these into the level editor so that it does this only once, when the piece is created
+	for container in meshContainer.get_children():
+		for mesh in container.get_children():
+			mesh.mesh = mesh.mesh.duplicate()
+			mesh.material_override = mesh.material_override.duplicate()
+	
+	if (not Engine.is_editor_hint()):
+		_set_top_mesh_size_and_pos()
+		_set_bottom_mesh()
+		queue_free()
+
+
 
 func _process(delta):
 	_detectChange_size()
@@ -94,53 +97,73 @@ func _set_top_mesh_size_and_pos():
 
 
 func _set_top_mesh_uv():
-	##Get side UV flip (for left and back side panels)
-	##Set UV flip based on size
-	#var sizeMod : Vector2 = Vector2( fmod(root.size.x, 8), fmod(root.size.z, 8)  )
-	#var flipXPos : bool = sizeMod.x <= 4 and sizeMod.x != 0
-	#var flipZPos : bool = not sizeMod.y <= 4 or sizeMod.y == 0
-	##Set UV flip based on position
-	##Positive sides (right and back)
-	#var posMod : Vector2
-	#if (global_position.x >= -sizeMod.x):
-		#posMod.x = fmod(abs(root.global_position.x) + sizeMod.x, 8)
-		#flipXPos = !flipXPos
-	#else:
-		#posMod.x = fmod(abs(root.global_position.x + sizeMod.x), 8)
-	#if (posMod.x <= 4 and posMod.x != 0):
-		#flipXPos = !flipXPos
-	#if (posMod.y <= 4 and posMod.y != 0):
-		#flipZPos = !flipZPos
-	##Negative sides (left and front)
-	#posMod = Vector2(
-		#fmod(abs(root.global_position.x), 8),
-		#fmod(abs(root.global_position.z), 8) )
-	#var flipXNeg : bool = not (posMod.x <= 4 and posMod.x != 0)
-	#var flipZNeg : bool = not (posMod.y <= 4 and posMod.y != 0)
-	#if (root.global_position.x < 0):
-		#flipXNeg = !flipXNeg
-	#if (root.global_position.z < 0):
-		#flipZNeg = !flipZNeg
-	
+	#(This is a mess)#
 	#Flip UV's if the position requires it
-	var positionMod : Vector2
-	positionMod.x = fmod(abs(root.global_position.x), 8)
-	positionMod.y = fmod(abs(root.global_position.z), 8)
-	var flipX : bool = not ((root.global_position.x < 0 and (positionMod.x < 4))
-	or ((root.global_position.x >= 0) and (positionMod.x > 4 or positionMod.x == 0)))
-	var flipZ : bool = not ((root.global_position.z < 0 and (positionMod.y < 4))
-	or ((root.global_position.z >= 0) and (positionMod.y > 4 or positionMod.y == 0)))
-	#Flip UV's again if the size requires it
-	print(positionMod)
 	
-	tm_backMesh.material_override.set("shader_param/UVFlip", flipZ)
-	if (positionMod.y == 4 or positionMod.y == 0):
-		flipZ = !flipZ
-	tm_frontMesh.material_override.set("shader_param/UVFlip", flipZ)
-	tm_rightMesh.material_override.set("shader_param/UVFlip", flipX)
-	if (positionMod.x == 4 or positionMod.x == 0):
-		flipX = !flipX
-	tm_leftMesh.material_override.set("shader_param/UVFlip", flipX)
+	#SET POSITIVES (right and back)
+	#Get position relative to the edges
+	var relativePosition : Vector2 = Vector2(
+		root.global_position.x + (root.size.x / 2),
+		root.global_position.z + (root.size.z / 2))
+	#Get position modulus
+	var positionMod : Vector2 = Vector2(
+	fmod(abs(relativePosition.x), 8),
+	fmod(abs(relativePosition.y), 8))
+	#X (right)
+	#Set flip based on position modulus
+	var flipXPos : bool = (fmod(positionMod.x, 8) <= 4)
+	#Flip if position is positive
+	if (relativePosition.x >= 0):
+		flipXPos = !flipXPos
+	#Flip if position modulus is 0 or 4
+	if ((relativePosition.x >= 0 and positionMod.x == 0)
+	or (relativePosition.x < 0 and positionMod.x == 4)):
+		flipXPos = !flipXPos
+	#Z (back)
+	var flipZPos : bool = (fmod(positionMod.y, 8) <= 4)
+	#Flip if position is positive
+	if (relativePosition.y >= 0):
+		flipZPos = !flipZPos
+	#Flip if position modulus is 0 or 4
+	if ((relativePosition.y >= 0 and positionMod.y == 0)
+	or (relativePosition.y < 0 and positionMod.y == 4)):
+		flipZPos = !flipZPos
+	
+	
+	#SET NEGATIVES (left and forward)
+	#Get position relative to the edges
+	relativePosition = Vector2(
+		root.global_position.x - (root.size.x / 2),
+		root.global_position.z - (root.size.z / 2))
+	#Get position modulus
+	positionMod = Vector2(
+	fmod(abs(relativePosition.x), 8),
+	fmod(abs(relativePosition.y), 8))
+	#X (left)
+	#Set flip based on position modulus
+	var flipXNeg : bool = (fmod(positionMod.x, 8) <= 4)
+	#Flip if position is positive
+	if (relativePosition.x >= 0):
+		flipXNeg = !flipXNeg
+	#Flip if position modulus is 0 or 4
+	if ((relativePosition.x >= 0 and positionMod.x == 4)
+	or (relativePosition.x < 0 and positionMod.x == 0)):
+		flipXNeg = !flipXNeg
+	#Z (back)
+	var flipZNeg : bool = (fmod(positionMod.y, 8) <= 4)
+	#Flip if position is positive
+	if (relativePosition.y >= 0):
+		flipZNeg = !flipZNeg
+	#Flip if position modulus is 0 or 4
+	if ((relativePosition.y >= 0 and positionMod.y == 4)
+	or (relativePosition.y < 0 and positionMod.y == 0)):
+		flipZNeg = !flipZNeg
+	
+	#Set UV flip
+	tm_backMesh.material_override.set("shader_param/UVFlip", flipZPos)
+	tm_frontMesh.material_override.set("shader_param/UVFlip", flipZNeg)
+	tm_rightMesh.material_override.set("shader_param/UVFlip", flipXPos)
+	tm_leftMesh.material_override.set("shader_param/UVFlip", flipXNeg)
 	
 	#Set UV offsets
 	sizeUVOffset = -Vector2(fmod(root.size.x, 16) / root.size.x, fmod(root.size.z, 16) / root.size.z) * 0.5
