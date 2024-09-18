@@ -18,9 +18,11 @@ var speed : float:
 #Stopping
 const minimumSpeed : float = 0.2 #The minimum speed that the ball can travel before stopping
 var stopTimer : Timer = Timer.new()
+var stopCount : float = 0 #How long you've been stopped
+var stopDurationToEnd : float = 0.5 #How long you need to be stopped for your turn to end
 
 #Launch
-const launchPower : Vector2 = Vector2(1, 150)
+const launchPower : Vector2 = Vector2(1, 100)
 const chargeSpeed : float = 1
 var chargeInput : bool = false
 var powerCharge : float = -1
@@ -96,13 +98,18 @@ func _charge():
 
 func _prepare_to_stop():
 	if (speed < minimumSpeed and GameManager.ballStatus == GameManager.BallStatus.MOVING):
-		#Stop movement
-		linear_velocity = Vector3.ZERO
-		#Re-enable turn
-		GameManager.ballStatus = GameManager.BallStatus.PORTAL1
-
+		stopCount += get_process_delta_time()
+		if (stopCount >= stopDurationToEnd):
+			#Stop movement
+			linear_velocity = Vector3.ZERO
+			freeze = true
+			#Re-enable turn
+			GameManager.ballStatus = GameManager.BallStatus.PORTAL1
+	else:
+		stopCount = 0
 
 func launch():
+	freeze = false
 	apply_central_impulse(aimDirection * lerpf(launchPower.x, launchPower.y, powerCharge))
 	GameManager.ballStatus = GameManager.BallStatus.LAUNCHING
 	stopTimer.start()

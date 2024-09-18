@@ -6,6 +6,7 @@ class_name HeightMap
 @export var heightTexture : Texture = null
 @export var heightRatio : float = 2.0
 @export_range(0.1, 10, 0.1) var collisionQuality : float = 1
+@export_range(10, 300, 1.0) var meshQuality : float = 20
 
 
 @onready var terrainMesh : MeshInstance3D = get_node("Mesh")

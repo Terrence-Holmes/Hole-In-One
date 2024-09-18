@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bguc8q5xtw72d"]
+[gd_scene load_steps=29 format=3 uid="uid://bguc8q5xtw72d"]
 
 [ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/shd_heightmap.gdshader" id="1_4v0sa"]
 [ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/HeightMap.gd" id="1_v7c5q"]
@@ -19,10 +19,13 @@ shader_parameter/albedo = ExtResource("4_6xx6e")
 shader_parameter/heightmap = ExtResource("2_xn7ya")
 
 [sub_resource type="QuadMesh" id="QuadMesh_6nk28"]
-size = Vector2(24.815, 26.815)
-subdivide_width = 40
-subdivide_depth = 40
+size = Vector2(8, 8)
+subdivide_width = 20
+subdivide_depth = 20
 orientation = 1
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ural7"]
+bounce = 0.2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2t2dw"]
 render_priority = 0
@@ -130,6 +133,7 @@ material_override = SubResource("ShaderMaterial_chhm6")
 mesh = SubResource("QuadMesh_6nk28")
 
 [node name="Body" type="StaticBody3D" parent="Mesh"]
+physics_material_override = SubResource("PhysicsMaterial_ural7")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Mesh/Body"]
 

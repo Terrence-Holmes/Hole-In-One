@@ -12,6 +12,7 @@ var prev_position : Vector3 = Vector3.ZERO
 
 var prev_heightRatio : float = 1
 var prev_heightTexture : Texture = null
+var prev_meshQuality : float = 20
 
 func _ready():
 	_get_references()
@@ -28,6 +29,7 @@ func _process(delta):
 	_detectChange_size()
 	_detectChange_heightRatio()
 	_detectChange_heightTexture()
+	_detectChange_meshQuality()
 
 func _get_references():
 	if (root == null):
@@ -58,10 +60,14 @@ func _detectChange_heightTexture():
 		prev_heightTexture = root.heightTexture
 		terrainMesh.material_override.set("shader_param/heightmap", root.heightTexture)
 
+func _detectChange_meshQuality():
+	if (prev_meshQuality != root.meshQuality):
+		prev_meshQuality = root.meshQuality
+		terrainMesh.mesh.subdivide_width = root.meshQuality
+		terrainMesh.mesh.subdivide_depth = root.meshQuality
 
 
 func _set_top_mesh_uv():
 	_get_references()
 	var sizeUVOffset : Vector2 = -Vector2(fmod(root.size.x, 16) / root.size.x, fmod(root.size.z, 16) / root.size.z) * 0.5
 	terrainMesh.material_override.set("shader_param/UVOffset", sizeUVOffset)
-	

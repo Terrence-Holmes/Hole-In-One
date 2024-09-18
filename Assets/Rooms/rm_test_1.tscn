@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cb1pe06j0d7mn" path="res://Assets/Environment/Terrain/Scenes/terrain_flat.tscn" id="12_04r68"]
 [ext_resource type="PackedScene" uid="uid://bguc8q5xtw72d" path="res://Assets/Environment/Terrain/Scenes/terrain_heightMap.tscn" id="12_pgdfj"]
 [ext_resource type="Texture2D" uid="uid://trn5d1lgfuxx" path="res://Assets/Environment/Terrain/HeightMaps/TestHeightMap.png" id="13_5ausa"]
-[ext_resource type="Texture2D" uid="uid://rmru4jxkj4ak" path="res://Assets/Environment/Terrain/HeightMaps/hm_mound.png" id="13_jh2xh"]
+[ext_resource type="Texture2D" uid="uid://d27whdbigblk8" path="res://Assets/Environment/Terrain/HeightMaps/hm_path.png" id="15_i4ljf"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_4r8iu"]
 
@@ -66,6 +66,7 @@ size = Vector3(6, 9, 10)
 albedo_color = Color(0, 0, 1, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_mlath"]
+radial_segments = 16
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mvrmx"]
 albedo_color = Color(1, 0, 1, 1)
@@ -184,24 +185,36 @@ shape = SubResource("BoxShape3D_wwhu5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.1541, 31.864)
 
 [node name="T_Flat" parent="." instance=ExtResource("12_04r68")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.2946, 0, 70.8774)
-size = Vector3(42.595, 14.4, 34.16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0379, -3.8147e-06, 77.8597)
+size = Vector3(47.12, 14.4, 51.86)
 
 [node name="T_Flat2" parent="." instance=ExtResource("12_04r68")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.8295, 0, 40)
 size = Vector3(43.305, 14.4, 29)
 
 [node name="T_HeightMap" parent="." instance=ExtResource("12_pgdfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.2744, 1.90735e-06, 68.6018)
-heightTexture = ExtResource("13_jh2xh")
-heightRatio = 6.995
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.3472, 1.90735e-06, 76.7254)
+heightTexture = ExtResource("13_5ausa")
+heightRatio = 8.465
 size = Vector3(27.8, 14.4, 29.625)
 
 [node name="T_HeightMap2" parent="." instance=ExtResource("12_pgdfj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5724, 0, 41.4006)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.3835, 0, 42.3709)
 heightTexture = ExtResource("13_5ausa")
 heightRatio = 8.485
 size = Vector3(34.15, 14.4, 26.63)
+
+[node name="T_HeightMap3" parent="." instance=ExtResource("12_pgdfj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.1487, 0, 91.6559)
+heightTexture = ExtResource("15_i4ljf")
+heightRatio = 6.4
+collisionQuality = 2.0
+meshQuality = 50.0
+size = Vector3(64, 8, 64)
+
+[node name="T_Flat3" parent="." instance=ExtResource("12_04r68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.1842, 0, 132.977)
+size = Vector3(31.125, 14.4, 24.13)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

@@ -26,6 +26,7 @@ albedo_texture = ExtResource("3_67122")
 [node name="GolfBall" type="RigidBody3D"]
 collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_6ycdi")
+freeze = true
 linear_damp = 0.4
 angular_damp = 2.0
 script = ExtResource("1_wobwq")

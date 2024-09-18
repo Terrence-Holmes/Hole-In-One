@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cb1pe06j0d7mn"]
+[gd_scene load_steps=29 format=3 uid="uid://cb1pe06j0d7mn"]
 
 [ext_resource type="Texture2D" uid="uid://c036ynx4np0at" path="res://Assets/Environment/Terrain/Textures/GrassTileTexture0.png" id="1_muf51"]
 [ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/TerrainPiece.gd" id="1_r6ovn"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://bcq6msq5o638c" path="res://Assets/Environment/Textures/DirtTexture1.png" id="3_f7n6v"]
 [ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/shd_terrain_side.gdshader" id="4_escua"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/TerrainEditorBase.gd" id="6_k2463"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ij61k"]
+bounce = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1m7c3"]
 size = Vector3(0, 0, 0)
@@ -122,6 +125,7 @@ script = ExtResource("1_r6ovn")
 size = Vector3(8, 14.4, 8)
 
 [node name="Body" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_ij61k")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_1m7c3")

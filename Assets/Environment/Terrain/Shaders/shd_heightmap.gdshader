@@ -8,13 +8,10 @@ uniform vec3 size = vec3(8.0, 8.0, 8.0);
 
 const float gridSize = 8.0;
 
-varying vec3 world_position;
-
 
 void vertex() {
 	VERTEX.y += texture(heightmap, UV).r * heightRatio;
 	UV = UV + UVOffset;
-	//world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 
