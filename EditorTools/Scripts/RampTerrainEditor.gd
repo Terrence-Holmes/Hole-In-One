@@ -20,6 +20,9 @@ func _process(delta):
 	_detectChange_rampHeight()
 	_detectChange_rampOffset()
 	_detectChange_UVOffset()
+	
+	var sizeUVOffset : Vector2 = -Vector2(fmod(root.size.x, 16) / root.size.x, fmod(root.size.z, 16) / root.size.z) * 0.5
+	topMesh.material_override.set("shader_param/UVOffset", sizeUVOffset)
 
 
 func _detectChange_size():
@@ -39,7 +42,6 @@ func _detectChange_rampOffset():
 	if (prev_rampOffset != root.rampOffset):
 		root.rampOffset = clampf(root.rampOffset, -1, 1)
 		prev_rampOffset = root.rampOffset
-		print("?")
 		topMesh.material_override.set("shader_param/rampOffset", root.rampOffset * 0.5)
 
 

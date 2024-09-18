@@ -11,10 +11,12 @@ shader = ExtResource("2_t4b0b")
 shader_parameter/rampHeight = 0.98
 shader_parameter/rampOffset = 0.105
 shader_parameter/UVScale = Vector2(1, 1.02201)
-shader_parameter/UVOffset = Vector2(0, 0)
+shader_parameter/UVOffset = Vector2(-0.5, -0.5)
+shader_parameter/size = Vector3(8, 8, 8)
 shader_parameter/albedo = ExtResource("3_gbwix")
 
 [sub_resource type="QuadMesh" id="QuadMesh_qfwck"]
+size = Vector2(8, 8)
 orientation = 1
 
 [sub_resource type="QuadMesh" id="QuadMesh_myk7e"]
@@ -25,7 +27,6 @@ orientation = 1
 script = ExtResource("1_fojlb")
 rampHeight = 0.98
 rampOffset = 0.21
-size = Vector3(1, 1, 1)
 
 [node name="Meshes" type="Node3D" parent="."]
 
@@ -35,6 +36,7 @@ material_override = SubResource("ShaderMaterial_sdixn")
 mesh = SubResource("QuadMesh_qfwck")
 
 [node name="BottomMesh" type="MeshInstance3D" parent="Meshes"]
+visible = false
 mesh = SubResource("QuadMesh_myk7e")
 
 [node name="Editor" type="Node3D" parent="."]

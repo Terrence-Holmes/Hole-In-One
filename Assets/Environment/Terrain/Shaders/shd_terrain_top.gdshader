@@ -6,9 +6,8 @@ uniform vec3 size = vec3(8.0, 8.0, 8.0);
 
 const float gridSize = 8.0;
 
-
 void vertex() {
-	UV = UV + UVOffset;
+	UV = (UV + UVOffset);
 }
 
 
