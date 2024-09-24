@@ -3,7 +3,9 @@ extends Node3D
 
 @onready var root : Node3D = get_parent()
 @onready var meshContainer : Node3D = root.get_node("Meshes")
-@onready var topMesh : MeshInstance3D = meshContainer.get_node("TopMesh")
+@onready var frontMesh : MeshInstance3D = meshContainer.get_node("FrontMesh")
+@onready var backMesh : MeshInstance3D = meshContainer.get_node("BackMesh")
+@onready var rightMesh : MeshInstance3D = meshContainer.get_node("RightMesh")
 
 var prev_rampHeight : float = 1
 var prev_rampOffset : float = 0
@@ -22,7 +24,8 @@ func _process(delta):
 	_detectChange_UVOffset()
 	
 	var sizeUVOffset : Vector2 = -Vector2(fmod(root.size.x, 16) / root.size.x, fmod(root.size.z, 16) / root.size.z) * 0.5
-	topMesh.material_override.set("shader_param/UVOffset", sizeUVOffset)
+	frontMesh.material_override.set("shader_param/UVOffset", sizeUVOffset)
+	backMesh.material_override.set("shader_param/UVOffset", sizeUVOffset)
 
 
 func _detectChange_size():
@@ -35,14 +38,18 @@ func _detectChange_rampHeight():
 		root.rampHeight = max(root.rampHeight, 0)
 		prev_rampHeight = root.rampHeight
 		
-		topMesh.material_override.set("shader_param/rampHeight", root.rampHeight)
+		frontMesh.material_override.set("shader_param/rampHeight", root.rampHeight)
+		backMesh.material_override.set("shader_param/rampHeight", root.rampHeight)
+		rightMesh.material_override.set("shader_param/rampHeight", root.rampHeight)
 		_set_ramp_uv()
 
 func _detectChange_rampOffset():
 	if (prev_rampOffset != root.rampOffset):
 		root.rampOffset = clampf(root.rampOffset, -1, 1)
 		prev_rampOffset = root.rampOffset
-		topMesh.material_override.set("shader_param/rampOffset", root.rampOffset * 0.5)
+		frontMesh.material_override.set("shader_param/rampOffset", root.rampOffset)
+		backMesh.material_override.set("shader_param/rampOffset", root.rampOffset)
+		rightMesh.material_override.set("shader_param/rampOffset", root.rampOffset)
 
 
 func _detectChange_UVOffset():
@@ -57,5 +64,7 @@ func _set_ramp_uv():
 	var rampLength : float = Vector2(root.rampOffset, root.rampHeight).distance_to(Vector2(0.5, 0))
 	var uvScale : Vector2 = Vector2(1, rampLength)
 	var uvOffset : Vector2 = Vector2(root.UVOffset.x, root.UVOffset.y / rampLength)
-	topMesh.material_override.set("shader_param/UVScale", uvScale)
-	topMesh.material_override.set("shader_param/UVOffset", uvOffset)
+	frontMesh.material_override.set("shader_param/UVScale", uvScale)
+	frontMesh.material_override.set("shader_param/UVOffset", uvOffset)
+	backMesh.material_override.set("shader_param/UVScale", uvScale)
+	backMesh.material_override.set("shader_param/UVOffset", uvOffset)

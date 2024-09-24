@@ -1,43 +1,108 @@
-[gd_scene load_steps=8 format=3 uid="uid://divn3rin4gvr1"]
+[gd_scene load_steps=14 format=3 uid="uid://divn3rin4gvr1"]
 
 [ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/TerrainRamp.gd" id="1_fojlb"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/RampTerrainEditor.gd" id="2_qvt38"]
 [ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/shd_terrain_ramp.gdshader" id="2_t4b0b"]
 [ext_resource type="Texture2D" uid="uid://c036ynx4np0at" path="res://Assets/Environment/Terrain/Textures/GrassTileTexture0.png" id="3_gbwix"]
+[ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/shd_terrain_rampSide.gdshader" id="4_t6d8r"]
+[ext_resource type="Script" path="res://Assets/temp.gd" id="5_6j2th"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sdixn"]
 render_priority = 0
 shader = ExtResource("2_t4b0b")
-shader_parameter/rampHeight = 0.98
-shader_parameter/rampOffset = 0.105
-shader_parameter/UVScale = Vector2(1, 1.02201)
+shader_parameter/rampHeight = 1.77
+shader_parameter/rampOffset = 0.12
+shader_parameter/UVScale = Vector2(1, 2.64741)
 shader_parameter/UVOffset = Vector2(-0.5, -0.5)
 shader_parameter/size = Vector3(8, 8, 8)
+shader_parameter/forward = true
 shader_parameter/albedo = ExtResource("3_gbwix")
 
 [sub_resource type="QuadMesh" id="QuadMesh_qfwck"]
 size = Vector2(8, 8)
 orientation = 1
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jch0j"]
+render_priority = 0
+shader = ExtResource("2_t4b0b")
+shader_parameter/rampHeight = 1.77
+shader_parameter/rampOffset = 0.12
+shader_parameter/UVScale = Vector2(1, 2.64741)
+shader_parameter/UVOffset = Vector2(-0.5, -0.5)
+shader_parameter/size = Vector3(8, 8, 8)
+shader_parameter/forward = false
+shader_parameter/albedo = ExtResource("3_gbwix")
+
 [sub_resource type="QuadMesh" id="QuadMesh_myk7e"]
 flip_faces = true
 orientation = 1
 
+[sub_resource type="ArrayMesh" id="ArrayMesh_jgbsg"]
+_surfaces = [{
+"aabb": AABB(0, 0, -4, 1e-05, 1.77, 8.00001),
+"format": 34359742465,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 92, 143, 226, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192)
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ayxos"]
+render_priority = 0
+shader = ExtResource("4_t6d8r")
+shader_parameter/zSide = true
+shader_parameter/positiveSide = true
+shader_parameter/UVFlip = false
+shader_parameter/UVOffset = Vector2(0, 0)
+shader_parameter/size = Vector3(8, 8, 8)
+shader_parameter/rampHeight = 0.0
+shader_parameter/rampOffset = 0.0
+shader_parameter/print = 0.0
+shader_parameter/albedo = ExtResource("3_gbwix")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_om1c6"]
+_surfaces = [{
+"aabb": AABB(0, 0, -4, 1e-05, 4, 8),
+"format": 34359738369,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64)
+}]
+
 [node name="T_Ramp" type="Node3D"]
 script = ExtResource("1_fojlb")
-rampHeight = 0.98
-rampOffset = 0.21
+rampHeight = 1.77
+rampOffset = 0.12
 
 [node name="Meshes" type="Node3D" parent="."]
 
-[node name="TopMesh" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+[node name="FrontMesh" type="MeshInstance3D" parent="Meshes"]
 material_override = SubResource("ShaderMaterial_sdixn")
 mesh = SubResource("QuadMesh_qfwck")
 
+[node name="BackMesh" type="MeshInstance3D" parent="Meshes"]
+material_override = SubResource("ShaderMaterial_jch0j")
+mesh = SubResource("QuadMesh_qfwck")
+
 [node name="BottomMesh" type="MeshInstance3D" parent="Meshes"]
-visible = false
 mesh = SubResource("QuadMesh_myk7e")
+
+[node name="RightMesh" type="MeshInstance3D" parent="Meshes" node_paths=PackedStringArray("root")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+mesh = SubResource("ArrayMesh_jgbsg")
+script = ExtResource("5_6j2th")
+root = NodePath("../..")
+
+[node name="RightMesh2" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.89262, 0, 0)
+material_override = SubResource("ShaderMaterial_ayxos")
+mesh = SubResource("ArrayMesh_om1c6")
 
 [node name="Editor" type="Node3D" parent="."]
 script = ExtResource("2_qvt38")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.0528369, -0.485967, 0.872378, -0.0811589, 0.868619, 0.488789, -0.9953, -0.0966273, 0.0064546, -0.018157, 6.16069, 0)

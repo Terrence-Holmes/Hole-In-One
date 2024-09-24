@@ -1,0 +1,61 @@
+shader_type spatial;
+
+uniform sampler2D albedo : source_color;
+uniform bool zSide = true;
+uniform bool positiveSide = true;
+uniform bool UVFlip = false;
+uniform vec2 UVOffset = vec2(0.0, 0.0);
+uniform vec3 size = vec3(8.0, 8.0, 8.0);
+uniform float rampHeight = 0.0;
+uniform float rampOffset = 0.0;
+uniform float print = 0.0;
+
+const float gridSize = 8.0;
+
+
+void vertex() {
+	//Set vertex and UV positions
+	switch (VERTEX_ID)
+	{
+		case 0:
+			VERTEX.y = 0.0;
+			VERTEX.z = 4.0;
+			UV = vec2(VERTEX.z, VERTEX.y);
+			break;
+		case 1:
+			VERTEX.y = rampHeight;
+			VERTEX.z = -rampOffset * 4.0;
+			UV = vec2(-4.0 * rampOffset, rampHeight);
+			break;
+		case 2:
+			VERTEX.y = 0.0;
+			VERTEX.z = -4.0;
+			UV = vec2(VERTEX.z, VERTEX.y);
+			break;
+	}
+	
+	UV = UV + UVOffset;
+	NORMAL = vec3(-1.0, 0.0, 0.0);
+}
+
+
+void fragment() {
+	//Get the UV flip
+	float xPos = NODE_POSITION_WORLD.x - 4.0;
+	float flip = (mod(abs(xPos), 8.0) > 4.0) ? 1.0 : -1.0;
+	if (xPos < 0.0)
+	{ flip *= -1.0; }
+	if ( (xPos >= 0.0 && mod(xPos, 8.0) == 0.0)
+	|| (xPos < 0.0 && mod(abs(xPos), 8.0) == 4.0) )
+	{
+		flip *= -1.0;
+	}
+	//Sets the default y scale with the flip
+	vec2 yScale = vec2(1.0, 0.5 * flip);
+	//Scrolls UV against node position
+	vec2 uvPlus = (zSide) ? vec2(NODE_POSITION_WORLD.z / size.z, 0) : vec2(NODE_POSITION_WORLD.x / size.x, 0);
+	//Increases the y scale if ramp height is more than 4
+	float yScaleMult = (rampHeight <= 4.0) ? 1.0 : 4.0 / rampHeight;
+	//Set albedo
+	ALBEDO = texture(albedo, ((UV / vec2(gridSize, 4.0)) * vec2(1.0, yScaleMult) + uvPlus) * yScale).rgb;
+}
