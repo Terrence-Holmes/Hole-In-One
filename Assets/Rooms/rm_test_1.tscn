@@ -203,9 +203,7 @@ heightRatio = 7.295
 size = Vector3(24.12, 24, 27.185)
 
 [node name="T_Ramp" parent="." instance=ExtResource("15_5t32q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.4272, 24, 32.2991)
-rampHeight = 3.19
-rampOffset = -0.425
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5769, 24, 30.7586)
 
 [editable path="PortalSpawner"]
 [editable path="PortalSpawner/Portal1"]

@@ -1,17 +1,42 @@
 extends TerrainPiece
+class_name TerrainRamp
 
 @export_category("Ramp")
-@export var rampHeight : float = 1
-@export var rampOffset : float = 1
+@export var rampHeight : float = 2
+@export var rampOffset : float = 0
+
+@export var rampHeightPoints : Array[float] = \
+[0, 0, 0,
+0, 0, 0,
+0, 0, 0]
 
 @onready var meshContainer : Node3D = get_node("Meshes")
-@onready var topMesh : MeshInstance3D = meshContainer.get_node("TopMesh")
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	pass # Replace with function body.
+	_generate_collision()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta):
 	pass
+
+
+
+func _generate_collision():
+	var vertices : PackedVector3Array
+	var shape : ConcavePolygonShape3D = ConcavePolygonShape3D.new()
+	
+	####### TOP
+	### X+, Z+
+	## Tri+
+	vertices.push_back(Vector3(0, 5, 4))
+	vertices.push_back(Vector3(4, 5, 0))
+	vertices.push_back(Vector3(4, 5, 4))
+	## Tri-
+	vertices.push_back(Vector3(0, 5, 0))
+	vertices.push_back(Vector3(4, 5, 0))
+	vertices.push_back(Vector3(0, 5, 4))
+	
+	shape.set_faces(vertices)
+	collisionShape.shape = shape

@@ -1,55 +1,92 @@
-[gd_scene load_steps=14 format=3 uid="uid://divn3rin4gvr1"]
+[gd_scene load_steps=17 format=3 uid="uid://divn3rin4gvr1"]
 
 [ext_resource type="Script" path="res://Assets/Environment/Terrain/Scripts/TerrainRamp.gd" id="1_fojlb"]
 [ext_resource type="Script" path="res://EditorTools/Scripts/RampTerrainEditor.gd" id="2_qvt38"]
 [ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/shd_terrain_ramp.gdshader" id="2_t4b0b"]
 [ext_resource type="Texture2D" uid="uid://c036ynx4np0at" path="res://Assets/Environment/Terrain/Textures/GrassTileTexture0.png" id="3_gbwix"]
 [ext_resource type="Shader" path="res://Assets/Environment/Terrain/Shaders/shd_terrain_rampSide.gdshader" id="4_t6d8r"]
-[ext_resource type="Script" path="res://Assets/temp.gd" id="5_6j2th"]
+[ext_resource type="Script" path="res://Assets/temp.gd" id="6_4jnr2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sdixn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4xtql"]
 render_priority = 0
 shader = ExtResource("2_t4b0b")
-shader_parameter/rampHeight = 1.77
-shader_parameter/rampOffset = 0.12
-shader_parameter/UVScale = Vector2(1, 2.64741)
-shader_parameter/UVOffset = Vector2(-0.5, -0.5)
+shader_parameter/rampHeight = 0.0
+shader_parameter/rampOffset = 0.0
+shader_parameter/UVScale = Vector2(1, 1)
+shader_parameter/UVOffset = Vector2(0, 0)
 shader_parameter/size = Vector3(8, 8, 8)
 shader_parameter/forward = true
 shader_parameter/albedo = ExtResource("3_gbwix")
 
-[sub_resource type="QuadMesh" id="QuadMesh_qfwck"]
-size = Vector2(8, 8)
-orientation = 1
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jch0j"]
-render_priority = 0
-shader = ExtResource("2_t4b0b")
-shader_parameter/rampHeight = 1.77
-shader_parameter/rampOffset = 0.12
-shader_parameter/UVScale = Vector2(1, 2.64741)
-shader_parameter/UVOffset = Vector2(-0.5, -0.5)
-shader_parameter/size = Vector3(8, 8, 8)
-shader_parameter/forward = false
-shader_parameter/albedo = ExtResource("3_gbwix")
-
-[sub_resource type="QuadMesh" id="QuadMesh_myk7e"]
-flip_faces = true
-orientation = 1
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_jgbsg"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_uf85n"]
 _surfaces = [{
-"aabb": AABB(0, 0, -4, 1e-05, 1.77, 8.00001),
-"format": 34359742465,
-"index_count": 3,
-"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"aabb": AABB(-4, 0.745, -4, 8, 3.84, 8.00001),
+"attribute_data": PackedByteArray(0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 63),
+"format": 34359742487,
+"index_count": 24,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 21, 0, 22, 0, 23, 0),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 3,
-"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 92, 143, 226, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192)
+"vertex_count": 24,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 143, 194, 125, 64, 0, 0, 128, 64, 0, 0, 128, 64, 205, 204, 140, 64, 0, 0, 0, 0, 0, 0, 128, 64, 174, 71, 97, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 205, 204, 140, 64, 0, 0, 0, 0, 0, 0, 0, 0, 143, 194, 125, 64, 0, 0, 128, 64, 0, 0, 128, 192, 82, 184, 146, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 143, 194, 125, 64, 0, 0, 128, 64, 0, 0, 128, 192, 61, 10, 15, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 192, 82, 184, 146, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 31, 133, 27, 64, 0, 0, 128, 192, 0, 0, 128, 64, 205, 204, 140, 64, 0, 0, 0, 0, 0, 0, 0, 0, 82, 184, 62, 63, 0, 0, 128, 192, 0, 0, 128, 64, 31, 133, 27, 64, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 192, 61, 10, 15, 64, 0, 0, 0, 0, 0, 0, 0, 0, 82, 184, 62, 63, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 192, 154, 153, 249, 63, 0, 0, 128, 192, 0, 0, 0, 0, 82, 184, 62, 63, 0, 0, 128, 192, 0, 0, 128, 192, 61, 10, 15, 64, 0, 0, 0, 0, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128)
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ayxos"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vgxs5"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_t6d8r")
+shader_parameter/zSide = false
+shader_parameter/positiveSide = true
+shader_parameter/UVFlip = false
+shader_parameter/UVOffset = Vector2(0, 0)
+shader_parameter/size = Vector3(8, 8, 8)
+shader_parameter/rampHeight = 2.0
+shader_parameter/rampOffset = -0.425
+shader_parameter/print = 0.0
+shader_parameter/albedo = ExtResource("3_gbwix")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_bi6w4"]
+_surfaces = [{
+"aabb": AABB(0, 0, -4, 1e-05, 4.40001, 8),
+"attribute_data": PackedByteArray(0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 204, 204, 204, 62, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 64, 65, 191, 97, 141, 63, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 64, 65, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 64, 65, 191, 97, 141, 63),
+"format": 34359742481,
+"index_count": 12,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 205, 204, 140, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 174, 71, 97, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 205, 204, 140, 64, 0, 0, 0, 0, 0, 0, 0, 0, 31, 133, 27, 64, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 205, 204, 140, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 133, 27, 64, 0, 0, 128, 192)
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f0afj"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_t6d8r")
+shader_parameter/zSide = false
+shader_parameter/positiveSide = false
+shader_parameter/UVFlip = false
+shader_parameter/UVOffset = Vector2(0, 0)
+shader_parameter/size = Vector3(8, 8, 8)
+shader_parameter/rampHeight = 2.0
+shader_parameter/rampOffset = -0.425
+shader_parameter/print = 0.0
+shader_parameter/albedo = ExtResource("3_gbwix")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_b60wy"]
+_surfaces = [{
+"aabb": AABB(0, 0, -4, 1e-05, 4.585, 8),
+"attribute_data": PackedByteArray(0, 0, 128, 64, 61, 10, 143, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 154, 153, 121, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 61, 10, 143, 63, 0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 61, 148, 121, 63, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 64),
+"format": 34359742481,
+"index_count": 12,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 61, 10, 15, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 154, 153, 249, 63, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 61, 10, 15, 64, 0, 0, 0, 0, 0, 0, 0, 0, 82, 184, 146, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 10, 15, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 82, 184, 146, 64, 0, 0, 128, 64)
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hbksg"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_t6d8r")
 shader_parameter/zSide = true
@@ -57,52 +94,92 @@ shader_parameter/positiveSide = true
 shader_parameter/UVFlip = false
 shader_parameter/UVOffset = Vector2(0, 0)
 shader_parameter/size = Vector3(8, 8, 8)
-shader_parameter/rampHeight = 0.0
-shader_parameter/rampOffset = 0.0
+shader_parameter/rampHeight = 2.0
+shader_parameter/rampOffset = -0.425
 shader_parameter/print = 0.0
 shader_parameter/albedo = ExtResource("3_gbwix")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_om1c6"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_eirxb"]
 _surfaces = [{
-"aabb": AABB(0, 0, -4, 1e-05, 4, 8),
-"format": 34359738369,
+"aabb": AABB(-4, 0, 0, 8, 4.585, 1e-05),
+"attribute_data": PackedByteArray(0, 0, 0, 65, 253, 97, 221, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 64, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 253, 97, 221, 63, 0, 0, 64, 65, 174, 71, 225, 62, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 65, 143, 194, 253, 63, 0, 0, 64, 65, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 64, 65, 174, 71, 225, 62),
+"format": 34359742481,
+"index_count": 12,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 3,
-"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64)
+"vertex_count": 12,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 143, 194, 125, 64, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 82, 184, 146, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 194, 125, 64, 0, 0, 0, 0, 0, 0, 128, 64, 174, 71, 97, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 194, 125, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 174, 71, 97, 63, 0, 0, 0, 0)
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fs2ia"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_t6d8r")
+shader_parameter/zSide = true
+shader_parameter/positiveSide = false
+shader_parameter/UVFlip = false
+shader_parameter/UVOffset = Vector2(0, 0)
+shader_parameter/size = Vector3(8, 8, 8)
+shader_parameter/rampHeight = 2.0
+shader_parameter/rampOffset = -0.425
+shader_parameter/print = 0.0
+shader_parameter/albedo = ExtResource("3_gbwix")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ff0n1"]
+_surfaces = [{
+"aabb": AABB(-4, 0, 0, 8, 2.43, 1e-05),
+"attribute_data": PackedByteArray(0, 0, 128, 64, 82, 184, 190, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 133, 155, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 82, 184, 190, 62, 0, 0, 0, 65, 154, 153, 121, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 82, 184, 190, 62, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 154, 153, 121, 63),
+"format": 34359742481,
+"index_count": 12,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 82, 184, 62, 63, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 31, 133, 27, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 82, 184, 62, 63, 0, 0, 0, 0, 0, 0, 128, 192, 154, 153, 249, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 82, 184, 62, 63, 0, 0, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 192, 154, 153, 249, 63, 0, 0, 0, 0)
 }]
 
 [node name="T_Ramp" type="Node3D"]
 script = ExtResource("1_fojlb")
-rampHeight = 1.77
-rampOffset = 0.12
+rampHeightPoints = Array[float]([0.88, 3.965, 4.585, 4.4, 4.0, 2.235, 2.43, 0.745, 1.95])
 
 [node name="Meshes" type="Node3D" parent="."]
 
-[node name="FrontMesh" type="MeshInstance3D" parent="Meshes"]
-material_override = SubResource("ShaderMaterial_sdixn")
-mesh = SubResource("QuadMesh_qfwck")
+[node name="TopMesh" type="MeshInstance3D" parent="Meshes"]
+material_override = SubResource("ShaderMaterial_4xtql")
+mesh = SubResource("ArrayMesh_uf85n")
+
+[node name="RightMesh" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+material_override = SubResource("ShaderMaterial_vgxs5")
+mesh = SubResource("ArrayMesh_bi6w4")
+
+[node name="LeftMesh" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+material_override = SubResource("ShaderMaterial_f0afj")
+mesh = SubResource("ArrayMesh_b60wy")
 
 [node name="BackMesh" type="MeshInstance3D" parent="Meshes"]
-material_override = SubResource("ShaderMaterial_jch0j")
-mesh = SubResource("QuadMesh_qfwck")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+material_override = SubResource("ShaderMaterial_hbksg")
+mesh = SubResource("ArrayMesh_eirxb")
 
-[node name="BottomMesh" type="MeshInstance3D" parent="Meshes"]
-mesh = SubResource("QuadMesh_myk7e")
+[node name="FrontMesh" type="MeshInstance3D" parent="Meshes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+material_override = SubResource("ShaderMaterial_fs2ia")
+mesh = SubResource("ArrayMesh_ff0n1")
 
-[node name="RightMesh" type="MeshInstance3D" parent="Meshes" node_paths=PackedStringArray("root")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
-mesh = SubResource("ArrayMesh_jgbsg")
-script = ExtResource("5_6j2th")
-root = NodePath("../..")
+[node name="Body" type="StaticBody3D" parent="."]
 
-[node name="RightMesh2" type="MeshInstance3D" parent="Meshes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.89262, 0, 0)
-material_override = SubResource("ShaderMaterial_ayxos")
-mesh = SubResource("ArrayMesh_om1c6")
+[node name="CollisionShape" type="CollisionShape3D" parent="Body"]
 
 [node name="Editor" type="Node3D" parent="."]
 script = ExtResource("2_qvt38")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.0528369, -0.485967, 0.872378, -0.0811589, 0.868619, 0.488789, -0.9953, -0.0966273, 0.0064546, -0.018157, 6.16069, 0)
+transform = Transform3D(-0.75296, 0.0280917, 0.657466, 0.520826, 0.636116, 0.569295, -0.402232, 0.771082, -0.493601, -0.018157, 6.16069, -0.491299)
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("lookat")]
+transform = Transform3D(-1, 7.33189e-08, -4.76139e-08, 0, 0.544639, 0.838671, 8.74228e-08, 0.838671, -0.544639, 0, 12.373, -8.865)
+script = ExtResource("6_4jnr2")
+lookat = NodePath("../Meshes/TopMesh")

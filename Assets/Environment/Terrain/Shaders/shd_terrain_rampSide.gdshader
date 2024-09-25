@@ -15,41 +15,41 @@ const float gridSize = 8.0;
 
 void vertex() {
 	//Set vertex and UV positions
+	/*
 	switch (VERTEX_ID)
 	{
 		case 0:
-			VERTEX.y = 0.0;
-			VERTEX.z = 4.0;
 			UV = vec2(VERTEX.z, VERTEX.y);
 			break;
 		case 1:
-			VERTEX.y = rampHeight;
-			VERTEX.z = -rampOffset * 4.0;
 			UV = vec2(-4.0 * rampOffset, rampHeight);
 			break;
 		case 2:
-			VERTEX.y = 0.0;
-			VERTEX.z = -4.0;
 			UV = vec2(VERTEX.z, VERTEX.y);
 			break;
 	}
+	*/
 	
-	UV = UV + UVOffset;
-	NORMAL = vec3(-1.0, 0.0, 0.0);
+	//vec2 uv = (zSide) ? vec2(VERTEX.x, VERTEX.y) : vec2(VERTEX.z, VERTEX.y);
+	//UV = uv + UVOffset;
+	NORMAL = (positiveSide) ? vec3(1.0, 0.0, 0.0) : vec3(-1.0, 0.0, 0.0);
 }
 
 
 void fragment() {
 	//Get the UV flip
-	float xPos = NODE_POSITION_WORLD.x - 4.0;
+	float xPos = (positiveSide) ? NODE_POSITION_WORLD.x - 4.0 : NODE_POSITION_WORLD.x + 4.0;
 	float flip = (mod(abs(xPos), 8.0) > 4.0) ? 1.0 : -1.0;
 	if (xPos < 0.0)
 	{ flip *= -1.0; }
+	//Calculate flips when position is divisible by 4
 	if ( (xPos >= 0.0 && mod(xPos, 8.0) == 0.0)
 	|| (xPos < 0.0 && mod(abs(xPos), 8.0) == 4.0) )
-	{
-		flip *= -1.0;
-	}
+	{ flip *= -1.0; }
+	//Flip once more if divisble by 4 and on the negative axis
+	if (!positiveSide && mod(xPos, 4.0) == 0.0)
+	{ flip *= -1.0; }
+	
 	//Sets the default y scale with the flip
 	vec2 yScale = vec2(1.0, 0.5 * flip);
 	//Scrolls UV against node position
