@@ -88,6 +88,7 @@ transform = Transform3D(0.928453, 0.137926, -0.344892, 0.371449, -0.344753, 0.86
 [node name="BallUI" parent="CanvasLayer" instance=ExtResource("10_v2gly")]
 
 [node name="Floor" type="StaticBody3D" parent="."]
+visible = false
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape3D_4r8iu")
