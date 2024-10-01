@@ -38,7 +38,8 @@ void vertex() {
 
 void fragment() {
 	//Get the UV flip
-	float xPos = (positiveSide) ? NODE_POSITION_WORLD.x - 4.0 : NODE_POSITION_WORLD.x + 4.0;
+	float posAxis = (zSide) ? NODE_POSITION_WORLD.z : NODE_POSITION_WORLD.x;
+	float xPos = (positiveSide) ? posAxis - 4.0 : posAxis + 4.0;
 	float flip = (mod(abs(xPos), 8.0) > 4.0) ? 1.0 : -1.0;
 	if (xPos < 0.0)
 	{ flip *= -1.0; }
@@ -46,14 +47,19 @@ void fragment() {
 	if ( (xPos >= 0.0 && mod(xPos, 8.0) == 0.0)
 	|| (xPos < 0.0 && mod(abs(xPos), 8.0) == 4.0) )
 	{ flip *= -1.0; }
-	//Flip once more if divisble by 4 and on the negative axis
+	//Flip again if divisble by 4 and on the negative axis
 	if (!positiveSide && mod(xPos, 4.0) == 0.0)
 	{ flip *= -1.0; }
+	//Flip if on the x axis
+	if (!zSide)
+	{ flip *= -1.0; }
+	
 	
 	//Sets the default y scale with the flip
 	vec2 yScale = vec2(1.0, 0.5 * flip);
 	//Scrolls UV against node position
-	vec2 uvPlus = (zSide) ? vec2(NODE_POSITION_WORLD.z / size.z, 0) : vec2(NODE_POSITION_WORLD.x / size.x, 0);
+	float posOrNeg = (positiveSide) ? -1.0 : 1.0;
+	vec2 uvPlus = (!zSide) ? vec2((NODE_POSITION_WORLD.z * posOrNeg) / size.z, 0) : vec2((-NODE_POSITION_WORLD.x * posOrNeg) / size.x, 0);
 	//Increases the y scale if ramp height is more than 4
 	float yScaleMult = (rampHeight <= 4.0) ? 1.0 : 4.0 / rampHeight;
 	//Set albedo

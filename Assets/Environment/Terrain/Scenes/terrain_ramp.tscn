@@ -18,7 +18,7 @@ shader_parameter/size = Vector3(8, 8, 8)
 shader_parameter/forward = true
 shader_parameter/albedo = ExtResource("3_gbwix")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ax12o"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_0pfu2"]
 _surfaces = [{
 "aabb": AABB(-4, 0.745, -4, 8, 3.84, 8.00001),
 "attribute_data": PackedByteArray(0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 63),
@@ -45,7 +45,7 @@ shader_parameter/rampOffset = -0.425
 shader_parameter/print = 0.0
 shader_parameter/albedo = ExtResource("3_gbwix")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_va1qo"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_dbw8k"]
 _surfaces = [{
 "aabb": AABB(0, 0, -4, 1e-05, 4.40001, 8),
 "attribute_data": PackedByteArray(0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 204, 204, 204, 62, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 64, 65, 191, 97, 141, 63, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 64, 65, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 64, 65, 191, 97, 141, 63),
@@ -72,7 +72,7 @@ shader_parameter/rampOffset = -0.425
 shader_parameter/print = 0.0
 shader_parameter/albedo = ExtResource("3_gbwix")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_wp444"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_xb4ku"]
 _surfaces = [{
 "aabb": AABB(0, 0, -4, 1e-05, 4.585, 8),
 "attribute_data": PackedByteArray(0, 0, 128, 64, 61, 10, 143, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 154, 153, 121, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 61, 10, 143, 63, 0, 0, 0, 65, 0, 0, 0, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 61, 148, 121, 63, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 64),
@@ -99,7 +99,7 @@ shader_parameter/rampOffset = -0.425
 shader_parameter/print = 0.0
 shader_parameter/albedo = ExtResource("3_gbwix")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_k2wx1"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_7q86h"]
 _surfaces = [{
 "aabb": AABB(-4, 0, 0, 8, 4.585, 1e-05),
 "attribute_data": PackedByteArray(0, 0, 0, 65, 253, 97, 221, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 64, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 253, 97, 221, 63, 0, 0, 64, 65, 174, 71, 225, 62, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 65, 143, 194, 253, 63, 0, 0, 64, 65, 0, 0, 0, 0, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 64, 65, 174, 71, 225, 62),
@@ -126,7 +126,7 @@ shader_parameter/rampOffset = -0.425
 shader_parameter/print = 0.0
 shader_parameter/albedo = ExtResource("3_gbwix")
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ecqcs"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_v6o6k"]
 _surfaces = [{
 "aabb": AABB(-4, 0, 0, 8, 2.43, 1e-05),
 "attribute_data": PackedByteArray(0, 0, 128, 64, 82, 184, 190, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 133, 155, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 64, 82, 184, 190, 62, 0, 0, 0, 65, 154, 153, 121, 63, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 82, 184, 190, 62, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 0, 65, 154, 153, 121, 63),
@@ -147,27 +147,27 @@ rampHeightPoints = Array[float]([0.88, 3.965, 4.585, 4.4, 4.0, 2.235, 2.43, 0.74
 
 [node name="TopMesh" type="MeshInstance3D" parent="Meshes"]
 material_override = SubResource("ShaderMaterial_4xtql")
-mesh = SubResource("ArrayMesh_ax12o")
+mesh = SubResource("ArrayMesh_0pfu2")
 
 [node name="RightMesh" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 material_override = SubResource("ShaderMaterial_vgxs5")
-mesh = SubResource("ArrayMesh_va1qo")
+mesh = SubResource("ArrayMesh_dbw8k")
 
 [node name="LeftMesh" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 material_override = SubResource("ShaderMaterial_f0afj")
-mesh = SubResource("ArrayMesh_wp444")
+mesh = SubResource("ArrayMesh_xb4ku")
 
 [node name="BackMesh" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 material_override = SubResource("ShaderMaterial_hbksg")
-mesh = SubResource("ArrayMesh_k2wx1")
+mesh = SubResource("ArrayMesh_7q86h")
 
 [node name="FrontMesh" type="MeshInstance3D" parent="Meshes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 material_override = SubResource("ShaderMaterial_fs2ia")
-mesh = SubResource("ArrayMesh_ecqcs")
+mesh = SubResource("ArrayMesh_v6o6k")
 
 [node name="Body" type="StaticBody3D" parent="."]
 
